@@ -1,7 +1,9 @@
-import { createClient } from "@supabase/supabase-js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from "expo-secure-store";
+import { createClient, Session } from "@supabase/supabase-js";
 import * as aesjs from "aes-js";
+import { decode } from "base64-arraybuffer";
+import { ImageResult } from "expo-image-manipulator";
+import * as SecureStore from "expo-secure-store";
 import "react-native-get-random-values";
 
 // See:
@@ -75,3 +77,46 @@ export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
     detectSessionInUrl: false,
   },
 });
+
+export async function uploadImage(
+  uri: string,
+  base64: string,
+  session: Session
+) {
+  const response = await fetch(uri);
+  const fileName = uri.split("/").filter(Boolean).pop();
+  const mimeType = response.headers.get("Content-Type");
+  const userId = session.user.id;
+  const uploadName = `${userId}/${fileName}`;
+
+  const { data: upload, error: uploadError } = await supabase.storage
+    .from("images")
+    .upload(uploadName, decode(base64), {
+      contentType: mimeType ?? "",
+      cacheControl: "3600",
+      upsert: true,
+    });
+
+  if (uploadError) {
+    console.error(uploadError);
+    return new Response("Failed to upload the file", {
+      headers: { "Content-Type": "application/json" },
+      status: 500,
+    });
+  }
+}
+
+export async function uploadPass(image: ImageResult) {
+  const { data, error } = await supabase.functions.invoke(
+    "create-coupon-apple",
+    {
+      body: {
+        name: "foo",
+        image: image.base64,
+      },
+    }
+  );
+  console.log(data, error);
+}
+
+export async function useUserProfile() {}

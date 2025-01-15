@@ -22,5 +22,6 @@
     "titleBar.activeBackground": "#034274",
     "titleBar.activeForeground": "#F5FAFF"
   },
-  "deno.enable": true
+  "deno.enable": true,
+  "deno.config": "deno.json"
 }

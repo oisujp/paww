@@ -1,5 +1,4 @@
 import { initializeApp } from "firebase/app";
-import { getStorage, ref, uploadBytes } from "firebase/storage";
 
 // Initialize Firebase
 const firebaseConfig = {
@@ -13,21 +12,3 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-
-export const storage = getStorage(app);
-
-export const uploadImage = async (uri: string) => {
-  try {
-    // Convert Base64 data to a Blob
-    const response = await fetch(uri);
-    const blob = await response.blob();
-
-    const fileName = "hoge.jpg";
-    const storageRef = ref(storage, `images/${fileName}`);
-
-    const snapshot = await uploadBytes(storageRef, blob);
-    console.info(snapshot);
-  } catch (e) {
-    console.error(e);
-  }
-};

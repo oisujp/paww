@@ -4,7 +4,7 @@ import { Text } from "~/components/ui/text";
 
 export default function NotFoundScreen() {
   return (
-    <>
+    <View>
       <Stack.Screen options={{ title: "Oops!" }} />
       <View>
         <Text>This screen doesn't exist.</Text>
@@ -13,6 +13,6 @@ export default function NotFoundScreen() {
           <Text>Go to home screen!</Text>
         </Link>
       </View>
-    </>
+    </View>
   );
 }

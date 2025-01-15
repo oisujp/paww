@@ -7,7 +7,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { AppState } from "react-native";
-import { supabase } from "../lib/supabase";
+import { supabase } from "~/lib/supabase";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -21,23 +21,39 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
+type UserProfile = { name: string; icon: string; logo: string };
+
 type Props = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   signUp: (email: string, password: string) => Promise<void>;
   session?: Session | null;
+  userProfile: UserProfile | null;
+  setUserProfile: (userProfile: UserProfile) => void;
 };
 
 export const AuthContext = createContext<Props>({} as Props);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null>(null);
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
-    supabase.auth.onAuthStateChange((_event, session) => {
+    supabase.auth.onAuthStateChange(async (_event, session) => {
+      const user = session?.user;
+      if (user) {
+        const { data } = await supabase
+          .from("user_profiles")
+          .select()
+          .eq("user_id", user.id)
+          .single();
+        setUserProfile(data);
+      } else {
+        setUserProfile(null);
+      }
       setSession(session);
     });
   }, []);
@@ -66,7 +82,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
               access_token,
               refresh_token,
             });
-            router.replace("/");
+            router.replace("(tabs)");
           }
         },
         signOut: async () => {
@@ -74,6 +90,8 @@ export function AuthProvider({ children }: PropsWithChildren) {
           setSession(null);
         },
         session,
+        userProfile,
+        setUserProfile,
       }}
     >
       {children}

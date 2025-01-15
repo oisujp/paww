@@ -1,18 +1,36 @@
-import { Redirect, Stack } from "expo-router";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { Stack, useNavigation } from "expo-router";
 import { useContext } from "react";
+import { Button } from "~/components/ui/button";
 import { AuthContext } from "~/contexts/auth-context";
 
 export default function AppLayout() {
   const { session } = useContext(AuthContext);
+  const navigation = useNavigation();
 
-  // Only require authentication within the (app) group's layout as users
-  // need to be able to access the (auth) group and sign in again.
-  if (!session) {
-    // On web, static rendering will stop here as the user is not authenticated
-    // in the headless Node process that the pages are rendered in.
-    return <Redirect href="/sign-in" />;
+  if (session) {
+    return (
+      <Stack>
+        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="new-template"
+          options={{
+            presentation: "modal",
+            title: "新規テンプレート",
+            headerRight: () => (
+              <Button variant="ghost" onPress={() => {}} className="-mr-4">
+                <AntDesign name="close" size={18} color="black" />
+              </Button>
+            ),
+          }}
+        />
+      </Stack>
+    );
   }
 
-  // This layout can be deferred because it's not the root layout.
-  return <Stack />;
+  return (
+    <Stack>
+      <Stack.Screen name="sign-in" options={{ headerShown: false }} />
+    </Stack>
+  );
 }
