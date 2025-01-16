@@ -5,6 +5,7 @@ import { decode } from "base64-arraybuffer";
 import { ImageResult } from "expo-image-manipulator";
 import * as SecureStore from "expo-secure-store";
 import "react-native-get-random-values";
+import { logger } from "~/lib/utils";
 
 // See:
 // https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native
@@ -104,6 +105,7 @@ export async function uploadImage(
       status: 500,
     });
   }
+  logger.info(upload);
 }
 
 export async function uploadPass(image: ImageResult) {

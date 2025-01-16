@@ -55,13 +55,9 @@ export default function NewTemplate() {
   const [backgroundColorOpen, setBackgroundColorOpen] = useState(false);
   const [labelColorOpen, setLabelColorOpen] = useState(false);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useForm<z.infer<typeof signUpSchema>>({
+  const { control, handleSubmit, watch, setValue } = useForm<
+    z.infer<typeof signUpSchema>
+  >({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       passName: "テスト",

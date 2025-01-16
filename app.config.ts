@@ -3,37 +3,37 @@ const IS_PREVIEW = process.env.APP_VARIANT === "preview";
 
 const getUniqueIdentifier = () => {
   if (IS_DEV) {
-    return "jp.oisu.paw.dev";
+    return "jp.oisu.paww.dev";
   }
   if (IS_PREVIEW) {
-    return "jp.oisu.paw.preview";
+    return "jp.oisu.paww.preview";
   }
-  return "jp.oisu.paw";
+  return "jp.oisu.paww";
 };
 const getAppName = () => {
   if (IS_DEV) {
-    return "Paw (Dev)";
+    return "Paww (Dev)";
   }
   if (IS_PREVIEW) {
-    return "Paw (Preview)";
+    return "Paww (Preview)";
   }
-  return "Paw";
+  return "Paww";
 };
 const getSlug = () => {
   if (IS_DEV) {
-    return "paw-dev";
+    return "paww-dev";
   }
   if (IS_PREVIEW) {
-    return "paw-preview";
+    return "paww-preview";
   }
-  return "paw";
+  return "paww";
 };
 const getProjectId = () => {
   if (IS_DEV) {
-    return "ed676a75-d4c0-4cbe-8b60-ae94845051af";
+    return "f12ebb4c-192a-4a9c-a23f-322be40f5527";
   }
   if (IS_PREVIEW) {
-    return "paw-preview";
+    return "paww-preview";
   }
   return "925b75b6-a4eb-48dc-adb2-330eac52e19c";
 };

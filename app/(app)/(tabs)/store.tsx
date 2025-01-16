@@ -2,14 +2,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Image, ScrollView, View } from "react-native";
-// import ColorPicker, {
-//   HueSlider,
-//   OpacitySlider,
-//   Panel1,
-//   Preview,
-//   returnedResults,
-//   Swatches,
-// } from "reanimated-color-picker";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -20,7 +12,7 @@ import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { defaultImages } from "~/lib/constants";
 import { supabase } from "~/lib/supabase";
-import { cn, pickImage } from "~/lib/utils";
+import { cn, logger, pickImage } from "~/lib/utils";
 
 type FormData = {
   organizationName: string;
@@ -38,13 +30,9 @@ export default function UserProfile() {
   const { session, setUserProfile, userProfile } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    watch,
-    setValue,
-  } = useForm<z.infer<typeof signUpSchema>>({
+  const { control, handleSubmit, watch, setValue } = useForm<
+    z.infer<typeof signUpSchema>
+  >({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       organizationName: userProfile?.name,
@@ -66,15 +54,17 @@ export default function UserProfile() {
           {
             user_id: userId,
             name: organizationName,
-            icon: iconBase64,
-            logo: logoBase64,
+            icon_base64: iconBase64,
+            logo_base64: logoBase64,
           },
           { onConflict: "user_id" }
         )
         .select()
         .single();
+      console.log(data, error);
       setUserProfile(data);
-    } catch (e) {
+    } catch (error) {
+      logger.error(error);
     } finally {
       setLoading(false);
     }

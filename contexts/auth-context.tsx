@@ -70,7 +70,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
         },
         signIn: async (email: string, password: string) => {
           const {
-            error,
             data: { session },
           } = await supabase.auth.signInWithPassword({
             email,
@@ -78,7 +77,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           });
           if (session) {
             const { access_token, refresh_token } = session;
-            const { data, error } = await supabase.auth.setSession({
+            await supabase.auth.setSession({
               access_token,
               refresh_token,
             });

@@ -1,4 +1,3 @@
-import { Redirect } from "expo-router";
 import { useContext } from "react";
 import { Text, View } from "react-native";
 import { AuthContext } from "~/contexts/auth-context";

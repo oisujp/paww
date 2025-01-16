@@ -55,6 +55,7 @@ export function ThemeProvider({ children }: PropsWithChildren) {
     })().finally(() => {
       SplashScreen.hideAsync();
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!isColorSchemeLoaded) {

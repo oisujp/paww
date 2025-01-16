@@ -2,6 +2,9 @@ import { type ClassValue, clsx } from "clsx";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { twMerge } from "tailwind-merge";
+import { logger as RNLogger } from "react-native-logs";
+
+export const logger = RNLogger.createLogger();
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));

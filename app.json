@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "Paw",
-    "slug": "paw",
+    "name": "Paww",
+    "slug": "paww",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -63,9 +63,6 @@
     },
     "runtimeVersion": {
       "policy": "appVersion"
-    },
-    "updates": {
-      "url": "https://u.expo.dev/ed676a75-d4c0-4cbe-8b60-ae94845051af"
     }
   }
 }
