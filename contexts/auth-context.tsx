@@ -21,8 +21,6 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
-type UserProfile = { name: string; icon: string; logo: string };
-
 type Props = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;

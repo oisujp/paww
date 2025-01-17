@@ -22,7 +22,7 @@ const signUpSchema = z.object({
 
 export default function SignIn() {
   const navigation = useNavigation();
-  const { signIn, signUp } = useContext(AuthContext);
+  const { signIn } = useContext(AuthContext);
 
   const { session } = useContext(AuthContext);
 
@@ -30,11 +30,7 @@ export default function SignIn() {
     navigation.setOptions({ headerShown: false });
   }, [navigation]);
 
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-  } = useForm<z.infer<typeof signUpSchema>>({
+  const { control, handleSubmit } = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "",

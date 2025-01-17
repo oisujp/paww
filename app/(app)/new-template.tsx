@@ -75,7 +75,9 @@ export default function NewTemplate() {
     return null;
   }
 
-  const onSubmit: SubmitHandler<FormData> = async (data) => {};
+  const onSubmit: SubmitHandler<FormData> = async (data) => {
+    console.log(data);
+  };
 
   const pickStrip = async () => {
     const image = await pickImage(160, 50);
@@ -105,9 +107,9 @@ export default function NewTemplate() {
       backFields: [],
     },
     images: {
-      icon: userProfile?.icon,
+      icon: userProfile?.icon_base64,
       strip: watch("stripBase64"),
-      logo: userProfile?.logo,
+      logo: userProfile?.logo_base64,
     },
     colors: {
       labelColor: watch("labelColor"),

@@ -36,17 +36,16 @@ export default function UserProfile() {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       organizationName: userProfile?.name,
-      iconBase64: userProfile?.icon ?? defaultImages.iconBase64,
-      logoBase64: userProfile?.logo ?? defaultImages.logoBase64,
+      iconBase64: userProfile?.icon_base64 ?? defaultImages.iconBase64,
+      logoBase64: userProfile?.logo_base64 ?? defaultImages.logoBase64,
     },
   });
   const onSubmit: SubmitHandler<FormData> = async (formData) => {
     const { organizationName, iconBase64, logoBase64 } = formData;
     const userId = session?.user.id;
-    console.log({
-      session,
-    });
+
     setLoading(true);
+
     try {
       const { data, error } = await supabase
         .from("user_profiles")

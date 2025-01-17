@@ -34,3 +34,5 @@ type Field = {
   label: string;
   value: string;
 };
+
+type UserProfile = { name: string; icon_base64: string; logo_base64: string };
