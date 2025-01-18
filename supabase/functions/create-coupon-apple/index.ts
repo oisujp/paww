@@ -1,95 +1,103 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { Buffer } from "node:buffer";
-import * as crypto from "node:crypto";
 import { PKPass } from "npm:passkit-generator@3.3.0";
-import { appleWalletCertificates } from "../shared/util.ts";
+import { Database } from "../database.types.ts";
+import {
+  appleWalletCertificates,
+  generateTimestamp,
+  parseCoupon,
+  uploadPkpass,
+} from "../shared/util.ts";
 
 Deno.serve(async (req) => {
-  const { name, image } = await req.json();
+  const { templateId } = await req.json();
+  const authHeader = req.headers.get("Authorization")!;
+  const timestamp = generateTimestamp(new Date());
+  const serialNumber = timestamp;
 
-  // Feel free to use any other kind of UID here or even read an
-  // existing ticket from the database and use its ID
-  const passID = crypto
-    .createHash("md5")
-    .update(`${name}_${Date.now()}`)
-    .digest("hex");
-  // Generate the pass
-  const pass = new PKPass(
+  const supabase = createClient<Database>(
+    Deno.env.get("SUPABASE_URL") ?? "",
+    Deno.env.get("SUPABASE_ANON_KEY") ?? "",
     {
-      "icon.png": Buffer.from(image, "base64"),
-      "pass.json": Buffer.from(
-        JSON.stringify({
-          formatVersion: 1,
-          passTypeIdentifier: "pass.jp.oisu.luckycat",
-          teamIdentifier: "B8KVAMPYW5",
-          serialNumber: "0000001",
-          organizationName: "Oisu LLC",
-          description: "川崎市立図書館 貸出カード",
-          associatedStoreIdentifiers: [6446005163],
-          labelColor: "rgb(255, 255, 255)",
-          foregroundColor: "rgb(255, 255, 255)",
-          backgroundColor: "rgb(11, 45, 125)",
-          logoText: "川崎市立図書館 貸出カード",
-        })
-      ),
-    },
-    appleWalletCertificates,
-    {
-      serialNumber: passID,
+      global: { headers: { Authorization: authHeader } },
     }
   );
-  pass.type = "coupon";
-  pass.backFields.push({
-    key: "lineItem4",
-    label: "Test link",
-    value: "https://apple.com",
-    dataDetectorTypes: ["PKDataDetectorTypeLink"],
-    attributedValue:
-      '<a href="https://apple.com">Used literally on iPhone, used correctly on Watch</a>',
-  });
-  if (name) {
-    pass.secondaryFields.push({
-      key: "name",
-      label: "お名前",
-      value: name,
-    });
-  }
+  const { data } = await supabase
+    .from("passTemplates")
+    .select("*")
+    .eq("id", templateId)
+    .single();
 
-  // Upload pkpass
-  const authHeader = req.headers.get("Authorization")!;
-  const supabaseClient = createClient(
-    Deno.env.get("SUPABASE_URL")!,
-    Deno.env.get("SUPABASE_ANON_KEY")!,
-    { global: { headers: { Authorization: authHeader } } }
-  );
-  const token = authHeader.replace("Bearer ", "");
-  const {
-    data: { user },
-  } = await supabaseClient.auth.getUser(token);
-  const userId = user?.id;
-  const timestamp = +new Date();
-  const uploadName = `${userId}/${timestamp}.pkpass`;
-
-  const { data: upload, error: uploadError } = await supabaseClient.storage
-    .from("passes")
-    .upload(uploadName, pass.getAsBuffer(), {
-      contentType: pass.mimeType,
-      cacheControl: "3600",
-      upsert: true,
-    });
-
-  if (uploadError) {
-    console.error(uploadError);
+  if (!data) {
     return new Response("Failed to upload the file", {
       headers: { "Content-Type": "application/json" },
       status: 500,
     });
   }
-  const {
-    data: { publicUrl },
-  } = supabaseClient.storage.from("passes").getPublicUrl(upload.path);
 
-  return new Response(publicUrl, {
+  const passTemplate = parseCoupon(data);
+  const {
+    iconBase64,
+    stripBase64,
+    logoBase64,
+    formatVersion,
+    labelColor,
+    foregroundColor,
+    backgroundColor,
+    logoText,
+    description,
+    organizationName,
+    passTypeIdentifier,
+    teamIdentifier,
+    coupon,
+  } = passTemplate;
+
+  const buffers: { [key: string]: Buffer } = {};
+  buffers["pass.json"] = Buffer.from(
+    JSON.stringify({
+      formatVersion,
+      passTypeIdentifier,
+      teamIdentifier,
+      serialNumber,
+      organizationName,
+      description,
+      labelColor,
+      foregroundColor,
+      backgroundColor,
+      logoText,
+    })
+  );
+  if (iconBase64) {
+    buffers["icon.png"] = Buffer.from(iconBase64, "base64");
+  }
+  if (stripBase64) {
+    buffers["strip.png"] = Buffer.from(stripBase64, "base64");
+  }
+  if (logoBase64) {
+    buffers["logo.png"] = Buffer.from(logoBase64, "base64");
+  }
+  const pass = new PKPass(buffers, appleWalletCertificates, {
+    serialNumber,
+  });
+  pass.type = "coupon";
+  pass.primaryFields.push(coupon.primaryFields[0]);
+
+  // Upload pkpass
+  const token = authHeader.replace("Bearer ", "");
+  const {
+    data: { user },
+  } = await supabase.auth.getUser(token);
+  const userId = user?.id;
+  const uploadPath = `${userId}/${timestamp}.pkpass`;
+  const publicUrl = await uploadPkpass(pass, uploadPath, supabase);
+  if (!publicUrl) {
+    return new Response("Failed to upload the file", {
+      headers: { "Content-Type": "application/json" },
+      status: 500,
+    });
+  }
+
+  return new Response(JSON.stringify({ publicUrl }), {
     headers: { "Content-Type": "application/json" },
   });
 });

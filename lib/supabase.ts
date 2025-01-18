@@ -2,10 +2,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createClient, Session } from "@supabase/supabase-js";
 import * as aesjs from "aes-js";
 import { decode } from "base64-arraybuffer";
-import { ImageResult } from "expo-image-manipulator";
 import * as SecureStore from "expo-secure-store";
 import "react-native-get-random-values";
 import { logger } from "~/lib/utils";
+import { Database } from "~/types/database.types";
 
 // See:
 // https://supabase.com/docs/guides/getting-started/tutorials/with-expo-react-native
@@ -70,7 +70,7 @@ class LargeSecureStore {
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
 
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient<Database>(supabaseUrl, supabaseAnonKey, {
   auth: {
     storage: new LargeSecureStore(),
     autoRefreshToken: true,
@@ -108,17 +108,18 @@ export async function uploadImage(
   logger.info(upload);
 }
 
-export async function uploadPass(image: ImageResult) {
+export async function publishPass(templateId: string) {
   const { data, error } = await supabase.functions.invoke(
     "create-coupon-apple",
     {
       body: {
-        name: "foo",
-        image: image.base64,
+        templateId,
       },
     }
   );
-  console.log(data, error);
+  if (error) {
+    logger.error(error);
+  }
+  logger.info(data);
+  return data;
 }
-
-export async function useUserProfile() {}

@@ -1,8 +1,9 @@
 import { type ClassValue, clsx } from "clsx";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
-import { twMerge } from "tailwind-merge";
 import { logger as RNLogger } from "react-native-logs";
+import { twMerge } from "tailwind-merge";
+import { PassTemplate } from "~/types/supabase";
 
 export const logger = RNLogger.createLogger();
 
@@ -57,4 +58,8 @@ export const pickImage = async (width: number, height: number) => {
     });
     return ref;
   }
+};
+
+export const parseCoupon = (passTemplate: PassTemplate) => {
+  return { ...passTemplate, coupon: passTemplate.coupon as PassFields };
 };

@@ -1,11 +1,5 @@
 type PassData = {
-  fields: {
-    headerFields: Field[];
-    primaryFields: Field[];
-    secondaryFields: Field[];
-    auxiliaryFields: Field[];
-    backFields: Field[];
-  };
+  fields: PassFields;
   images: {
     icon: string;
     logo?: string;
@@ -19,6 +13,19 @@ type PassData = {
   };
 };
 
+type PassProps = {
+  templateName: string;
+  labelColor: string;
+  organizationName: string | null;
+  foregroundColor: string;
+  backgroundColor: string;
+  expirationDate: string | null;
+  coupon: PassFields;
+  logoBase64: string | null;
+  stripBase64: string | null;
+  createdAt?: string;
+};
+
 type PassBase = {
   formatVersion: number;
   passTypeIdentifier: string;
@@ -29,10 +36,17 @@ type PassBase = {
   backgroundColor: string;
 };
 
+type PassFields = {
+  headerFields: Field[];
+  primaryFields: Field[];
+  secondaryFields: Field[];
+  auxiliaryFields: Field[];
+  backFields: Field[];
+};
+
 type Field = {
   type: "text" | "number" | "date" | "dateTime";
+  key: string;
   label: string;
   value: string;
 };
-
-type UserProfile = { name: string; icon_base64: string; logo_base64: string };

@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useUpsertMutation } from "@supabase-cache-helpers/postgrest-swr";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { Image, ScrollView, View } from "react-native";
@@ -29,15 +30,20 @@ const signUpSchema = z.object({
 export default function UserProfile() {
   const { session, setUserProfile, userProfile } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
+  const { trigger: upsert } = useUpsertMutation(
+    supabase.from("userProfiles"),
+    ["userId"],
+    "*"
+  );
 
   const { control, handleSubmit, watch, setValue } = useForm<
     z.infer<typeof signUpSchema>
   >({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      organizationName: userProfile?.name,
-      iconBase64: userProfile?.icon_base64 ?? defaultImages.iconBase64,
-      logoBase64: userProfile?.logo_base64 ?? defaultImages.logoBase64,
+      organizationName: userProfile?.name ?? "",
+      iconBase64: userProfile?.iconBase64 ?? defaultImages.iconBase64,
+      logoBase64: userProfile?.logoBase64 ?? defaultImages.logoBase64,
     },
   });
   const onSubmit: SubmitHandler<FormData> = async (formData) => {
@@ -47,21 +53,20 @@ export default function UserProfile() {
     setLoading(true);
 
     try {
-      const { data, error } = await supabase
-        .from("user_profiles")
-        .upsert(
-          {
-            user_id: userId,
-            name: organizationName,
-            icon_base64: iconBase64,
-            logo_base64: logoBase64,
-          },
-          { onConflict: "user_id" }
-        )
-        .select()
-        .single();
-      console.log(data, error);
-      setUserProfile(data);
+      const res = await upsert([
+        {
+          id: userProfile?.id,
+          userId,
+          name: organizationName,
+          iconBase64: iconBase64,
+          logoBase64: logoBase64,
+        },
+      ]);
+      if (res === null) {
+        throw "";
+      } else if (res.length > 0) {
+        setUserProfile(res[0]);
+      }
     } catch (error) {
       logger.error(error);
     } finally {
@@ -77,10 +82,10 @@ export default function UserProfile() {
   };
 
   return (
-    <ScrollView>
+    <ScrollView contentContainerClassName="flex-1">
       <View
         className={cn(
-          "flex-1 justify-center items-center gap-5 p-6 bg-secondary/30"
+          "flex-1 items-center justify-between gap-5 p-6 bg-secondary/30"
         )}
       >
         <Card className="w-full max-w-sm">

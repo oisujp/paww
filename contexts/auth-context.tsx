@@ -8,6 +8,7 @@ import {
 } from "react";
 import { AppState } from "react-native";
 import { supabase } from "~/lib/supabase";
+import { UserProfile } from "~/types/supabase";
 
 // Tells Supabase Auth to continuously refresh the session automatically if
 // the app is in the foreground. When this is added, you will continue to receive
@@ -27,7 +28,7 @@ type Props = {
   signUp: (email: string, password: string) => Promise<void>;
   session?: Session | null;
   userProfile: UserProfile | null;
-  setUserProfile: (userProfile: UserProfile) => void;
+  setUserProfile: (userProfile: UserProfile | null) => void;
 };
 
 export const AuthContext = createContext<Props>({} as Props);
@@ -44,9 +45,9 @@ export function AuthProvider({ children }: PropsWithChildren) {
       const user = session?.user;
       if (user) {
         const { data } = await supabase
-          .from("user_profiles")
+          .from("userProfiles")
           .select()
-          .eq("user_id", user.id)
+          .eq("userId", user.id)
           .single();
         setUserProfile(data);
       } else {
