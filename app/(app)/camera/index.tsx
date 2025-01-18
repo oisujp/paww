@@ -1,6 +1,7 @@
 import { CameraType, CameraView, useCameraPermissions } from "expo-camera";
 import { useState } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { logger } from "~/lib/utils";
 
 export default function CameraScreen() {
   const [facing, setFacing] = useState<CameraType>("back");
@@ -36,7 +37,7 @@ export default function CameraScreen() {
           barcodeTypes: ["qr"],
         }}
         onBarcodeScanned={(result) => {
-          console.log(result);
+          logger.info(result);
         }}
       >
         <View style={styles.buttonContainer}>

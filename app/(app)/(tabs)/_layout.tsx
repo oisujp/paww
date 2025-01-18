@@ -17,7 +17,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="coupon"
         options={{
-          title: "クーポン",
+          title: "パス",
           tabBarIcon: ({ color }) => (
             <MaterialCommunityIcons
               name="passport-biometric"

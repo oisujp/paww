@@ -16,7 +16,7 @@ import ColorPicker, {
 } from "reanimated-color-picker";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { Pass } from "~/components/pass";
+import { PassTemplateImage } from "~/components/pass-template-image";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
@@ -48,7 +48,7 @@ const templateSchema = z.object({
 });
 
 export default function NewTemplate() {
-  const { userProfile, session } = useContext(AuthContext);
+  const { user, session } = useContext(AuthContext);
   const navigation = useNavigation();
   const [foregroundColorOpen, setForegroundColorOpen] = useState(false);
   const [backgroundColorOpen, setBackgroundColorOpen] = useState(false);
@@ -106,7 +106,7 @@ export default function NewTemplate() {
     },
   });
 
-  if (!userProfile) {
+  if (!user) {
     return null;
   }
 
@@ -126,7 +126,7 @@ export default function NewTemplate() {
       passContentLabel,
       passContentValue,
     } = formData;
-    const { name, iconBase64, logoBase64 } = userProfile;
+    const { name, iconBase64, logoBase64 } = user;
     const { teamIdentifier, passTypeIdentifier } = passBase;
 
     try {
@@ -173,7 +173,7 @@ export default function NewTemplate() {
 
   const pass = {
     templateName: watch("templateName"),
-    organizationName: userProfile.name,
+    organizationName: user.name,
     backgroundColor: watch("backgroundColor"),
     expirationDate: format(watch("expirationDate"), "yyyy/MM/dd"),
     foregroundColor: watch("foregroundColor"),
@@ -199,7 +199,7 @@ export default function NewTemplate() {
       auxiliaryFields: [],
       backFields: [],
     },
-    logoBase64: userProfile.logoBase64,
+    logoBase64: user.logoBase64,
     stripBase64: watch("stripBase64"),
   };
 
@@ -243,7 +243,7 @@ export default function NewTemplate() {
             "flex-1 justify-center items-center gap-5 p-6 bg-secondary/30"
           )}
         >
-          <Pass pass={pass} />
+          <PassTemplateImage pass={pass} />
 
           <Card className="w-full">
             <CardHeader>

@@ -3,7 +3,7 @@ import { Link } from "expo-router";
 import React, { useContext } from "react";
 import { FlatList, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
-import { PassBlock } from "~/components/pass-block";
+import { PassTemplateBlock } from "~/components/pass-template-block";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
@@ -13,12 +13,22 @@ export default function Home() {
   const { session } = useContext(AuthContext);
   const userId = session?.user.id ?? "";
 
-  const { data, count } = useQuery(
+  const { data: passTemplatesData, count } = useQuery(
     supabase
       .from("passTemplates")
-      .select("*", { count: "exact" })
+      .select(`*, passes( id, publishedAt )`, { count: "exact" })
       .order("updatedAt", { ascending: false })
       .eq("userId", userId),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const { data: passesData } = useQuery(
+    supabase
+      .from("passes")
+      .select(`*`)
+      .order("updatedAt", { ascending: false }),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -31,11 +41,19 @@ export default function Home() {
         <Text className="text-right">全{count}件</Text>
       </View>
       <FlatList
-        data={data}
+        data={passTemplatesData}
         contentContainerClassName="gap-6 px-6"
         className="w-full"
         renderItem={({ item }) => {
-          return <PassBlock key={uuidv4()} pass={item} />;
+          const passes =
+            passesData?.filter((p) => p.passTemplateId === item.id) ?? [];
+          return (
+            <PassTemplateBlock
+              key={uuidv4()}
+              passTemplate={item}
+              passes={passes}
+            />
+          );
         }}
       />
       <View className="flex w-full p-6">

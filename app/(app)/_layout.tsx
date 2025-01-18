@@ -18,6 +18,13 @@ export default function AppLayout() {
           title: "新規テンプレート",
         }}
       />
+      <Stack.Screen
+        name="pass"
+        options={{
+          presentation: "modal",
+          title: "パス",
+        }}
+      />
     </Stack>
   );
 }

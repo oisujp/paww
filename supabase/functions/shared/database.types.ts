@@ -7,8 +7,81 @@ export type Json =
   | Json[]
 
 export type Database = {
+  graphql_public: {
+    Tables: {
+      [_ in never]: never
+    }
+    Views: {
+      [_ in never]: never
+    }
+    Functions: {
+      graphql: {
+        Args: {
+          operationName?: string
+          query?: string
+          variables?: Json
+          extensions?: Json
+        }
+        Returns: Json
+      }
+    }
+    Enums: {
+      [_ in never]: never
+    }
+    CompositeTypes: {
+      [_ in never]: never
+    }
+  }
   public: {
     Tables: {
+      passes: {
+        Row: {
+          addedAt: string | null
+          createdAt: string
+          id: string
+          passTemplateId: string
+          publicUrl: string
+          publishedAt: string | null
+          updatedAt: string | null
+          userId: string | null
+        }
+        Insert: {
+          addedAt?: string | null
+          createdAt?: string
+          id?: string
+          passTemplateId: string
+          publicUrl: string
+          publishedAt?: string | null
+          updatedAt?: string | null
+          userId?: string | null
+        }
+        Update: {
+          addedAt?: string | null
+          createdAt?: string
+          id?: string
+          passTemplateId?: string
+          publicUrl?: string
+          publishedAt?: string | null
+          updatedAt?: string | null
+          userId?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "passes_passTemplateId_fkey"
+            columns: ["passTemplateId"]
+            isOneToOne: false
+            referencedRelation: "passTemplates"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "passes_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       passTemplates: {
         Row: {
           backgroundColor: string
@@ -76,9 +149,17 @@ export type Database = {
           updatedAt?: string | null
           userId?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "passTemplates_userId_fkey"
+            columns: ["userId"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
       }
-      userProfiles: {
+      users: {
         Row: {
           createdAt: string
           iconBase64: string | null
@@ -86,7 +167,6 @@ export type Database = {
           logoBase64: string | null
           name: string | null
           updatedAt: string | null
-          userId: string
         }
         Insert: {
           createdAt?: string
@@ -95,7 +175,6 @@ export type Database = {
           logoBase64?: string | null
           name?: string | null
           updatedAt?: string | null
-          userId?: string
         }
         Update: {
           createdAt?: string
@@ -104,7 +183,6 @@ export type Database = {
           logoBase64?: string | null
           name?: string | null
           updatedAt?: string | null
-          userId?: string
         }
         Relationships: []
       }
@@ -246,3 +324,4 @@ export type CompositeTypes<
   : PublicCompositeTypeNameOrOptions extends keyof PublicSchema["CompositeTypes"]
     ? PublicSchema["CompositeTypes"][PublicCompositeTypeNameOrOptions]
     : never
+

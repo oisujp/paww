@@ -28,11 +28,11 @@ const signUpSchema = z.object({
 });
 
 export default function UserProfile() {
-  const { session, setUserProfile, userProfile } = useContext(AuthContext);
+  const { session, setUser, user } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const { trigger: upsert } = useUpsertMutation(
-    supabase.from("userProfiles"),
-    ["userId"],
+    supabase.from("users"),
+    ["id"],
     "*"
   );
 
@@ -41,9 +41,9 @@ export default function UserProfile() {
   >({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      organizationName: userProfile?.name ?? "",
-      iconBase64: userProfile?.iconBase64 ?? defaultImages.iconBase64,
-      logoBase64: userProfile?.logoBase64 ?? defaultImages.logoBase64,
+      organizationName: user?.name ?? "",
+      iconBase64: user?.iconBase64 ?? defaultImages.iconBase64,
+      logoBase64: user?.logoBase64 ?? defaultImages.logoBase64,
     },
   });
   const onSubmit: SubmitHandler<FormData> = async (formData) => {
@@ -55,8 +55,7 @@ export default function UserProfile() {
     try {
       const res = await upsert([
         {
-          id: userProfile?.id,
-          userId,
+          id: userId,
           name: organizationName,
           iconBase64: iconBase64,
           logoBase64: logoBase64,
@@ -65,7 +64,7 @@ export default function UserProfile() {
       if (res === null) {
         throw "";
       } else if (res.length > 0) {
-        setUserProfile(res[0]);
+        setUser(res[0]);
       }
     } catch (error) {
       logger.error(error);
@@ -123,7 +122,7 @@ export default function UserProfile() {
 
             <Label>お店のロゴ</Label>
             <Image
-              className="w-full h-16"
+              className="h-16"
               resizeMode="contain"
               source={{ uri: `data:image/png;base64,${watch("logoBase64")}` }}
             />

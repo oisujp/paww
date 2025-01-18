@@ -1,7 +1,7 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { Buffer } from "node:buffer";
 import { PKPass } from "npm:passkit-generator@3.3.0";
-import { Database } from "../database.types.ts";
+import { Database } from "../shared/database.types.ts";
 import {
   appleWalletCertificates,
   generateTimestamp,

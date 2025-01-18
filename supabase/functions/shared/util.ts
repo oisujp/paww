@@ -2,7 +2,7 @@ import { SupabaseClient } from "jsr:@supabase/supabase-js@2";
 import { Buffer } from "node:buffer";
 import { format } from "npm:date-fns@4.1.0";
 import { PKPass } from "npm:passkit-generator@3.3.0";
-import { Database } from "../database.types.ts";
+import { Database } from "./database.types.ts";
 
 function base64EnvToString(envKey: string) {
   const envValue = Deno.env.get(envKey)!;

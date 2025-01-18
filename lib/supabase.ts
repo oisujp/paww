@@ -120,6 +120,5 @@ export async function publishPass(templateId: string) {
   if (error) {
     logger.error(error);
   }
-  logger.info(data);
-  return data;
+  return data as { publicUrl: string };
 }

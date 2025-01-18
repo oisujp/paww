@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from "uuid";
 import { Label } from "~/components/ui/label";
 import { ZigZagView } from "~/components/zig-zag-view";
 
-export function Pass({
+export function PassTemplateImage({
   pass,
   showBarcode,
 }: {
