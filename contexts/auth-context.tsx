@@ -48,7 +48,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         const { data } = await supabase
           .from("users")
           .select()
-          .eq("userId", user.id)
+          .eq("id", user.id)
           .single();
         setUser(data);
       } else {
