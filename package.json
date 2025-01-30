@@ -14,6 +14,7 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^3.9.1",
     "@premieroctet/react-native-wallet": "^1.0.1",
     "@react-native-async-storage/async-storage": "1.23.1",
@@ -23,9 +24,11 @@
     "@rn-primitives/avatar": "~1.1.0",
     "@rn-primitives/collapsible": "^1.1.0",
     "@rn-primitives/dialog": "^1.1.0",
+    "@rn-primitives/dropdown-menu": "^1.1.0",
     "@rn-primitives/hover-card": "^1.1.0",
     "@rn-primitives/label": "^1.1.0",
     "@rn-primitives/menubar": "^1.1.0",
+    "@rn-primitives/navigation-menu": "^1.1.0",
     "@rn-primitives/popover": "^1.1.0",
     "@rn-primitives/portal": "~1.1.0",
     "@rn-primitives/progress": "~1.1.0",
@@ -88,6 +91,8 @@
     "@babel/core": "^7.26.0",
     "@types/aes-js": "^3.1.4",
     "@types/react": "~18.3.12",
+    "axios": "^1.7.9",
+    "dotenv": "^16.4.7",
     "eslint": "^8.57.0",
     "eslint-config-expo": "~8.0.1",
     "typescript": "^5.7.2"

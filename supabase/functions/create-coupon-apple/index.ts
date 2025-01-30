@@ -65,6 +65,11 @@ Deno.serve(async (req) => {
       foregroundColor,
       backgroundColor,
       logoText,
+      // nfc: {
+      //   message: "abcde",
+      //   encryptionPublicKey:
+      //     "MDkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDIgADVjv9Bj2SZqbDIj0XEsDNJp7iVPjKrWouC0Sdkx2gnNI=",
+      // },
     })
   );
   if (iconBase64) {

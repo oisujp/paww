@@ -1,27 +1,13 @@
 import { Session } from "@supabase/supabase-js";
-import { router } from "expo-router";
 import {
   createContext,
   useEffect,
   useState,
   type PropsWithChildren,
 } from "react";
-import { AppState } from "react-native";
 import { supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { User } from "~/types/supabase";
-
-// Tells Supabase Auth to continuously refresh the session automatically if
-// the app is in the foreground. When this is added, you will continue to receive
-// `onAuthStateChange` events with the `TOKEN_REFRESHED` or `SIGNED_OUT` event
-// if the user's session is terminated. This should only be registered once.
-AppState.addEventListener("change", (state) => {
-  if (state === "active") {
-    supabase.auth.startAutoRefresh();
-  } else {
-    supabase.auth.stopAutoRefresh();
-  }
-});
 
 type Props = {
   signIn: (email: string, password: string) => Promise<void>;
@@ -35,7 +21,7 @@ type Props = {
 export const AuthContext = createContext<Props>({} as Props);
 
 export function AuthProvider({ children }: PropsWithChildren) {
-  const [session, setSession] = useState<Session | null>(null);
+  const [session, setSession] = useState<Session | null | undefined>();
   const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
@@ -68,27 +54,30 @@ export function AuthProvider({ children }: PropsWithChildren) {
           });
           if (error) {
             logger.error(error);
+            throw error;
           }
         },
         signIn: async (email: string, password: string) => {
-          const {
-            data: { session },
-          } = await supabase.auth.signInWithPassword({
+          const { error } = await supabase.auth.signInWithPassword({
             email,
             password,
           });
-          if (session) {
-            const { access_token, refresh_token } = session;
-            await supabase.auth.setSession({
-              access_token,
-              refresh_token,
-            });
-            router.replace("(tabs)");
+          if (error) {
+            logger.error(error);
+            throw error;
           }
         },
         signOut: async () => {
-          await supabase.auth.signOut();
-          setSession(null);
+          try {
+            const { error } = await supabase.auth.signOut();
+            if (error) {
+              logger.error(error);
+              throw error;
+            }
+            setSession(null);
+          } catch (error) {
+            console.log(error);
+          }
         },
         session,
         user,

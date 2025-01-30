@@ -1,8 +1,9 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
-import { Link } from "expo-router";
-import React, { useContext } from "react";
+import { Link, useNavigation } from "expo-router";
+import React, { useContext, useEffect } from "react";
 import { FlatList, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
+import { Menu } from "~/components/menu";
 import { PassTemplateBlock } from "~/components/pass-template-block";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
@@ -10,6 +11,8 @@ import { AuthContext } from "~/contexts/auth-context";
 import { supabase } from "~/lib/supabase";
 
 export default function Home() {
+  const navigation = useNavigation();
+
   const { session } = useContext(AuthContext);
   const userId = session?.user.id ?? "";
 
@@ -34,6 +37,14 @@ export default function Home() {
       revalidateOnReconnect: false,
     }
   );
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerRight: () => {
+        return <Menu />;
+      },
+    });
+  }, [navigation]);
 
   return (
     <React.Fragment>

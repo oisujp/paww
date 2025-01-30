@@ -4,7 +4,12 @@ import { AuthContext } from "~/contexts/auth-context";
 
 export default function AppLayout() {
   const { session } = useContext(AuthContext);
-  if (!session) {
+
+  if (session === undefined) {
+    return null;
+  }
+
+  if (session === null) {
     return <Redirect href="/(auth)/sign-in" />;
   }
 
