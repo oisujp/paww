@@ -35,7 +35,7 @@ const getProjectId = () => {
   if (IS_PREVIEW) {
     return "paww-preview";
   }
-  return "925b75b6-a4eb-48dc-adb2-330eac52e19c";
+  return "b924bd99-e83f-4e59-8394-eac010d4a470";
 };
 
 export default {
