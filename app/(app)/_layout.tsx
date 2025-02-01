@@ -8,7 +8,6 @@ export default function AppLayout() {
   if (session === undefined) {
     return null;
   }
-
   if (session === null) {
     return <Redirect href="/(auth)/sign-in" />;
   }

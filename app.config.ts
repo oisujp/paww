@@ -12,12 +12,12 @@ const getUniqueIdentifier = () => {
 };
 const getAppName = () => {
   if (IS_DEV) {
-    return "Paww (Dev)";
+    return "paww (Dev)";
   }
   if (IS_PREVIEW) {
-    return "Paww (Preview)";
+    return "paww (Preview)";
   }
-  return "Paww";
+  return "paww";
 };
 const getSlug = () => {
   if (IS_DEV) {

@@ -1,10 +1,13 @@
 import { Session } from "@supabase/supabase-js";
+import { makeRedirectUri } from "expo-auth-session";
+import * as QueryParams from "expo-auth-session/build/QueryParams";
 import {
   createContext,
   useEffect,
   useState,
   type PropsWithChildren,
 } from "react";
+import { Alert } from "react-native";
 import { supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { User } from "~/types/supabase";
@@ -13,6 +16,9 @@ type Props = {
   signIn: (email: string, password: string) => Promise<void>;
   signOut: () => void;
   signUp: (email: string, password: string) => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  changePassword: (password: string) => Promise<void>;
+  createSessionFromUrl: (url: string) => Promise<Session | null | undefined>;
   session?: Session | null;
   user: User | null;
   setUser: (user: User | null) => void;
@@ -28,7 +34,16 @@ export function AuthProvider({ children }: PropsWithChildren) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
     });
-    supabase.auth.onAuthStateChange(async (_event, session) => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
+      setSession(newSession);
+    });
+    return () => subscription.unsubscribe();
+  }, []);
+
+  useEffect(() => {
+    void (async () => {
       const user = session?.user;
       if (user) {
         const { data } = await supabase
@@ -40,21 +55,31 @@ export function AuthProvider({ children }: PropsWithChildren) {
       } else {
         setUser(null);
       }
-      setSession(session);
-    });
-  }, []);
+    })();
+  }, [session]);
 
   return (
     <AuthContext.Provider
       value={{
         signUp: async (email: string, password: string) => {
-          const { error } = await supabase.auth.signUp({
-            email,
-            password,
-          });
-          if (error) {
+          try {
+            const res = await supabase.auth.signUp({
+              email,
+              password,
+              options: {
+                emailRedirectTo: makeRedirectUri({
+                  path: "confirm-email",
+                }),
+              },
+            });
+            const error = res.error;
+            if (error) {
+              logger.error(error);
+              Alert.alert("エラー", error.message);
+              throw error;
+            }
+          } catch (error) {
             logger.error(error);
-            throw error;
           }
         },
         signIn: async (email: string, password: string) => {
@@ -64,6 +89,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           });
           if (error) {
             logger.error(error);
+            Alert.alert("エラー", error.message);
             throw error;
           }
         },
@@ -76,7 +102,40 @@ export function AuthProvider({ children }: PropsWithChildren) {
             }
             setSession(null);
           } catch (error) {
-            console.log(error);
+            logger.error(error);
+          }
+        },
+        resetPassword: async (email: string) => {
+          try {
+            await supabase.auth.resetPasswordForEmail(email, {
+              redirectTo: makeRedirectUri({
+                path: "change-password",
+              }),
+            });
+          } catch (error) {
+            logger.error(error);
+          }
+        },
+        changePassword: async (password: string) => {
+          await supabase.auth.updateUser({ password });
+        },
+        createSessionFromUrl: async (url: string) => {
+          try {
+            const { params, errorCode } = QueryParams.getQueryParams(url);
+            if (errorCode) throw new Error(errorCode);
+
+            const { access_token, refresh_token } = params;
+            if (!access_token) return;
+
+            const { data, error } = await supabase.auth.setSession({
+              access_token,
+              refresh_token,
+            });
+            if (error) throw error;
+
+            return data.session;
+          } catch (error) {
+            logger.error(error);
           }
         },
         session,

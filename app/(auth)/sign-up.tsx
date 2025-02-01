@@ -18,7 +18,7 @@ type FormData = {
   password: string;
 };
 
-const signInSchema = z.object({
+const signUpSchema = z.object({
   email: z
     .string()
     .min(1, { message: "入力してください。" })
@@ -26,9 +26,9 @@ const signInSchema = z.object({
   password: z.string().min(6, { message: "6文字以上で入力してください。" }),
 });
 
-export default function SignIn() {
+export default function SignUp() {
   const navigation = useNavigation();
-  const { signIn, session } = useContext(AuthContext);
+  const { signUp, session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const router = useRouter();
 
@@ -40,8 +40,8 @@ export default function SignIn() {
     control,
     handleSubmit,
     formState: { errors },
-  } = useForm<z.infer<typeof signInSchema>>({
-    resolver: zodResolver(signInSchema),
+  } = useForm<z.infer<typeof signUpSchema>>({
+    resolver: zodResolver(signUpSchema),
     defaultValues: {
       email: "oisuoisu@gmail.com",
       password: "pikachu",
@@ -50,7 +50,8 @@ export default function SignIn() {
   const onSubmit: SubmitHandler<FormData> = async (data) => {
     try {
       setLoading(true);
-      await signIn(data.email, data.password);
+      await signUp(data.email, data.password);
+      router.replace("/confirm-email");
     } catch (error) {
       Alert.alert("error", String(error));
     } finally {
@@ -66,7 +67,7 @@ export default function SignIn() {
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
       <Card className="w-full max-w-sm p-6 rounded-2xl">
-        <CardTitle className="pb-2 text-center">ログイン</CardTitle>
+        <CardTitle className="pb-2 text-center">新規登録</CardTitle>
         <CardContent>
           <View className="flex gap-2 py-6">
             <Controller
@@ -121,21 +122,15 @@ export default function SignIn() {
             {loading && (
               <ActivityIndicator className={cn(!loading && "hidden")} />
             )}
-            <Text>ログイン</Text>
+            <Text>新規登録</Text>
           </Button>
 
           <View className="my-4">
             <Button
               variant="ghost"
-              onPress={() => router.replace("/(auth)/sign-up")}
+              onPress={() => router.replace("/(auth)/sign-in")}
             >
-              <Text>新規登録はこちら</Text>
-            </Button>
-            <Button
-              variant="ghost"
-              onPress={() => router.push("/(auth)/reset-password")}
-            >
-              <Text>ログインできないときはこちら</Text>
+              <Text>すでにアカウントをお持ちの方はこちら</Text>
             </Button>
           </View>
         </CardContent>
