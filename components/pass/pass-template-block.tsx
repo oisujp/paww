@@ -1,4 +1,7 @@
-import { useUpdateMutation } from "@supabase-cache-helpers/postgrest-swr";
+import {
+  useQuery,
+  useUpdateMutation,
+} from "@supabase-cache-helpers/postgrest-swr";
 import { Link } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import { useContext } from "react";
@@ -19,21 +22,34 @@ import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { supabase } from "~/lib/supabase";
-import { logger, parseCoupon } from "~/lib/utils";
-import { PassTemplate } from "~/types/supabase";
+import { logger } from "~/lib/utils";
 
 export function PassTemplateBlock({
-  passTemplate,
+  passTemplateId,
 }: {
-  passTemplate: PassTemplate;
+  passTemplateId: string;
 }) {
   const { loading, setLoading } = useContext(NavigationContext);
-  const couponPass = parseCoupon(passTemplate);
+  const { data: passTemplate } = useQuery(
+    supabase
+      .from("passTemplates")
+      .select(`*`)
+      .eq("id", passTemplateId)
+      .is("deletedAt", null)
+      .single(),
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   const { trigger: doUpdate } = useUpdateMutation(
     supabase.from("passTemplates"),
     ["id"]
   );
+  if (!passTemplate) {
+    return null;
+  }
 
   const onPressDelete = async () => {
     try {
@@ -85,7 +101,7 @@ export function PassTemplateBlock({
       </CardHeader>
       <CardContent>
         <Text>テンプレート作成日: {passTemplate.createdAt}</Text>
-        <PassTemplateImage pass={couponPass} />
+        <PassTemplateImage passTemplateId={passTemplate.id} />
 
         <Button
           variant="secondary"

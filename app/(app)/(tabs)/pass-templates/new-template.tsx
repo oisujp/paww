@@ -186,7 +186,7 @@ export default function NewTemplate() {
     }
   };
 
-  const pass = {
+  const passTemplateProps = {
     templateName: watch("templateName"),
     organizationName: user.name,
     backgroundColor: watch("backgroundColor"),
@@ -246,7 +246,7 @@ export default function NewTemplate() {
             "flex-1 justify-center items-center gap-5 p-6 bg-secondary/30"
           )}
         >
-          <PassTemplateImage pass={pass} />
+          <PassTemplateImage passTemplateProps={passTemplateProps} />
 
           <Card className="w-full">
             <CardHeader>

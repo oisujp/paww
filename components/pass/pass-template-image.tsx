@@ -1,17 +1,44 @@
+import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
 import { useState } from "react";
 import { Dimensions, Image, ImageBackground, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { v4 as uuidv4 } from "uuid";
 import { ZigZagView } from "~/components/zig-zag-view";
+import { supabase } from "~/lib/supabase";
+import { parseCoupon } from "~/lib/utils";
 
 export function PassTemplateImage({
-  pass,
+  passTemplateId,
+  passTemplateProps,
   showBarcode,
 }: {
-  pass: PassProps;
+  passTemplateId?: string;
+  passTemplateProps?: PassTemplateProps;
   showBarcode?: boolean;
 }) {
   const [aspectRatio, setAspectRatio] = useState(1);
+
+  const { data: passTemplateData } = useQuery(
+    passTemplateId
+      ? supabase
+          .from("passTemplates")
+          .select(`*`)
+          .eq("id", passTemplateId)
+          .is("deletedAt", null)
+          .single()
+      : null,
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
+  const passTemplate = passTemplateData
+    ? parseCoupon(passTemplateData)
+    : passTemplateProps;
+
+  if (!passTemplate) {
+    return null;
+  }
 
   const {
     coupon: { primaryFields, secondaryFields },
@@ -21,7 +48,8 @@ export function PassTemplateImage({
     logoBase64,
     stripBase64,
     logoText,
-  } = pass;
+  } = passTemplate;
+
   const screenWidth = Dimensions.get("screen").width;
   const headerHeight = Math.round((screenWidth * 55) / 320);
   const stripHeight = Math.round((screenWidth * 123) / 320);

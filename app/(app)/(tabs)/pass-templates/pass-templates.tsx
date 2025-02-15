@@ -20,11 +20,7 @@ export default function PassTemplates() {
       .select(`*, passes( id, publishedAt )`, { count: "exact" })
       .order("updatedAt", { ascending: false })
       .eq("userId", userId)
-      .is("deletedAt", null),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
+      .is("deletedAt", null)
   );
   const { data: userData } = useQuery(
     supabase.from("users").select(`*`).eq("id", userId).single(),
@@ -64,7 +60,7 @@ export default function PassTemplates() {
         contentContainerClassName="gap-6 px-6"
         className="w-full"
         renderItem={({ item }) => {
-          return <PassTemplateBlock key={uuidv4()} passTemplate={item} />;
+          return <PassTemplateBlock key={uuidv4()} passTemplateId={item.id} />;
         }}
       />
       <View className="flex w-full p-6">

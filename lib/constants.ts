@@ -17,7 +17,7 @@ export const NAV_THEME = {
   },
 };
 
-export const passBase: PassBase = {
+export const passBase: PassTemplateBase = {
   formatVersion: 1,
   passTypeIdentifier: "pass.jp.oisu.luckycat",
   teamIdentifier: "B8KVAMPYW5",

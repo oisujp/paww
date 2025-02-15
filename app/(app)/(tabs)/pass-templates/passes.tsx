@@ -6,7 +6,6 @@ import { PassBlock } from "~/components/pass/pass-block";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { supabase } from "~/lib/supabase";
-import { logger } from "~/lib/utils";
 
 export default function Passes() {
   const { session } = useContext(AuthContext);
@@ -17,23 +16,22 @@ export default function Passes() {
     throw new Error("passTemplateId is required");
   }
 
-  const {
-    data: passesData,
-    count,
-    error,
-  } = useQuery(
+  const { data: passesData, count } = useQuery(
     supabase
       .from("passes")
       .select(`*, passTemplates( id )`, { count: "exact" })
       .order("publishedAt", { ascending: false })
       .eq("userId", userId)
-      .eq("passTemplateId", passTemplateId),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
+      .eq("passTemplateId", passTemplateId)
   );
-  logger.info(passesData, error, userId, passTemplateId);
+
+  if (count === 0) {
+    return (
+      <View className="flex-1 p-8 gap-4">
+        <Text>まだパスがありません</Text>
+      </View>
+    );
+  }
 
   return (
     <React.Fragment>

@@ -62,5 +62,5 @@ export const pickImage = async (width: number, height: number) => {
 };
 
 export const parseCoupon = (passTemplate: PassTemplate) => {
-  return { ...passTemplate, coupon: passTemplate.coupon as PassFields };
+  return { ...passTemplate, coupon: passTemplate.coupon as PassTemplateFields };
 };

@@ -45,6 +45,7 @@ export type Database = {
           publishedAt: string | null;
           serialNumber: string;
           updatedAt: string | null;
+          usedAt: string | null;
           userId: string | null;
         };
         Insert: {
@@ -57,6 +58,7 @@ export type Database = {
           publishedAt?: string | null;
           serialNumber?: string;
           updatedAt?: string | null;
+          usedAt?: string | null;
           userId?: string | null;
         };
         Update: {
@@ -69,6 +71,7 @@ export type Database = {
           publishedAt?: string | null;
           serialNumber?: string;
           updatedAt?: string | null;
+          usedAt?: string | null;
           userId?: string | null;
         };
         Relationships: [

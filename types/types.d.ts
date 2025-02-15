@@ -1,5 +1,5 @@
 type PassData = {
-  fields: PassFields;
+  fields: PassTemplateFields;
   images: {
     icon: string;
     logo?: string;
@@ -13,7 +13,7 @@ type PassData = {
   };
 };
 
-type PassProps = {
+type PassTemplateProps = {
   templateName: string;
   labelColor: string;
   logoText: string | null;
@@ -21,13 +21,13 @@ type PassProps = {
   foregroundColor: string;
   backgroundColor: string;
   expirationDate: string | null;
-  coupon: PassFields;
+  coupon: PassTemplateFields;
   logoBase64: string | null;
   stripBase64: string | null;
   createdAt?: string;
 };
 
-type PassBase = {
+type PassTemplateBase = {
   formatVersion: number;
   passTypeIdentifier: string;
   teamIdentifier: string;
@@ -37,7 +37,7 @@ type PassBase = {
   backgroundColor: string;
 };
 
-type PassFields = {
+type PassTemplateFields = {
   headerFields: Field[];
   primaryFields: Field[];
   secondaryFields: Field[];
