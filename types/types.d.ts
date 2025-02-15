@@ -16,6 +16,7 @@ type PassData = {
 type PassProps = {
   templateName: string;
   labelColor: string;
+  logoText: string | null;
   organizationName: string | null;
   foregroundColor: string;
   backgroundColor: string;
@@ -45,7 +46,6 @@ type PassFields = {
 };
 
 type Field = {
-  type: "text" | "number" | "date" | "dateTime";
   key: string;
   label: string;
   value: string;

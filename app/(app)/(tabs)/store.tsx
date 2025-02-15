@@ -42,7 +42,7 @@ export default function UserProfile() {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       organizationName: user?.name ?? "",
-      iconBase64: user?.iconBase64 ?? defaultImages.iconBase64,
+      iconBase64: user?.iconBase64 ?? defaultImages.iconBase64, // always empty for now
       logoBase64: user?.logoBase64 ?? defaultImages.logoBase64,
     },
   });
@@ -73,10 +73,12 @@ export default function UserProfile() {
     }
   };
 
-  const pickIcon = async () => {
+  // iOS: logo.png 160x50
+  // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
+  const pickLogo = async () => {
     const image = await pickImage(160, 50);
     if (image?.base64) {
-      setValue("iconBase64", image.base64);
+      setValue("logoBase64", image.base64);
     }
   };
 
@@ -91,42 +93,37 @@ export default function UserProfile() {
           <CardHeader>
             <CardTitle>お店情報</CardTitle>
           </CardHeader>
-          <CardContent className="flex flex-col gap-2">
-            <Label>お店の名前</Label>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  placeholder="お店の名前"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="organizationName"
-            />
+          <CardContent className="flex flex-col gap-4">
+            <View className="grid gap-2">
+              <Label>お店の名前</Label>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <Input
+                    placeholder="お店の名前"
+                    autoCorrect={false}
+                    autoCapitalize="none"
+                    onBlur={onBlur}
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="organizationName"
+              />
+            </View>
+            <View className="grid gap-2">
+              <Label>お店のロゴ</Label>
+              <Image
+                className="h-16 border-1 border-border border"
+                resizeMode="contain"
+                source={{ uri: `data:image/png;base64,${watch("logoBase64")}` }}
+              />
+            </View>
 
-            <Label>お店のアイコン</Label>
-            <Image
-              className="w-16 h-16"
-              source={{ uri: `data:image/png;base64,${watch("iconBase64")}` }}
-            />
-            <Button variant="secondary" onPress={pickIcon}>
-              <Text>画像を選択</Text>
-            </Button>
-
-            <Label>お店のロゴ</Label>
-            <Image
-              className="h-16"
-              resizeMode="contain"
-              source={{ uri: `data:image/png;base64,${watch("logoBase64")}` }}
-            />
-            <Button variant="secondary" onPress={pickIcon}>
+            <Button variant="secondary" onPress={pickLogo} className="my-4">
               <Text>画像を選択</Text>
             </Button>
           </CardContent>

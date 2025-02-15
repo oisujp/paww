@@ -58,10 +58,11 @@ export default function SignIn() {
     }
   };
 
-  if (session) {
-    router.replace("/(tabs)");
-    return null;
-  }
+  useEffect(() => {
+    if (session) {
+      router.replace("/(tabs)");
+    }
+  }, [session, router]);
 
   return (
     <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">

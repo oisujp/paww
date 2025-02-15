@@ -58,18 +58,3 @@ export async function uploadImage(
   }
   logger.info(upload);
 }
-
-export async function publishPass(templateId: string) {
-  const { data, error } = await supabase.functions.invoke(
-    "create-coupon-apple",
-    {
-      body: {
-        templateId,
-      },
-    }
-  );
-  if (error) {
-    logger.error(error);
-  }
-  return data as { publicUrl: string };
-}

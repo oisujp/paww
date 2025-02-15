@@ -1,8 +1,5 @@
-import {
-  useDeleteMutation,
-  useInsertMutation,
-} from "@supabase-cache-helpers/postgrest-swr";
-import { useRouter } from "expo-router";
+import { useDeleteMutation } from "@supabase-cache-helpers/postgrest-swr";
+import * as WebBrowser from "expo-web-browser";
 import { useContext } from "react";
 import { Text, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -20,9 +17,8 @@ import {
 } from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
-import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { publishPass, supabase } from "~/lib/supabase";
+import { supabase } from "~/lib/supabase";
 import { logger, parseCoupon } from "~/lib/utils";
 import { Pass, PassTemplate } from "~/types/supabase";
 
@@ -33,19 +29,12 @@ export function PassTemplateBlock({
   passTemplate: PassTemplate;
   passes: Pass[];
 }) {
-  const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
-  const router = useRouter();
   const couponPass = parseCoupon(passTemplate);
 
   const { trigger: doDelete } = useDeleteMutation(
     supabase.from("passTemplates"),
     ["id"]
-  );
-  const { trigger: insert } = useInsertMutation(
-    supabase.from("passes"),
-    ["id"],
-    "*"
   );
 
   const onPressDelete = async () => {
@@ -61,27 +50,9 @@ export function PassTemplateBlock({
     }
   };
 
-  const onPressPublish = async () => {
-    try {
-      setLoading(true);
-      const result = await publishPass(passTemplate.id);
-
-      await insert([
-        {
-          userId: session?.user.id,
-          passTemplateId: passTemplate.id,
-          publicUrl: result.publicUrl,
-        },
-      ]);
-      router.push({
-        pathname: "/(app)/pass",
-        params: { publicUrl: result.publicUrl },
-      });
-    } catch (error) {
-      logger.error(error);
-    } finally {
-      setLoading(false);
-    }
+  const onPressOpenWeb = async () => {
+    const url = `${process.env.EXPO_PUBLIC_PAWW_BACKEND_URL}/p/${passTemplate.id}`;
+    await WebBrowser.openBrowserAsync(url);
   };
 
   return (
@@ -114,28 +85,31 @@ export function PassTemplateBlock({
         </AlertDialog>
       </CardHeader>
       <CardContent>
-        <Text>有効期限: {passTemplate.expirationDate}</Text>
-        <Text>作成日: {passTemplate.createdAt}</Text>
+        <Text>テンプレート作成日: {passTemplate.createdAt}</Text>
         <PassTemplateImage pass={couponPass} />
-        <Text>最近発行したパス:</Text>
-        {passes.map((p) => (
-          <View key={uuidv4()}>
-            <Text>{p.publishedAt}</Text>
-          </View>
-        ))}
+
         <Button
           variant="secondary"
           className="my-3"
           disabled={loading}
-          onPress={onPressPublish}
+          onPress={onPressOpenWeb}
         >
-          <Text>パスを発行する</Text>
+          <Text>配布用ページを表示する</Text>
         </Button>
+
+        <View>
+          <Text>最近配布されたパス:</Text>
+          {passes.map((p) => (
+            <View key={uuidv4()}>
+              <Text>{p.publishedAt}</Text>
+            </View>
+          ))}
+        </View>
 
         <AlertDialog>
           <AlertDialogTrigger asChild>
             <Button variant="secondary">
-              <Text>パス一覧を表示する</Text>
+              <Text>配布済みパス一覧を表示する</Text>
             </Button>
           </AlertDialogTrigger>
           <AlertDialogContent>

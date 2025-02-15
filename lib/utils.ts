@@ -44,9 +44,10 @@ export const pickImage = async (width: number, height: number) => {
     const uri = pickedImage.uri;
     const newSize = resizeWithAspectRatio(
       pickedImage.width,
-      pickedImage.height
+      pickedImage.height,
+      width,
+      height
     );
-
     const resized = await ImageManipulator.manipulate(uri).resize({
       width: newSize.width,
       height: newSize.height,

@@ -1,7 +1,7 @@
+import { useState } from "react";
 import { Dimensions, Image, ImageBackground, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import { v4 as uuidv4 } from "uuid";
-import { Label } from "~/components/ui/label";
 import { ZigZagView } from "~/components/zig-zag-view";
 
 export function PassTemplateImage({
@@ -11,13 +11,16 @@ export function PassTemplateImage({
   pass: PassProps;
   showBarcode?: boolean;
 }) {
+  const [aspectRatio, setAspectRatio] = useState(1);
+
   const {
-    coupon: { headerFields, primaryFields, secondaryFields },
+    coupon: { primaryFields, secondaryFields },
     backgroundColor,
     labelColor,
     foregroundColor,
     logoBase64,
     stripBase64,
+    logoText,
   } = pass;
   const screenWidth = Dimensions.get("screen").width;
   const headerHeight = Math.round((screenWidth * 55) / 320);
@@ -26,61 +29,54 @@ export function PassTemplateImage({
   return (
     <ZigZagView backgroundColor={backgroundColor} paddingX={42}>
       <View style={{ backgroundColor }}>
-        <View className={`px-2 pb-2 w-1/2`}>
+        <View className={`p-2 pt-0 flex flex-row gap-4 items-center`}>
           <Image
             source={{ uri: `data:image/png;base64,${logoBase64}` }}
-            style={{ height: headerHeight }}
+            style={{
+              height: headerHeight,
+              aspectRatio,
+              alignSelf: "flex-start",
+            }}
             resizeMode="contain"
+            onLoad={(event) => {
+              const { width, height } = event.nativeEvent.source;
+              setAspectRatio(width / height);
+            }}
           />
-        </View>
-
-        <View>
-          {headerFields?.map((h) => {
-            return (
-              <View className="flex flex-col">
-                <Label style={{ color: foregroundColor }}>{h.label}</Label>
-                <Label style={{ color: labelColor }}>{h.value}</Label>
-              </View>
-            );
-          })}
+          <Text style={{ color: foregroundColor }}>{logoText}</Text>
         </View>
 
         <View className="relative">
-          <ImageBackground
-            style={{ height: stripHeight }}
-            resizeMode="cover"
-            source={{ uri: `data:image/png;base64,${stripBase64}` }}
-          >
-            {primaryFields.map((p, index) => {
-              if (index !== 0) return null;
-              return (
-                <View
-                  key={uuidv4()}
-                  className="flex items-start justify-center h-full p-3"
-                >
-                  <Text className="text-6xl" style={{ color: foregroundColor }}>
-                    {p.value}
-                  </Text>
-                  <Text className="text-2xl" style={{ color: labelColor }}>
-                    {p.label}
-                  </Text>
-                </View>
-              );
-            })}
-          </ImageBackground>
+          {stripBase64 ? (
+            <ImageBackground
+              style={{ height: stripHeight }}
+              resizeMode="cover"
+              source={{ uri: `data:image/png;base64,${stripBase64}` }}
+            >
+              {primaryFields.map(() => {
+                // no text for now
+                return null;
+              })}
+            </ImageBackground>
+          ) : (
+            <View className="h-24 bg-gray-400" />
+          )}
         </View>
 
-        <View className="py-1 px-3">
-          {secondaryFields?.map((p, index) => {
-            if (index !== 0) return null;
+        <View className="py-1 px-3 grid gap-4">
+          {secondaryFields?.map((p) => {
             return (
               <View key={uuidv4()}>
                 <Text className="text-lg" style={{ color: labelColor }}>
                   {p.label}
                 </Text>
-                <Text className="text-2xl" style={{ color: foregroundColor }}>
-                  {p.value}
-                </Text>
+                {p.value ? (
+                  <Text className="text-2xl" style={{ color: foregroundColor }}>
+                    {p.value}
+                  </Text>
+                ) : (
+                  <View className="rounded-full w-1/2 h-6 bg-gray-400" />
+                )}
               </View>
             );
           })}

@@ -29,15 +29,16 @@ import { Label } from "~/components/ui/label";
 import { Menubar, MenubarMenu, MenubarTrigger } from "~/components/ui/menubar";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
-import { defaultImages, passBase } from "~/lib/constants";
+import { passBase } from "~/lib/constants";
 import { supabase } from "~/lib/supabase";
 import { cn, logger, pickImage } from "~/lib/utils";
 
 type FormData = z.infer<typeof templateSchema>;
 
 const templateSchema = z.object({
-  templateName: z.string().min(1),
-  description: z.string().min(1),
+  templateName: z.string(),
+  logoText: z.string(),
+  description: z.string(),
   passContentLabel: z.string(),
   passContentValue: z.string(),
   stripBase64: z.string(),
@@ -79,13 +80,6 @@ export default function NewTemplate() {
           <AntDesign name="close" size={18} color="black" />
         </Button>
       ),
-      headerRight: () => {
-        return (
-          <Button variant="ghost" onPress={() => {}} className="-mr-4">
-            <Text className="text-destructive">削除</Text>
-          </Button>
-        );
-      },
     });
   }, [navigation]);
 
@@ -94,21 +88,47 @@ export default function NewTemplate() {
   >({
     resolver: zodResolver(templateSchema),
     defaultValues: {
-      templateName: "テスト",
-      passContentLabel: "特典",
-      passContentValue: "20%引き",
-      description: "",
-      stripBase64: defaultImages.stripBase64,
-      expirationDate: new Date(),
+      templateName: "", // always empty for now
+      description: "created by paww", // fixed for now
+      passContentLabel: "特典", // fixed for now
+      passContentValue: "",
       labelColor: passBase.labelColor,
       foregroundColor: passBase.foregroundColor,
       backgroundColor: passBase.backgroundColor,
     },
   });
 
+  useEffect(() => {
+    if (user?.name) {
+      setValue("logoText", user.name);
+    }
+  }, [user, setValue]);
+
   if (!user) {
     return null;
   }
+
+  const primaryFields = [
+    {
+      key: "pass-content",
+      label: watch("passContentLabel"),
+      value: watch("passContentValue"),
+    },
+  ];
+  const secondaryFields = [
+    {
+      key: "pass-content",
+      label: watch("passContentLabel"),
+      value: watch("passContentValue"),
+    },
+    {
+      key: "expiration-date",
+      label: "有効期限",
+      value:
+        watch("expirationDate") &&
+        format(watch("expirationDate"), "yyyy/MM/dd"),
+    },
+  ];
 
   const onSubmit: SubmitHandler<FormData> = async (formData) => {
     const userId = session?.user.id;
@@ -123,8 +143,7 @@ export default function NewTemplate() {
       foregroundColor,
       labelColor,
       stripBase64,
-      passContentLabel,
-      passContentValue,
+      logoText,
     } = formData;
     const { name, iconBase64, logoBase64 } = user;
     const { teamIdentifier, passTypeIdentifier } = passBase;
@@ -142,19 +161,15 @@ export default function NewTemplate() {
           labelColor,
           organizationName: name ?? "",
           teamIdentifier,
-          logoText: name,
+          logoText,
           passTypeIdentifier,
           serialNumber: uuidv4(),
           iconBase64,
           logoBase64,
           stripBase64,
           coupon: {
-            primaryFields: [
-              {
-                key: passContentLabel,
-                value: passContentValue,
-              },
-            ],
+            primaryFields,
+            secondaryFields,
           },
         },
       ]);
@@ -175,27 +190,15 @@ export default function NewTemplate() {
     templateName: watch("templateName"),
     organizationName: user.name,
     backgroundColor: watch("backgroundColor"),
-    expirationDate: format(watch("expirationDate"), "yyyy/MM/dd"),
+    expirationDate:
+      watch("expirationDate") && format(watch("expirationDate"), "yyyy/MM/dd"),
     foregroundColor: watch("foregroundColor"),
     labelColor: watch("labelColor"),
+    logoText: watch("logoText"),
     coupon: {
       headerFields: [],
-      primaryFields: [
-        {
-          type: "text" as const,
-          key: "pass-content",
-          label: watch("passContentLabel"),
-          value: watch("passContentValue"),
-        },
-      ],
-      secondaryFields: [
-        {
-          type: "text" as const,
-          key: "expiration-date",
-          label: "有効期限",
-          value: format(watch("expirationDate"), "yyyy/MM/dd"),
-        },
-      ],
+      primaryFields,
+      secondaryFields,
       auxiliaryFields: [],
       backFields: [],
     },
@@ -243,63 +246,27 @@ export default function NewTemplate() {
             "flex-1 justify-center items-center gap-5 p-6 bg-secondary/30"
           )}
         >
-          <PassTemplateImage pass={pass} />
+          <PassTemplateImage pass={pass} showBarcode />
 
           <Card className="w-full">
             <CardHeader>
               <CardTitle>クーポン情報</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
-              <Label>名前</Label>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    placeholder="クーポンの名前"
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="templateName"
-              />
-
-              <Label>説明</Label>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    placeholder="クーポンの説明"
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="description"
-              />
-
-              <Label>クーポンの画像</Label>
-              <Image
-                className="w-full h-32"
-                source={{
-                  uri: `data:image/png;base64,${watch("stripBase64")}`,
-                }}
-              />
+              <Label>カバー画像</Label>
+              {watch("stripBase64") && (
+                <Image
+                  className="w-full h-32"
+                  source={{
+                    uri: `data:image/png;base64,${watch("stripBase64")}`,
+                  }}
+                />
+              )}
               <Button variant="secondary" onPress={pickStrip}>
                 <Text>画像を選択</Text>
               </Button>
 
-              <Label>クーポンの内容</Label>
+              <Label>特典</Label>
               <Controller
                 control={control}
                 rules={{
@@ -307,8 +274,8 @@ export default function NewTemplate() {
                 }}
                 render={({ field: { onChange, onBlur, value } }) => (
                   <Input
-                    placeholder="クーポンの内容"
-                    inputMode="text"
+                    placeholder="お会計から10%引き！"
+                    autoCorrect={false}
                     autoCapitalize="none"
                     onBlur={onBlur}
                     onChangeText={onChange}
@@ -317,6 +284,21 @@ export default function NewTemplate() {
                 )}
                 name="passContentValue"
               />
+
+              <Label>有効期限</Label>
+              <View
+                style={{
+                  flex: 1,
+                  alignItems: "flex-start",
+                }}
+                className="-ml-3"
+              >
+                <DateTimePicker
+                  mode="datetime"
+                  onChange={onChangeExpirationDate}
+                  value={watch("expirationDate") ?? new Date()}
+                />
+              </View>
 
               <Label>背景色</Label>
               <ColorPicker
@@ -380,21 +362,6 @@ export default function NewTemplate() {
                   </CollapsibleContent>
                 </Collapsible>
               </ColorPicker>
-
-              <Label>有効期限</Label>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "flex-start",
-                }}
-                className="-ml-3"
-              >
-                <DateTimePicker
-                  mode="datetime"
-                  onChange={onChangeExpirationDate}
-                  value={watch("expirationDate")}
-                />
-              </View>
             </CardContent>
           </Card>
 

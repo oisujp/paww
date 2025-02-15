@@ -1,5 +1,5 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
-import { Link, useNavigation } from "expo-router";
+import { Link, useNavigation, useRouter } from "expo-router";
 import React, { useContext, useEffect } from "react";
 import { FlatList, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -12,7 +12,7 @@ import { supabase } from "~/lib/supabase";
 
 export default function Home() {
   const navigation = useNavigation();
-
+  const router = useRouter();
   const { session } = useContext(AuthContext);
   const userId = session?.user.id ?? "";
 
@@ -37,6 +37,14 @@ export default function Home() {
       revalidateOnReconnect: false,
     }
   );
+  const { data: userData } = useQuery(
+    supabase.from("users").select(`*`).eq("id", userId).single(),
+
+    {
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
+    }
+  );
 
   useEffect(() => {
     navigation.setOptions({
@@ -45,6 +53,25 @@ export default function Home() {
       },
     });
   }, [navigation]);
+
+  if (!userData) {
+    return (
+      <View className="flex-1 p-8 gap-4">
+        <Text>1. お店情報を設定する</Text>
+        <Button onPress={() => router.navigate("store")}>
+          <Text>お店情報の設定に進む</Text>
+        </Button>
+        <Text>2. テンプレートを作成する</Text>
+        <Button onPress={() => router.navigate("/(app)/new-template")}>
+          <Text>テンプレートの作成に進む</Text>
+        </Button>
+        <Text>3. パスを発行する</Text>
+        <Button>
+          <Text>パスの発行に進む</Text>
+        </Button>
+      </View>
+    );
+  }
 
   return (
     <React.Fragment>
@@ -70,7 +97,7 @@ export default function Home() {
       <View className="flex w-full p-6">
         <Link href="/(app)/new-template" asChild>
           <Button className="w-full">
-            <Text>テンプレートを作成</Text>
+            <Text>新しくテンプレートを作成</Text>
           </Button>
         </Link>
       </View>

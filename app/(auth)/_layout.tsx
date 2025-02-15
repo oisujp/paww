@@ -5,7 +5,7 @@ import React from "react";
 
 export default function AuthLayout() {
   return (
-    <Stack>
+    <Stack screenOptions={{ headerBackTitle: "戻る" }}>
       <Stack.Screen name="sign-in" />
       <Stack.Screen name="sign-up" />
       <Stack.Screen name="reset-password" />

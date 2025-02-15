@@ -1,6 +1,7 @@
 import { createClient } from "jsr:@supabase/supabase-js@2";
 import { Buffer } from "node:buffer";
 import { PKPass } from "npm:passkit-generator@3.3.0";
+import { corsHeaders } from "../shared/cors.ts";
 import { Database } from "../shared/database.types.ts";
 import {
   appleWalletCertificates,
@@ -10,6 +11,10 @@ import {
 } from "../shared/util.ts";
 
 Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") {
+    return new Response("ok", { headers: corsHeaders });
+  }
+
   const { templateId } = await req.json();
   const authHeader = req.headers.get("Authorization")!;
   const timestamp = generateTimestamp(new Date());
@@ -30,7 +35,7 @@ Deno.serve(async (req) => {
 
   if (!data) {
     return new Response("Failed to upload the file", {
-      headers: { "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
   }
@@ -85,7 +90,14 @@ Deno.serve(async (req) => {
     serialNumber,
   });
   pass.type = "coupon";
-  pass.primaryFields.push(coupon.primaryFields[0]);
+
+  if (coupon.primaryFields.length > 0) {
+    pass.primaryFields.push(coupon.primaryFields[0]);
+  }
+
+  if (coupon.secondaryFields.length > 0) {
+    pass.secondaryFields.push(coupon.secondaryFields[0]);
+  }
 
   // Upload pkpass
   const token = authHeader.replace("Bearer ", "");
@@ -97,12 +109,12 @@ Deno.serve(async (req) => {
   const publicUrl = await uploadPkpass(pass, uploadPath, supabase);
   if (!publicUrl) {
     return new Response("Failed to upload the file", {
-      headers: { "Content-Type": "application/json" },
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
     });
   }
 
   return new Response(JSON.stringify({ publicUrl }), {
-    headers: { "Content-Type": "application/json" },
+    headers: { ...corsHeaders, "Content-Type": "application/json" },
   });
 });

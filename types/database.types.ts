@@ -37,31 +37,37 @@ export type Database = {
       passes: {
         Row: {
           addedAt: string | null
+          authenticationToken: string
           createdAt: string
           id: string
           passTemplateId: string
           publicUrl: string
           publishedAt: string | null
+          serialNumber: string
           updatedAt: string | null
           userId: string | null
         }
         Insert: {
           addedAt?: string | null
+          authenticationToken?: string
           createdAt?: string
           id?: string
           passTemplateId: string
           publicUrl: string
           publishedAt?: string | null
+          serialNumber?: string
           updatedAt?: string | null
           userId?: string | null
         }
         Update: {
           addedAt?: string | null
+          authenticationToken?: string
           createdAt?: string
           id?: string
           passTemplateId?: string
           publicUrl?: string
           publishedAt?: string | null
+          serialNumber?: string
           updatedAt?: string | null
           userId?: string | null
         }
