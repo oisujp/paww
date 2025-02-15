@@ -16,7 +16,7 @@ import ColorPicker, {
 } from "reanimated-color-picker";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { PassTemplateImage } from "~/components/pass-template-image";
+import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import {
@@ -246,7 +246,7 @@ export default function NewTemplate() {
             "flex-1 justify-center items-center gap-5 p-6 bg-secondary/30"
           )}
         >
-          <PassTemplateImage pass={pass} showBarcode />
+          <PassTemplateImage pass={pass} />
 
           <Card className="w-full">
             <CardHeader>

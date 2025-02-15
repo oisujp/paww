@@ -15,20 +15,6 @@ export default function AppLayout() {
   return (
     <Stack>
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-      <Stack.Screen
-        name="new-template"
-        options={{
-          presentation: "modal",
-          title: "新規テンプレート",
-        }}
-      />
-      <Stack.Screen
-        name="pass"
-        options={{
-          presentation: "modal",
-          title: "パス",
-        }}
-      />
     </Stack>
   );
 }

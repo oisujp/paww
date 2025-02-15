@@ -1,21 +1,14 @@
-import FontAwesome from "@expo/vector-icons/FontAwesome";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
 
 export default function TabLayout() {
   return (
-    <Tabs screenOptions={{ tabBarActiveTintColor: "blue" }}>
+    <Tabs screenOptions={{ tabBarActiveTintColor: "blue", headerShown: false }}>
+      {/* workaround:  */}
+      {/* https://github.com/expo/router/issues/763#issuecomment-1951429388 */}
+      <Tabs.Screen redirect name="index" />
       <Tabs.Screen
-        name="index"
-        options={{
-          title: "ホーム",
-          tabBarIcon: ({ color }) => (
-            <FontAwesome size={28} name="home" color={color} />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="coupon"
+        name="pass-templates"
         options={{
           title: "パス",
           tabBarIcon: ({ color }) => (

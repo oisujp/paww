@@ -1,8 +1,9 @@
 import { useUpdateMutation } from "@supabase-cache-helpers/postgrest-swr";
+import { Link } from "expo-router";
 import * as WebBrowser from "expo-web-browser";
 import { useContext } from "react";
 import { Text } from "react-native";
-import { PassTemplateImage } from "~/components/pass-template-image";
+import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -95,26 +96,17 @@ export function PassTemplateBlock({
           <Text>配布用ページを表示する</Text>
         </Button>
 
-        <AlertDialog>
-          <AlertDialogTrigger asChild>
-            <Button variant="secondary">
-              <Text>配布済みパス一覧を表示する</Text>
-            </Button>
-          </AlertDialogTrigger>
-          <AlertDialogContent>
-            <AlertDialogHeader>
-              <AlertDialogTitle>パス一覧</AlertDialogTitle>
-              <AlertDialogDescription>
-                発行済みのパスには影響しません。
-              </AlertDialogDescription>
-            </AlertDialogHeader>
-            <AlertDialogFooter>
-              <AlertDialogAction>
-                <Text>キャンセル</Text>
-              </AlertDialogAction>
-            </AlertDialogFooter>
-          </AlertDialogContent>
-        </AlertDialog>
+        <Link
+          href={{
+            pathname: "pass-templates/passes",
+            params: { passTemplateId: passTemplate.id },
+          }}
+          asChild
+        >
+          <Button variant="secondary">
+            <Text>配布済みパス一覧を表示する</Text>
+          </Button>
+        </Link>
       </CardContent>
     </Card>
   );

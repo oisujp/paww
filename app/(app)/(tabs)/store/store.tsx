@@ -27,7 +27,7 @@ const signUpSchema = z.object({
   logoBase64: z.string(),
 });
 
-export default function UserProfile() {
+export default function Store() {
   const { session, setUser, user } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const { trigger: upsert } = useUpsertMutation(

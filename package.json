@@ -1,6 +1,5 @@
 {
   "name": "@oisu/paww",
-  "main": "index.js",
   "version": "1.0.0",
   "scripts": {
     "dev": "expo start -c --ios",
