@@ -1,8 +1,7 @@
-import { useDeleteMutation } from "@supabase-cache-helpers/postgrest-swr";
+import { useUpdateMutation } from "@supabase-cache-helpers/postgrest-swr";
 import * as WebBrowser from "expo-web-browser";
 import { useContext } from "react";
-import { Text, View } from "react-native";
-import { v4 as uuidv4 } from "uuid";
+import { Text } from "react-native";
 import { PassTemplateImage } from "~/components/pass-template-image";
 import {
   AlertDialog,
@@ -20,19 +19,17 @@ import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { supabase } from "~/lib/supabase";
 import { logger, parseCoupon } from "~/lib/utils";
-import { Pass, PassTemplate } from "~/types/supabase";
+import { PassTemplate } from "~/types/supabase";
 
 export function PassTemplateBlock({
   passTemplate,
-  passes,
 }: {
   passTemplate: PassTemplate;
-  passes: Pass[];
 }) {
   const { loading, setLoading } = useContext(NavigationContext);
   const couponPass = parseCoupon(passTemplate);
 
-  const { trigger: doDelete } = useDeleteMutation(
+  const { trigger: doUpdate } = useUpdateMutation(
     supabase.from("passTemplates"),
     ["id"]
   );
@@ -40,8 +37,9 @@ export function PassTemplateBlock({
   const onPressDelete = async () => {
     try {
       setLoading(true);
-      await doDelete({
+      await doUpdate({
         id: passTemplate.id,
+        deletedAt: new Date().toISOString(),
       });
     } catch (error) {
       logger.error(error);
@@ -96,15 +94,6 @@ export function PassTemplateBlock({
         >
           <Text>配布用ページを表示する</Text>
         </Button>
-
-        <View>
-          <Text>最近配布されたパス:</Text>
-          {passes.map((p) => (
-            <View key={uuidv4()}>
-              <Text>{p.publishedAt}</Text>
-            </View>
-          ))}
-        </View>
 
         <AlertDialog>
           <AlertDialogTrigger asChild>

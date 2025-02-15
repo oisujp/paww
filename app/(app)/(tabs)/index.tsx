@@ -21,17 +21,8 @@ export default function Home() {
       .from("passTemplates")
       .select(`*, passes( id, publishedAt )`, { count: "exact" })
       .order("updatedAt", { ascending: false })
-      .eq("userId", userId),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
-  const { data: passesData } = useQuery(
-    supabase
-      .from("passes")
-      .select(`*`)
-      .order("updatedAt", { ascending: false }),
+      .eq("userId", userId)
+      .is("deletedAt", null),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -83,15 +74,7 @@ export default function Home() {
         contentContainerClassName="gap-6 px-6"
         className="w-full"
         renderItem={({ item }) => {
-          const passes =
-            passesData?.filter((p) => p.passTemplateId === item.id) ?? [];
-          return (
-            <PassTemplateBlock
-              key={uuidv4()}
-              passTemplate={item}
-              passes={passes}
-            />
-          );
+          return <PassTemplateBlock key={uuidv4()} passTemplate={item} />;
         }}
       />
       <View className="flex w-full p-6">
