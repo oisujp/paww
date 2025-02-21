@@ -4,7 +4,7 @@ import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { useInsertMutation } from "@supabase-cache-helpers/postgrest-swr";
-import { format } from "date-fns";
+import { format, getTime } from "date-fns";
 import { useNavigation } from "expo-router";
 import React, { useContext, useEffect, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -30,18 +30,19 @@ import { Menubar, MenubarMenu, MenubarTrigger } from "~/components/ui/menubar";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { passBase } from "~/lib/constants";
-import { supabase } from "~/lib/supabase";
+import { supabase, uploadImage } from "~/lib/supabase";
 import { cn, logger, pickImage } from "~/lib/utils";
 
 type FormData = z.infer<typeof templateSchema>;
 
 const templateSchema = z.object({
-  templateName: z.string(),
+  id: z.string(),
+  name: z.string(),
   logoText: z.string(),
   description: z.string(),
   passContentLabel: z.string(),
   passContentValue: z.string(),
-  stripBase64: z.string(),
+  stripUrl: z.string(),
   expirationDate: z.date(),
   labelColor: z.string(),
   foregroundColor: z.string(),
@@ -88,7 +89,8 @@ export default function NewTemplate() {
   >({
     resolver: zodResolver(templateSchema),
     defaultValues: {
-      templateName: "", // always empty for now
+      id: uuidv4(),
+      name: "", // always empty for now
       description: "created by paww", // fixed for now
       passContentLabel: "特典", // fixed for now
       passContentValue: "",
@@ -136,22 +138,21 @@ export default function NewTemplate() {
       return;
     }
     const {
-      templateName,
+      name,
       backgroundColor,
       description,
       expirationDate,
       foregroundColor,
       labelColor,
-      stripBase64,
+      stripUrl,
       logoText,
     } = formData;
-    const { name, iconBase64, logoBase64 } = user;
     const { teamIdentifier, passTypeIdentifier } = passBase;
 
     try {
       await insert([
         {
-          templateName,
+          name,
           userId,
           backgroundColor,
           description,
@@ -164,9 +165,8 @@ export default function NewTemplate() {
           logoText,
           passTypeIdentifier,
           serialNumber: uuidv4(),
-          iconBase64,
-          logoBase64,
-          stripBase64,
+          logoUrl: user.logoUrl,
+          stripUrl,
           coupon: {
             primaryFields,
             secondaryFields,
@@ -180,14 +180,20 @@ export default function NewTemplate() {
   };
 
   const pickStrip = async () => {
-    const image = await pickImage(160, 50);
-    if (image?.base64) {
-      setValue("stripBase64", image.base64);
+    const stripBase64 = await pickImage(160, 50);
+    if (stripBase64) {
+      const path = `${user.id}/pass-templates/${watch("id")}/strip-${getTime(
+        new Date()
+      )}.png`;
+      await uploadImage(stripBase64, path);
+      const stripUrl = supabase.storage.from("images").getPublicUrl(path)
+        .data.publicUrl;
+      setValue("stripUrl", stripUrl);
     }
   };
 
   const passTemplateProps = {
-    templateName: watch("templateName"),
+    name: watch("name"),
     organizationName: user.name,
     backgroundColor: watch("backgroundColor"),
     expirationDate:
@@ -202,8 +208,8 @@ export default function NewTemplate() {
       auxiliaryFields: [],
       backFields: [],
     },
-    logoBase64: user.logoBase64,
-    stripBase64: watch("stripBase64"),
+    logoUrl: user.logoUrl,
+    stripUrl: watch("stripUrl"),
   };
 
   const onSelectForegroundColor = (colors: returnedResults) => {
@@ -254,11 +260,11 @@ export default function NewTemplate() {
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               <Label>カバー画像</Label>
-              {watch("stripBase64") && (
+              {watch("stripUrl") && (
                 <Image
                   className="w-full h-32"
                   source={{
-                    uri: `data:image/png;base64,${watch("stripBase64")}`,
+                    uri: watch("stripUrl"),
                   }}
                 />
               )}

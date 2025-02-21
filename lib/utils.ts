@@ -39,26 +39,28 @@ export const pickImage = async (width: number, height: number) => {
     quality: 1,
   });
 
-  if (!result.canceled) {
-    const pickedImage = result.assets[0];
-    const uri = pickedImage.uri;
-    const newSize = resizeWithAspectRatio(
-      pickedImage.width,
-      pickedImage.height,
-      width,
-      height
-    );
-    const resized = await ImageManipulator.manipulate(uri).resize({
-      width: newSize.width,
-      height: newSize.height,
-    });
-    const imageRef = await resized.renderAsync();
-    const ref = await imageRef.saveAsync({
-      base64: true,
-      format: SaveFormat.PNG,
-    });
-    return ref;
+  if (result.canceled) {
+    throw new Error("Image picker canceled");
   }
+
+  const pickedImage = result.assets[0];
+  const uri = pickedImage.uri;
+  const newSize = resizeWithAspectRatio(
+    pickedImage.width,
+    pickedImage.height,
+    width,
+    height
+  );
+  const resized = await ImageManipulator.manipulate(uri).resize({
+    width: newSize.width,
+    height: newSize.height,
+  });
+  const imageRef = await resized.renderAsync();
+  const ref = await imageRef.saveAsync({
+    base64: true,
+    format: SaveFormat.PNG,
+  });
+  return ref.base64;
 };
 
 export const parseCoupon = (passTemplate: PassTemplate) => {

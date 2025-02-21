@@ -14,7 +14,7 @@ type PassData = {
 };
 
 type PassTemplateProps = {
-  templateName: string;
+  name: string;
   labelColor: string;
   logoText: string | null;
   organizationName: string | null;
@@ -22,8 +22,8 @@ type PassTemplateProps = {
   backgroundColor: string;
   expirationDate: string | null;
   coupon: PassTemplateFields;
-  logoBase64: string | null;
-  stripBase64: string | null;
+  logoUrl: string | null;
+  stripUrl: string | null;
   createdAt?: string;
 };
 

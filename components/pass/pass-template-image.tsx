@@ -45,8 +45,8 @@ export function PassTemplateImage({
     backgroundColor,
     labelColor,
     foregroundColor,
-    logoBase64,
-    stripBase64,
+    logoUrl,
+    stripUrl,
     logoText,
   } = passTemplate;
 
@@ -58,28 +58,32 @@ export function PassTemplateImage({
     <ZigZagView backgroundColor={backgroundColor} paddingX={42}>
       <View style={{ backgroundColor }}>
         <View className={`p-2 pt-0 flex flex-row gap-4 items-center`}>
-          <Image
-            source={{ uri: `data:image/png;base64,${logoBase64}` }}
-            style={{
-              height: headerHeight,
-              aspectRatio,
-              alignSelf: "flex-start",
-            }}
-            resizeMode="contain"
-            onLoad={(event) => {
-              const { width, height } = event.nativeEvent.source;
-              setAspectRatio(width / height);
-            }}
-          />
+          {logoUrl ? (
+            <Image
+              source={{ uri: logoUrl }}
+              style={{
+                height: headerHeight,
+                aspectRatio,
+                alignSelf: "flex-start",
+              }}
+              resizeMode="contain"
+              onLoad={(event) => {
+                const { width, height } = event.nativeEvent.source;
+                setAspectRatio(width / height);
+              }}
+            />
+          ) : (
+            <View className="h-24 bg-gray-400" />
+          )}
           <Text style={{ color: foregroundColor }}>{logoText}</Text>
         </View>
 
         <View className="relative">
-          {stripBase64 ? (
+          {stripUrl ? (
             <ImageBackground
               style={{ height: stripHeight }}
               resizeMode="cover"
-              source={{ uri: `data:image/png;base64,${stripBase64}` }}
+              source={{ uri: stripUrl }}
             >
               {primaryFields.map(() => {
                 // no text for now

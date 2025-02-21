@@ -73,7 +73,7 @@ export function PassTemplateBlock({
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
-        <CardTitle>{passTemplate.templateName}</CardTitle>
+        <CardTitle>{passTemplate.name}</CardTitle>
 
         <AlertDialog>
           <AlertDialogTrigger asChild>

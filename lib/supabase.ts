@@ -1,9 +1,8 @@
-import { createClient, Session } from "@supabase/supabase-js";
-import { decode } from "base64-arraybuffer";
+import { createClient } from "@supabase/supabase-js";
+import { Buffer } from "buffer";
 import { AppState } from "react-native";
 import "react-native-get-random-values";
 import { LargeSecureStore } from "~/lib/large-secure-store";
-import { logger } from "~/lib/utils";
 import { Database } from "~/types/database.types";
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
@@ -30,31 +29,10 @@ AppState.addEventListener("change", (state) => {
   }
 });
 
-export async function uploadImage(
-  uri: string,
-  base64: string,
-  session: Session
-) {
-  const response = await fetch(uri);
-  const fileName = uri.split("/").filter(Boolean).pop();
-  const mimeType = response.headers.get("Content-Type");
-  const userId = session.user.id;
-  const uploadName = `${userId}/${fileName}`;
-
-  const { data: upload, error: uploadError } = await supabase.storage
-    .from("images")
-    .upload(uploadName, decode(base64), {
-      contentType: mimeType ?? "",
-      cacheControl: "3600",
-      upsert: true,
-    });
-
-  if (uploadError) {
-    console.error(uploadError);
-    return new Response("Failed to upload the file", {
-      headers: { "Content-Type": "application/json" },
-      status: 500,
-    });
-  }
-  logger.info(upload);
+export async function uploadImage(base64: string, path: string) {
+  const buffer = Buffer.from(base64, "base64");
+  const response = await supabase.storage.from("images").upload(path, buffer, {
+    contentType: "image/png",
+  });
+  return response;
 }

@@ -30,7 +30,6 @@ export default function PassTemplates() {
       revalidateOnReconnect: false,
     }
   );
-
   if (!userData) {
     return (
       <View className="flex-1 p-8 gap-4">
@@ -39,7 +38,7 @@ export default function PassTemplates() {
           <Text>お店情報の設定に進む</Text>
         </Button>
         <Text>2. テンプレートを作成する</Text>
-        <Button onPress={() => router.navigate("/(app)/new-template")}>
+        <Button onPress={() => router.navigate("pass-templates/new-template")}>
           <Text>テンプレートの作成に進む</Text>
         </Button>
         <Text>3. パスを発行する</Text>

@@ -1,8 +1,10 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpsertMutation } from "@supabase-cache-helpers/postgrest-swr";
+import { getTime } from "date-fns";
+import { Image } from "expo-image";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { Image, ScrollView, View } from "react-native";
+import { ScrollView, View } from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
@@ -11,25 +13,23 @@ import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { defaultImages } from "~/lib/constants";
-import { supabase } from "~/lib/supabase";
+import { supabase, uploadImage } from "~/lib/supabase";
 import { cn, logger, pickImage } from "~/lib/utils";
 
 type FormData = {
   organizationName: string;
-  iconBase64: string;
-  logoBase64: string;
+  logoUrl: string;
 };
 
 const signUpSchema = z.object({
   organizationName: z.string(),
-  iconBase64: z.string(),
-  logoBase64: z.string(),
+  logoUrl: z.string(),
 });
 
 export default function Store() {
-  const { session, setUser, user } = useContext(AuthContext);
+  const { setUser, user } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
+
   const { trigger: upsert } = useUpsertMutation(
     supabase.from("users"),
     ["id"],
@@ -42,23 +42,39 @@ export default function Store() {
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       organizationName: user?.name ?? "",
-      iconBase64: user?.iconBase64 ?? defaultImages.iconBase64, // always empty for now
-      logoBase64: user?.logoBase64 ?? defaultImages.logoBase64,
+      logoUrl: user?.logoUrl ?? "",
     },
   });
-  const onSubmit: SubmitHandler<FormData> = async (formData) => {
-    const { organizationName, iconBase64, logoBase64 } = formData;
-    const userId = session?.user.id;
 
+  if (!user) {
+    return null;
+  }
+
+  // iOS: logo.png 160x50
+  // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
+  const pickLogo = async () => {
+    const logoBase64 = await pickImage(160, 50);
+    if (logoBase64) {
+      const path = `${user.id}/user/logo-${getTime(new Date())}.png`;
+      await uploadImage(logoBase64, path);
+      const logoUrl = supabase.storage.from("images").getPublicUrl(path)
+        .data.publicUrl;
+      setValue("logoUrl", logoUrl);
+    }
+  };
+
+  const onSubmit: SubmitHandler<FormData> = async (formData) => {
     setLoading(true);
 
     try {
+      const { organizationName, logoUrl } = formData;
+
+      // upsert user
       const res = await upsert([
         {
-          id: userId,
+          id: user.id,
           name: organizationName,
-          iconBase64: iconBase64,
-          logoBase64: logoBase64,
+          logoUrl,
         },
       ]);
       if (res === null) {
@@ -70,15 +86,6 @@ export default function Store() {
       logger.error(error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  // iOS: logo.png 160x50
-  // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
-  const pickLogo = async () => {
-    const image = await pickImage(160, 50);
-    if (image?.base64) {
-      setValue("logoBase64", image.base64);
     }
   };
 
@@ -118,8 +125,8 @@ export default function Store() {
               <Label>お店のロゴ</Label>
               <Image
                 className="h-16 border-1 border-border border"
-                resizeMode="contain"
-                source={{ uri: `data:image/png;base64,${watch("logoBase64")}` }}
+                contentFit="contain"
+                source={watch("logoUrl")}
               />
             </View>
 
