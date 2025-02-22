@@ -2,12 +2,13 @@
   "expo": {
     "name": "paww",
     "slug": "paww",
+    "owner": "oisujp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./assets/images/splash.png",
+      "image": "./assets/images/logo.svg",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -49,6 +50,15 @@
         "expo-image-picker",
         {
           "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      ],
+      [
+        "expo-asset",
+        {
+          "assets": [
+            "./assets/images/logo.svg",
+            "./assets/images/pass-template.svg"
+          ]
         }
       ]
     ],

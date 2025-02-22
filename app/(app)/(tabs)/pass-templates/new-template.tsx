@@ -1,4 +1,3 @@
-import AntDesign from "@expo/vector-icons/AntDesign";
 import { zodResolver } from "@hookform/resolvers/zod";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -67,22 +66,6 @@ export default function NewTemplate() {
     supabase.from("passTemplates"),
     ["id"]
   );
-
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: () => (
-        <Button
-          variant="ghost"
-          onPress={() => {
-            navigation.goBack();
-          }}
-          className="-ml-4"
-        >
-          <AntDesign name="close" size={18} color="black" />
-        </Button>
-      ),
-    });
-  }, [navigation]);
 
   const { control, handleSubmit, watch, setValue } = useForm<
     z.infer<typeof templateSchema>

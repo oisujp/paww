@@ -1,12 +1,12 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Image } from "expo-image";
 import { useNavigation, useRouter } from "expo-router";
 import { useContext, useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { ActivityIndicator, Alert, SafeAreaView, View } from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
@@ -66,76 +66,83 @@ export default function SignUp() {
   }, [session, router]);
 
   return (
-    <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
-      <Card className="w-full max-w-sm p-6 rounded-2xl">
-        <CardTitle className="pb-2 text-center">新規登録</CardTitle>
-        <CardContent>
-          <View className="flex gap-2 py-6">
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  placeholder="メールアドレス"
-                  inputMode="email"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="email"
-            />
-            <Text className="text-sm text-destructive">
-              <ErrorMessage errors={errors} name="email" />
-            </Text>
+    <SafeAreaView className="flex flex-1 bg-background">
+      <View className="top-[55px] flex items-center">
+        <Image
+          source={require("../../assets/images/logo.svg")}
+          className="w-[167px] h-[44px]"
+        />
+      </View>
 
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  placeholder="パスワード"
-                  inputMode="text"
-                  secureTextEntry
-                  autoCapitalize="none"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="password"
+      <View className="w-full flex flex-1 justify-center p-6">
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              placeholder="メールアドレス"
+              inputMode="email"
+              autoCorrect={false}
+              autoCapitalize="none"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
             />
-            <Text className="text-sm text-destructive">
-              <ErrorMessage errors={errors} name="password" />
-            </Text>
-          </View>
+          )}
+          name="email"
+        />
+        <View className="min-h-4">
+          <Text className="text-sm text-destructive">
+            <ErrorMessage errors={errors} name="email" />
+          </Text>
+        </View>
+
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <Input
+              placeholder="パスワード"
+              inputMode="text"
+              secureTextEntry
+              autoCapitalize="none"
+              onBlur={onBlur}
+              onChangeText={onChange}
+              value={value}
+            />
+          )}
+          name="password"
+        />
+        <View className="min-h-4">
+          <Text className="text-sm text-destructive">
+            <ErrorMessage errors={errors} name="password" />
+          </Text>
+        </View>
+
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          disabled={loading}
+          className="flex flex-row gap-2"
+        >
+          {loading && (
+            <ActivityIndicator className={cn(!loading && "hidden")} />
+          )}
+          <Text>新規登録</Text>
+        </Button>
+
+        <View className="my-4">
           <Button
-            onPress={handleSubmit(onSubmit)}
-            disabled={loading}
-            className="flex flex-row gap-2"
+            variant="ghost"
+            onPress={() => router.replace("/(auth)/sign-in")}
           >
-            {loading && (
-              <ActivityIndicator className={cn(!loading && "hidden")} />
-            )}
-            <Text>新規登録</Text>
+            <Text>すでにアカウントをお持ちの方はこちら</Text>
           </Button>
-
-          <View className="my-4">
-            <Button
-              variant="ghost"
-              onPress={() => router.replace("/(auth)/sign-in")}
-            >
-              <Text>すでにアカウントをお持ちの方はこちら</Text>
-            </Button>
-          </View>
-        </CardContent>
-      </Card>
-    </View>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }

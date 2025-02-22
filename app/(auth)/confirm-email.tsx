@@ -24,8 +24,10 @@ export default function ConfirmEmail() {
   }
 
   return (
-    <View className="flex-1 justify-center items-center p-6 gap-6">
-      <Text>メールアドレスに確認メールを送信しました。</Text>
+    <View className="flex-1 justify-center p-6 gap-6">
+      <Text className="text-center">
+        メールアドレスに確認メールを送信しました。
+      </Text>
       <Button onPress={() => router.replace("/sign-in")}>
         <Text>戻る</Text>
       </Button>

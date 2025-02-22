@@ -5,7 +5,7 @@ export default function PassTemplatesLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="pass-templates"
+        name="home"
         options={{
           title: "テンプレート一覧",
           headerRight: () => {
@@ -17,7 +17,6 @@ export default function PassTemplatesLayout() {
         name="new-template"
         options={{
           title: "テンプレートを作成",
-          presentation: "modal",
         }}
       />
       <Stack.Screen

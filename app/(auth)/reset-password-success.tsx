@@ -7,11 +7,13 @@ export default function ResetPasswordSuccess() {
   const router = useRouter();
 
   return (
-    <View className="flex-1 justify-center items-center p-6 gap-6">
+    <View className="flex flex-1 w-full">
       <Text>パスワードリセットのメールを送信しました。</Text>
-      <Button onPress={() => router.replace("/")}>
-        <Text>戻る</Text>
-      </Button>
+      <View>
+        <Button onPress={() => router.replace("/")} className="flex w-full">
+          <Text>戻る</Text>
+        </Button>
+      </View>
     </View>
   );
 }

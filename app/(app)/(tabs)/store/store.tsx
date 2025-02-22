@@ -4,17 +4,16 @@ import { getTime } from "date-fns";
 import { Image } from "expo-image";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { ScrollView, View } from "react-native";
+import { SafeAreaView, ScrollView, View } from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { supabase, uploadImage } from "~/lib/supabase";
-import { cn, logger, pickImage } from "~/lib/utils";
+import { logger, pickImage } from "~/lib/utils";
 
 type FormData = {
   organizationName: string;
@@ -90,58 +89,49 @@ export default function Store() {
   };
 
   return (
-    <ScrollView contentContainerClassName="flex-1">
-      <View
-        className={cn(
-          "flex-1 items-center justify-between gap-5 p-6 bg-secondary/30"
-        )}
-      >
-        <Card className="w-full max-w-sm">
-          <CardHeader>
-            <CardTitle>お店情報</CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4">
-            <View className="grid gap-2">
-              <Label>お店の名前</Label>
-              <Controller
-                control={control}
-                rules={{
-                  required: true,
-                }}
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <Input
-                    placeholder="お店の名前"
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    onBlur={onBlur}
-                    onChangeText={onChange}
-                    value={value}
-                  />
-                )}
-                name="organizationName"
-              />
-            </View>
-            <View className="grid gap-2">
-              <Label>お店のロゴ</Label>
-              <Image
-                className="h-16 border-1 border-border border"
-                contentFit="contain"
-                source={watch("logoUrl")}
-              />
-            </View>
-
-            <Button variant="secondary" onPress={pickLogo} className="my-4">
+    <SafeAreaView className="flex-1">
+      <ScrollView contentContainerClassName="flex-1 items-center justify-between p-6 bg-background">
+        <View className="grid gap-6 w-full">
+          <View className="grid gap-2">
+            <Label>お店のロゴ</Label>
+            <Image
+              className="h-16 my-8"
+              contentFit="contain"
+              source={watch("logoUrl")}
+            />
+            <Button variant="outline" onPress={pickLogo}>
               <Text>画像を選択</Text>
             </Button>
-          </CardContent>
-        </Card>
+          </View>
+
+          <View className="grid gap-2">
+            <Label>お店の名前</Label>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, onBlur, value } }) => (
+                <Input
+                  placeholder="お店の名前"
+                  autoCorrect={false}
+                  autoCapitalize="none"
+                  onBlur={onBlur}
+                  onChangeText={onChange}
+                  value={value}
+                />
+              )}
+              name="organizationName"
+            />
+          </View>
+        </View>
 
         <View className="w-full gap-4">
           <Button onPress={handleSubmit(onSubmit)} disabled={loading}>
             <Text>保存</Text>
           </Button>
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
