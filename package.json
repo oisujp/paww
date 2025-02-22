@@ -10,7 +10,8 @@
     "web": "expo start -c --web",
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
-    "lint": "eslint . && tsc"
+    "lint": "eslint . && tsc",
+    "generate:types": "rm -f types/database.types.ts && supabase gen types typescript --linked > types/database.types.ts"
   },
   "dependencies": {
     "@hookform/error-message": "^2.0.1",
@@ -39,9 +40,9 @@
     "@rn-primitives/toggle-group": "^1.1.0",
     "@rn-primitives/tooltip": "~1.1.0",
     "@rn-primitives/types": "~1.1.0",
-    "@supabase-cache-helpers/postgrest-swr": "^1.10.5",
-    "@supabase/postgrest-js": "^1.16.3",
-    "@supabase/supabase-js": "^2.47.10",
+    "@supabase-cache-helpers/postgrest-swr": "^1.10.6",
+    "@supabase/postgrest-js": "1.16.3",
+    "@supabase/supabase-js": "2.46.1",
     "aes-js": "^3.1.2",
     "base64-arraybuffer": "^1.0.2",
     "class-variance-authority": "^0.7.1",
