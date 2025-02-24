@@ -1,6 +1,7 @@
 import { Session } from "@supabase/supabase-js";
 import { makeRedirectUri } from "expo-auth-session";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
+import Constants from "expo-constants";
 import {
   createContext,
   useEffect,
@@ -8,7 +9,6 @@ import {
   type PropsWithChildren,
 } from "react";
 import { Alert } from "react-native";
-import { bundleIdentifier } from "~/lib/constants";
 import { supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { User } from "~/types/supabase";
@@ -59,6 +59,11 @@ export function AuthProvider({ children }: PropsWithChildren) {
     })();
   }, [session]);
 
+  const scheme = Constants.expoConfig?.scheme;
+  if (typeof scheme !== "string") {
+    return null;
+  }
+
   return (
     <AuthContext.Provider
       value={{
@@ -69,7 +74,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
               password,
               options: {
                 emailRedirectTo: makeRedirectUri({
-                  scheme: bundleIdentifier,
+                  scheme,
                   path: "confirm-email",
                 }),
               },
@@ -111,7 +116,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           try {
             await supabase.auth.resetPasswordForEmail(email, {
               redirectTo: makeRedirectUri({
-                scheme: bundleIdentifier,
+                scheme,
                 path: "change-password",
               }),
             });
