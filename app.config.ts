@@ -1,8 +1,11 @@
 import { ConfigContext } from "expo/config";
-import { bundleIdentifier } from "~/lib/constants";
 
 const IS_DEV = process.env.APP_VARIANT === "development";
 const IS_PREVIEW = process.env.APP_VARIANT === "preview";
+const bundleIdentifier =
+  process.env.APP_VARIANT === "development"
+    ? "jp.oisu.paww.dev"
+    : "jp.oisu.paww";
 
 const getAppName = () => {
   if (IS_DEV) {
