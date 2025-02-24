@@ -1,8 +1,7 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
-import { useState } from "react";
-import { Dimensions, Image, ImageBackground, Text, View } from "react-native";
+import { Image } from "expo-image";
+import { Dimensions, ImageBackground, Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
-import { v4 as uuidv4 } from "uuid";
 import { ZigZagView } from "~/components/zig-zag-view";
 import { supabase } from "~/lib/supabase";
 import { parseCoupon } from "~/lib/utils";
@@ -16,8 +15,6 @@ export function PassTemplateImage({
   passTemplateProps?: PassTemplateProps;
   showBarcode?: boolean;
 }) {
-  const [aspectRatio, setAspectRatio] = useState(1);
-
   const { data: passTemplateData } = useQuery(
     passTemplateId
       ? supabase
@@ -51,31 +48,32 @@ export function PassTemplateImage({
   } = passTemplate;
 
   const screenWidth = Dimensions.get("screen").width;
-  const headerHeight = Math.round((screenWidth * 55) / 320);
   const stripHeight = Math.round((screenWidth * 123) / 320);
 
   return (
     <ZigZagView backgroundColor={backgroundColor} paddingX={42}>
       <View style={{ backgroundColor }}>
-        <View className={`p-2 pt-0 flex flex-row gap-4 items-center`}>
+        <View
+          className={`pr-2 pt-0 flex flex-row gap-2 items-center justify-start`}
+        >
           {logoUrl ? (
             <Image
               source={{ uri: logoUrl }}
               style={{
-                height: headerHeight,
-                aspectRatio,
-                alignSelf: "flex-start",
+                height: 60,
+                minWidth: 60,
               }}
-              resizeMode="contain"
-              onLoad={(event) => {
-                const { width, height } = event.nativeEvent.source;
-                setAspectRatio(width / height);
-              }}
+              contentFit="contain"
             />
           ) : (
             <View className="h-24 bg-gray-400" />
           )}
-          <Text style={{ color: foregroundColor }}>{logoText}</Text>
+          <Text
+            style={{ color: foregroundColor }}
+            className="font-bold text-base"
+          >
+            {logoText}
+          </Text>
         </View>
 
         <View className="relative">
@@ -95,15 +93,18 @@ export function PassTemplateImage({
           )}
         </View>
 
-        <View className="py-1 px-3 grid gap-4">
+        <View className="py-1 px-3 grid gap-2">
           {secondaryFields?.map((p) => {
             return (
-              <View key={uuidv4()}>
-                <Text className="text-lg" style={{ color: labelColor }}>
+              <View key={p.key}>
+                <Text className="text-sm" style={{ color: labelColor }}>
                   {p.label}
                 </Text>
                 {p.value ? (
-                  <Text className="text-2xl" style={{ color: foregroundColor }}>
+                  <Text
+                    className="text-base"
+                    style={{ color: foregroundColor }}
+                  >
                     {p.value}
                   </Text>
                 ) : (

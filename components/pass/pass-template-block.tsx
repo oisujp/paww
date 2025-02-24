@@ -3,9 +3,9 @@ import {
   useUpdateMutation,
 } from "@supabase-cache-helpers/postgrest-swr";
 import { Link } from "expo-router";
-import * as WebBrowser from "expo-web-browser";
 import { useContext } from "react";
 import { Text } from "react-native";
+import DeliveryPass from "~/app/(app)/(tabs)/pass-templates/delivery-pass";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import {
   AlertDialog,
@@ -29,7 +29,7 @@ export function PassTemplateBlock({
 }: {
   passTemplateId: string;
 }) {
-  const { loading, setLoading } = useContext(NavigationContext);
+  const { setLoading } = useContext(NavigationContext);
   const { data: passTemplate } = useQuery(
     supabase
       .from("passTemplates")
@@ -65,11 +65,6 @@ export function PassTemplateBlock({
     }
   };
 
-  const onPressOpenWeb = async () => {
-    const url = `${process.env.EXPO_PUBLIC_PAWW_BACKEND_URL}/p/${passTemplate.id}`;
-    await WebBrowser.openBrowserAsync(url);
-  };
-
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -103,14 +98,7 @@ export function PassTemplateBlock({
         <Text>テンプレート作成日: {passTemplate.createdAt}</Text>
         <PassTemplateImage passTemplateId={passTemplate.id} />
 
-        <Button
-          variant="secondary"
-          className="my-3"
-          disabled={loading}
-          onPress={onPressOpenWeb}
-        >
-          <Text>配布用ページを表示する</Text>
-        </Button>
+        <DeliveryPass passTemplateId={passTemplate.id} />
 
         <Link
           href={{

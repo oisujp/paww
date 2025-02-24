@@ -36,3 +36,21 @@ export async function uploadImage(base64: string, path: string) {
   });
   return response;
 }
+
+export async function fetchWithToken(url: string, params: object) {
+  const { data } = await supabase.auth.getSession();
+  const token = data.session?.access_token;
+
+  if (!token) {
+    return;
+  }
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(params),
+  });
+  return await response.json();
+}

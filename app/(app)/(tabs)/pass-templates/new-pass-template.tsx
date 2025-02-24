@@ -1,12 +1,14 @@
+import { ErrorMessage } from "@hookform/error-message";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
 import { useInsertMutation } from "@supabase-cache-helpers/postgrest-swr";
 import { format, getTime } from "date-fns";
 import { useNavigation, useRouter } from "expo-router";
+import { Share } from "lucide-react-native";
 import React, { useContext, useEffect, useState } from "react";
-import { Controller, SubmitHandler, useFormContext } from "react-hook-form";
-import { ActivityIndicator, Image, ScrollView, View } from "react-native";
+import { Controller, useFormContext } from "react-hook-form";
+import { Image, ScrollView, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
@@ -17,12 +19,10 @@ import { Menubar, MenubarMenu, MenubarTrigger } from "~/components/ui/menubar";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { passBase } from "~/lib/constants";
-import { supabase, uploadImage } from "~/lib/supabase";
+import { passBase, themeColors } from "~/lib/constants";
+import { fetchWithToken, supabase, uploadImage } from "~/lib/supabase";
 import { cn, logger, pickImage } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
-
-type FormData = z.infer<typeof passTemplateSchema>;
 
 export default function NewPassTemplate() {
   const { user, session } = useContext(AuthContext);
@@ -39,11 +39,19 @@ export default function NewPassTemplate() {
 
   const { trigger: insert } = useInsertMutation(
     supabase.from("passTemplates"),
-    ["id"]
+    ["id"],
+    "id"
   );
 
-  const { control, handleSubmit, watch, setValue } =
+  const { control, handleSubmit, watch, setValue, getValues, reset, trigger } =
     useFormContext<z.infer<typeof passTemplateSchema>>();
+
+  useEffect(() => {
+    return () => {
+      reset();
+      setValue("id", uuidv4());
+    };
+  }, [reset, setValue]);
 
   useEffect(() => {
     if (user?.name) {
@@ -77,7 +85,11 @@ export default function NewPassTemplate() {
     },
   ];
 
-  const onSubmit: SubmitHandler<FormData> = async (formData) => {
+  const onSubmit = async () => {
+    if (!(await trigger())) {
+      logger.error("form error");
+      return "";
+    }
     const userId = session?.user.id;
     if (!userId) {
       return;
@@ -91,11 +103,12 @@ export default function NewPassTemplate() {
       labelColor,
       stripUrl,
       logoText,
-    } = formData;
+    } = getValues();
     const { teamIdentifier, passTypeIdentifier } = passBase;
 
     try {
-      await insert([
+      // insert passTemplate
+      const res = await insert([
         {
           name,
           userId,
@@ -118,6 +131,20 @@ export default function NewPassTemplate() {
           },
         },
       ]);
+
+      if (!res || res.length === 0) {
+        throw "insert passTemplate error";
+      }
+
+      // insert google offer class
+      const passTemplateId = res[0].id;
+      const url =
+        process.env.EXPO_PUBLIC_PAWW_BASE_URL +
+        "/api/google/create-coupon-template";
+
+      const fetchResult = await fetchWithToken(url, { passTemplateId });
+      logger.info(fetchResult);
+
       navigation.goBack();
     } catch (error) {
       logger.error(error);
@@ -128,7 +155,7 @@ export default function NewPassTemplate() {
     try {
       setLoading(true);
 
-      const stripBase64 = await pickImage(160, 50);
+      const stripBase64 = await pickImage(undefined, 450);
 
       if (stripBase64) {
         const path = `${user.id}/pass-templates/${watch("id")}/strip-${getTime(
@@ -206,16 +233,13 @@ export default function NewPassTemplate() {
           )}
 
           <Button
-            variant="secondary"
+            variant="outline"
             onPress={pickStrip}
             disabled={loading}
-            className="flex flex-row gap-2"
+            className="rounded-lg flex flex-row text-primary gap-2"
           >
-            {loading ? (
-              <ActivityIndicator className={cn(!loading && "hidden")} />
-            ) : (
-              <Text>画像を選択</Text>
-            )}
+            <Share width={15} height={16} color={themeColors.primary} />
+            <Text>画像を選択する</Text>
           </Button>
 
           <Label>特典</Label>
@@ -236,6 +260,9 @@ export default function NewPassTemplate() {
             )}
             name="passContentValue"
           />
+          <Text className="text-sm text-destructive">
+            <ErrorMessage name="passContentValue" />
+          </Text>
 
           <Label>有効期限</Label>
           <View

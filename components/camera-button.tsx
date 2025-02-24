@@ -9,7 +9,7 @@ export default function CameraButton() {
   const { width } = useWindowDimensions();
   const buttonSize = 60;
   return (
-    <Link asChild href="(tabs)/pass-templates/new-pass-template">
+    <Link asChild href={{ pathname: "pass-templates/new-pass-template" }}>
       <Button
         className={cn(
           "absolute z-20 rounded-full bg-white text-primary border-primary border-2",

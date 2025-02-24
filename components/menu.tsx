@@ -1,4 +1,4 @@
-import { useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { AlignJustify } from "lucide-react-native";
 import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,7 +15,7 @@ import { AuthContext } from "~/contexts/auth-context";
 export function Menu() {
   const contentInsets = useSafeAreaInsets();
   const { signOut } = useContext(AuthContext);
-  const router = useRouter();
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -24,13 +24,37 @@ export function Menu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent insets={contentInsets} className="w-64 native:w-72">
-        <DropdownMenuItem
-          onPress={() => {
-            router.navigate("/debug");
-          }}
-        >
-          <Text>デバッグ</Text>
-        </DropdownMenuItem>
+        <Link asChild href={{ pathname: "debug" }}>
+          <DropdownMenuItem>
+            <Text>デバッグ</Text>
+          </DropdownMenuItem>
+        </Link>
+
+        <Link asChild href={"https://paww.jp/"}>
+          <DropdownMenuItem>
+            <Text>Webサイト</Text>
+          </DropdownMenuItem>
+        </Link>
+        <Link asChild href={"https://oisu.jp/"}>
+          <DropdownMenuItem>
+            <Text>運営会社</Text>
+          </DropdownMenuItem>
+        </Link>
+        <Link asChild href={{ pathname: "license" }}>
+          <DropdownMenuItem>
+            <Text>ライセンス情報</Text>
+          </DropdownMenuItem>
+        </Link>
+        <Link asChild href={{ pathname: "license" }}>
+          <DropdownMenuItem>
+            <Text>プライバシーポリシー</Text>
+          </DropdownMenuItem>
+        </Link>
+        <Link asChild href={{ pathname: "license" }}>
+          <DropdownMenuItem>
+            <Text>利用規約</Text>
+          </DropdownMenuItem>
+        </Link>
         <DropdownMenuItem
           onPress={() => {
             try {

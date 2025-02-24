@@ -1,4 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
+import { addMonths, startOfDay } from "date-fns";
 import { Stack } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
@@ -8,6 +9,8 @@ import { passBase } from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
 
 export default function PassTemplatesLayout() {
+  const sampleStripUrl =
+    "https://ndhmdespsfgginfazkds.supabase.co/storage/v1/object/public/images/1c60c02e-18e6-473e-9ef0-94d12ead2b56/user/logo-1740107365121.png";
   const form = useForm<z.infer<typeof passTemplateSchema>>({
     resolver: zodResolver(passTemplateSchema),
     defaultValues: {
@@ -19,6 +22,8 @@ export default function PassTemplatesLayout() {
       labelColor: passBase.labelColor,
       foregroundColor: passBase.foregroundColor,
       backgroundColor: passBase.backgroundColor,
+      expirationDate: startOfDay(addMonths(new Date(), 1)),
+      stripUrl: sampleStripUrl,
     },
   });
 
@@ -35,7 +40,7 @@ export default function PassTemplatesLayout() {
           }}
         />
         <Stack.Screen
-          name="new-template"
+          name="new-pass-template"
           options={{
             title: "テンプレートを作成",
           }}

@@ -6,7 +6,9 @@ export const passTemplateSchema = z.object({
   logoText: z.string(),
   description: z.string(),
   passContentLabel: z.string(),
-  passContentValue: z.string(),
+  passContentValue: z
+    .string()
+    .min(1, { message: "特典の内容を入力してください" }),
   stripUrl: z.string(),
   expirationDate: z.date(),
   labelColor: z.string(),

@@ -2,15 +2,14 @@
   "name": "@oisu/paww",
   "version": "1.0.0",
   "scripts": {
-    "dev": "expo start -c --ios",
-    "dev:web": "expo start -c --web",
-    "dev:android": "expo start -c --android",
-    "android": "expo start -c --android",
-    "ios": "expo start -c --ios",
-    "web": "expo start -c --web",
+    "dev": "APP_VARIANT=development npx expo start",
+    "ios": "APP_VARIANT=development npx expo start -c --ios",
+    "android": "APP_VARIANT=development npx expo start -c --android",
     "clean": "rm -rf .expo node_modules",
-    "postinstall": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
+    "postinstall": "npm run generate:tailwind && npm run generate:license",
     "lint": "eslint . && tsc",
+    "generate:tailwind": "npx tailwindcss -i ./global.css -o ./node_modules/.cache/nativewind/global.css",
+    "generate:license": "license-checker --production --customPath ./src/oss-license-format.json  --json --direct --out ./oss-license.json",
     "generate:types": "rm -f types/database.types.ts && supabase gen types typescript --linked > types/database.types.ts"
   },
   "dependencies": {
@@ -52,6 +51,7 @@
     "expo-asset": "~11.0.4",
     "expo-auth-session": "^6.0.1",
     "expo-camera": "~16.0.10",
+    "expo-clipboard": "~7.0.1",
     "expo-dev-client": "~5.0.8",
     "expo-image": "~2.0.6",
     "expo-image-manipulator": "~13.0.5",
@@ -101,6 +101,7 @@
     "dotenv": "^16.4.7",
     "eslint": "^8.57.0",
     "eslint-config-expo": "~8.0.1",
+    "license-checker": "^25.0.1",
     "typescript": "^5.7.2"
   },
   "private": true

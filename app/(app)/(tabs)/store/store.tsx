@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useUpsertMutation } from "@supabase-cache-helpers/postgrest-swr";
 import { getTime } from "date-fns";
 import { Image } from "expo-image";
+import { Share } from "lucide-react-native";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { SafeAreaView, ScrollView, View } from "react-native";
@@ -12,6 +13,7 @@ import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
+import { themeColors } from "~/lib/constants";
 import { supabase, uploadImage } from "~/lib/supabase";
 import { logger, pickImage } from "~/lib/utils";
 
@@ -52,7 +54,7 @@ export default function Store() {
   // iOS: logo.png 160x50
   // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
   const pickLogo = async () => {
-    const logoBase64 = await pickImage(160, 50);
+    const logoBase64 = await pickImage(undefined, 105);
     if (logoBase64) {
       const path = `${user.id}/user/logo-${getTime(new Date())}.png`;
       await uploadImage(logoBase64, path);
@@ -99,8 +101,13 @@ export default function Store() {
               contentFit="contain"
               source={watch("logoUrl")}
             />
-            <Button variant="outline" onPress={pickLogo}>
-              <Text>画像を選択</Text>
+            <Button
+              variant="outline"
+              onPress={pickLogo}
+              className="rounded-lg flex flex-row text-primary gap-2"
+            >
+              <Share width={15} height={16} color={themeColors.primary} />
+              <Text>画像を選択する</Text>
             </Button>
           </View>
 

@@ -31,7 +31,7 @@ function resizeWithAspectRatio(
   return { width, height };
 }
 
-export const pickImage = async (width: number, height: number) => {
+export const pickImage = async (maxWidth?: number, maxHeight?: number) => {
   // No permissions request is necessary for launching the image library
   let result = await ImagePicker.launchImageLibraryAsync({
     mediaTypes: ["images"],
@@ -48,8 +48,8 @@ export const pickImage = async (width: number, height: number) => {
   const newSize = resizeWithAspectRatio(
     pickedImage.width,
     pickedImage.height,
-    width,
-    height
+    maxWidth,
+    maxHeight
   );
   const resized = await ImageManipulator.manipulate(uri).resize({
     width: newSize.width,

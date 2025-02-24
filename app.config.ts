@@ -1,3 +1,5 @@
+import { ConfigContext } from "expo/config";
+
 const IS_DEV = process.env.APP_VARIANT === "development";
 
 const getUniqueIdentifier = () => {
@@ -12,33 +14,19 @@ const getAppName = () => {
   }
   return "paww";
 };
-const getSlug = () => {
-  if (IS_DEV) {
-    return "paww-dev";
-  }
-  return "paww";
-};
-const getProjectId = () => {
-  if (IS_DEV) {
-    return "f12ebb4c-192a-4a9c-a23f-322be40f5527";
-  }
-  return "b924bd99-e83f-4e59-8394-eac010d4a470";
-};
 
-export default {
-  name: getAppName(),
-  scheme: getUniqueIdentifier(),
-  ios: {
-    bundleIdentifier: getUniqueIdentifier(),
-  },
-  android: {
-    package: getUniqueIdentifier(),
-  },
-  slug: getSlug(),
-  owner: "oisujp",
-  extra: {
-    eas: {
-      projectId: getProjectId(),
+export default ({ config }: ConfigContext) => {
+  return {
+    ...config,
+    name: getAppName(),
+    scheme: getUniqueIdentifier(),
+    ios: {
+      ...config.ios,
+      bundleIdentifier: getUniqueIdentifier(),
     },
-  },
+    android: {
+      ...config.android,
+      package: getUniqueIdentifier(),
+    },
+  };
 };

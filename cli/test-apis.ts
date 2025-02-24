@@ -6,7 +6,7 @@ dotenv.config({ path: ".env.local" });
 
 const SUPABASE_URL = process.env.EXPO_PUBLIC_SUPABASE_URL!;
 const SUPABASE_ANON_KEY = process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY!;
-const PAWW_BACKEND_URL = process.env.EXPO_PUBLIC_PAWW_BACKEND_URL!;
+const PAWW_BASE_URL = process.env.EXPO_PUBLIC_PAWW_BASE_URL!;
 
 // Initialize Supabase client
 const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
@@ -43,7 +43,7 @@ async function testSupabaseDatabase() {
 // Test paww Backend
 async function testPawwBackend() {
   try {
-    const response = await axios.get(PAWW_BACKEND_URL + "/api/hello-world");
+    const response = await axios.get(PAWW_BASE_URL + "/api/hello-world");
     console.log("✅ paww Backend Response:", response.data);
   } catch (error) {
     console.error("❌ paww Backend Error:", error);

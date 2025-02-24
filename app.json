@@ -7,14 +7,18 @@
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
+    "jsEngine": "hermes",
     "splash": {
-      "image": "./assets/images/logo.svg",
+      "image": "./assets/images/logo.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      },
       "entitlements": {
         "com.apple.developer.pass-type-identifiers": [
           "$(TeamIdentifierPrefix)*"
@@ -69,6 +73,9 @@
     "extra": {
       "router": {
         "origin": false
+      },
+      "eas": {
+        "projectId": "b924bd99-e83f-4e59-8394-eac010d4a470"
       }
     },
     "runtimeVersion": {
