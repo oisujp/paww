@@ -5,7 +5,7 @@ import {
   ThemeProvider as RNThemeProvider,
   Theme,
 } from "@react-navigation/native";
-import { SplashScreen } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { createContext, PropsWithChildren, useEffect, useState } from "react";
 import { Platform } from "react-native";
 import { setAndroidNavigationBar } from "~/lib/android-navigation-bar";

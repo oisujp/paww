@@ -62,7 +62,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (session) {
-      router.replace("/(tabs)");
+      router.replace("/(app)/(tabs)");
     }
   }, [session, router]);
 

@@ -8,6 +8,7 @@ import {
   type PropsWithChildren,
 } from "react";
 import { Alert } from "react-native";
+import { bundleIdentifier } from "~/lib/constants";
 import { supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { User } from "~/types/supabase";
@@ -68,6 +69,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
               password,
               options: {
                 emailRedirectTo: makeRedirectUri({
+                  scheme: bundleIdentifier,
                   path: "confirm-email",
                 }),
               },
@@ -109,6 +111,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           try {
             await supabase.auth.resetPasswordForEmail(email, {
               redirectTo: makeRedirectUri({
+                scheme: bundleIdentifier,
                 path: "change-password",
               }),
             });

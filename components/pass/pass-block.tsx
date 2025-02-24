@@ -8,7 +8,7 @@ export function PassBlock({ pass }: { pass: Pass }) {
   return (
     <Link
       href={{
-        pathname: "pass-templates/pass",
+        pathname: "/pass-templates/pass",
         params: { passId: pass.id },
       }}
     >

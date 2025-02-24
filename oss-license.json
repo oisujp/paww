@@ -2097,19 +2097,6 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@firebase/auth-types/README.md",
     "licenseText": "# @firebase/auth-types\n\n**This package is not intended for direct usage, and should only be used via the officially supported [firebase](https://www.npmjs.com/package/firebase) package.**"
   },
-  "@firebase/auth@1.9.0": {
-    "licenses": "Apache-2.0",
-    "repository": "https://github.com/firebase/firebase-js-sdk",
-    "publisher": "Firebase",
-    "email": "firebase-support@google.com",
-    "url": "https://firebase.google.com/",
-    "errno": -2,
-    "code": "ENOENT",
-    "syscall": "open",
-    "path": "/Users/oisu/Workspace/paww/node_modules/@firebase/auth",
-    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@firebase/auth/README.md",
-    "licenseText": "# @firebase/auth\n\nThis is the Firebase Authentication component of the Firebase JS SDK.\n\n**This package is not intended for direct usage, and should only be used via the officially supported [firebase](https://www.npmjs.com/package/firebase) package.**\n\n## Testing\n\nThe modular Auth SDK has both unit tests and integration tests, along with a\nhost of npm scripts to run these tests. The most important commands are:\n\n| Command | Description |\n| ------- | ----------- |\n| `yarn test` | This will run lint, unit tests, and integration tests against the live environment|\n| `yarn test:<platform>` | Runs all browser tests, unit and integration |\n| `yarn test:<platform>:unit` | Runs only \\<platform> unit tests |\n| `yarn test:<platform>:unit:debug` | Runs \\<platform> unit tests, auto-watching for file system changes |\n| `yarn test:<platform>:integration` | Runs only integration tests against the live environment |\n| `yarn test:<platform>:integration:local` | Runs all headless \\<platform> integration tests against the emulator (more below) |\n| `yarn test:browser:integration:prodbackend` | Runs TOTP MFA integration tests against the backend (more below) |\n\nWhere \\<platform> is \"browser\" or \"node\". There are also cordova tests, but they\nare not broken into such granular details. Check out `package.json` for more.\n\n### Integration testing with the emulator\n\nTo test against the emulator, set up the Auth emulator\n([instructions](https://firebase.google.com/docs/emulator-suite/connect_and_prototype)).\nThe easiest way to run these tests is to use the `firebase emulators:exec`\ncommand\n([documentation](https://firebase.google.com/docs/emulator-suite/install_and_configure#startup)).\nYou can also manually start the emulator separately, and then point the tests\nto it by setting the `GCLOUD_PROJECT` and `FIREBASE_AUTH_EMULATOR_HOST`\nenvironmental variables. In addition to the commands listed above, the below\ncommands also run various tests:\n\n  * `yarn test:integration:local` — Executes Node and browser emulator\n    integration tests, as well as the Selenium WebDriver tests\n  \n  * `yarn test:webdriver` — Executes only the Selenium WebDriver\n    integration tests\n\nNote - The webdriver tests require the Chrome webdriver to match the version of Chrome running locally.\nIn the CI environment, this is ensured using the environment variable [here.](https://github.com/firebase/firebase-js-sdk/blob/6e80a678fe0c31046860554cec0459a2be34d22b/.github/workflows/test-changed-auth.yml#L7)\nWhen running locally, change the chromedriver version in [package.json](https://github.com/firebase/firebase-js-sdk/blob/6e80a678fe0c31046860554cec0459a2be34d22b/packages/auth/package.json#L124) to match your local Chrome version and run `yarn install`.\n\n\nFor example, to run all integration and WebDriver tests against the emulator,\nyou would simply execute the following command:\n\n```sh\nfirebase emulators:exec --project foo-bar --only auth \"yarn test:integration:local\"\n```\n\n### Integration testing with the production backend\n\nCurrently, MFA TOTP, password policy, and reCAPTCHA Enterprise phone verification tests only run \nagainst the production backend (since they are not supported on the emulator yet).\nRunning against the backend also makes it a more reliable end-to-end test.\n\n#### TOTP\n\nThe TOTP tests require the following email/password combination to exist in the project, so if you are running this test against your test project, please create this user:\n\n'totpuser-donotdelete@test.com', 'password'\n\nYou also need to verify this email address, in order to use MFA. This can be done with a curl command like this:\n\n```\ncurl   -H \"Authorization: Bearer $(gcloud auth print-access-token)\"   -H \"Content-Type: application/json\"   -H \"X-Goog-User-Project: ${PROJECT_ID}\"   -X POST https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode   -d     '{\n      \"email\": \"totpuser-donotdelete@test.com\",\n      \"requestType\": \"VERIFY_EMAIL\",\n      \"returnOobLink\": true,\n    }'\n```\n\n#### Password policy\n\nThe password policy tests require a tenant configured with a password policy that requires all options to exist in the project.\n\nIf you are running this test against your test project, please create the tenant and configure the policy with the following curl command:\n\n```\ncurl   -H \"Authorization: Bearer $(gcloud auth print-access-token)\"   -H \"Content-Type: application/json\"   -H \"X-Goog-User-Project: ${PROJECT_ID}\"   -X POST https://identitytoolkit.googleapis.com/v2/projects/${PROJECT_ID}/tenants   -d     '{\n      \"displayName\": \"passpol-tenant\",\n      \"passwordPolicyConfig\": {\n        \"passwordPolicyEnforcementState\": \"ENFORCE\",\n        \"passwordPolicyVersions\": [\n          {\n            \"customStrengthOptions\": {\n              \"minPasswordLength\": 8,\n              \"maxPasswordLength\": 24,\n              \"containsLowercaseCharacter\": true,\n              \"containsUppercaseCharacter\": true,\n              \"containsNumericCharacter\": true,\n              \"containsNonAlphanumericCharacter\": true\n            }\n          }\n        ]\n      }\n    }'\n```\n\nReplace the tenant ID `passpol-tenant-d7hha` in [test/integration/flows/password_policy.test.ts](https://github.com/firebase/firebase-js-sdk/blob/main/packages/auth/test/integration/flows/password_policy.test.ts) with the ID for the newly created tenant. The tenant ID can be found at the end of the `name` property in the response and is in the format `passpol-tenant-xxxxx`.\n\n#### reCAPTCHA Enterprise phone verification\n\nThe reCAPTCHA Enterprise phone verification tests require reCAPTCHA Enterprise to be enabled and\nthe following fictional phone number to be configured and in the project. \n\nIf you are running this\ntest against your project, please [add this test phone number](https://firebase.google.com/docs/auth/web/phone-auth#create-fictional-phone-numbers-and-verification-codes):\n\n'+1 555-555-1000', SMS code: '123456'\n\nFollow [this guide](https://cloud.google.com/identity-platform/docs/recaptcha-enterprise) to enable reCAPTCHA\nEnterprise, then use the following curl command to set reCAPTCHA Enterprise to ENFORCE for phone provider:\n\n```\ncurl   -H \"Authorization: Bearer $(gcloud auth print-access-token)\"   -H \"Content-Type: application/json\"   -H \"X-Goog-User-Project: $\n{PROJECT_ID}\"   -X POST https://identitytoolkit.googleapis.com/v2/projects/${PROJECT_ID}/config?updateMask=recaptchaConfig.phoneEnforcementState,recaptchaConfig.useSmsBotScore,recaptchaConfig.useSmsTollFraudProtection  -d '\n{\n  \"name\": \"projects/{PROJECT_ID}\",\n  \"recaptchaConfig\": {\n    \"phoneEnforcementState\": \"ENFORCE\",\n    \"useSmsBotScore\": \"true\",\n    \"useSmsTollFraudProtection\": \"true\",\n  },\n}'\n```\n\n### Selenium Webdriver tests\n\nThese tests assume that you have both Firefox and Chrome installed on your\ncomputer and in your `$PATH`. The tests will error out if this is not the case.\nThe WebDriver tests talk to the emulator, but unlike the headless integration\ntests, these run in a browser robot environment; the assertions themselves run\nin Node. When you run these tests a small Express server will be started to\nserve the static files the browser robot uses."
-  },
   "@firebase/component@0.6.12": {
     "licenses": "Apache-2.0",
     "repository": "https://github.com/firebase/firebase-js-sdk",
@@ -2527,7 +2514,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2019-present Beier(Bill) Luo\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2019-present Beier(Bill) Luo"
   },
-  "@hookform/resolvers@3.10.0": {
+  "@hookform/resolvers@4.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-hook-form/resolvers",
     "publisher": "bluebill1049",
@@ -3040,11 +3027,11 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@radix-ui/react-use-layout-effect/README.md",
     "licenseText": "# `react-use-layout-effect`\n\n## Installation\n\n```sh\n$ yarn add @radix-ui/react-use-layout-effect\n# or\n$ npm install @radix-ui/react-use-layout-effect\n```\n\n## Usage\n\nThis is an internal utility, not intended for public usage."
   },
-  "@react-native-async-storage/async-storage@1.23.1": {
+  "@react-native-async-storage/async-storage@2.1.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-async-storage/async-storage",
     "publisher": "Krzysztof Borowy",
-    "email": "hello@krizzu.dev",
+    "email": "contact@kborowy.com",
     "errno": -2,
     "code": "ENOENT",
     "syscall": "open",
@@ -3053,7 +3040,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2015-present, Facebook, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2015-present, Facebook, Inc."
   },
-  "@react-native-community/datetimepicker@8.2.0": {
+  "@react-native-community/datetimepicker@8.3.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-community/datetimepicker",
     "publisher": "Martijn Swaagman",
@@ -8137,7 +8124,7 @@
     "licenseText": "The ISC License\n\nCopyright (c) Isaac Z. Schlueter and Contributors\n\nPermission to use, copy, modify, and/or distribute this software for any\npurpose with or without fee is hereby granted, provided that the above\ncopyright notice and this permission notice appear in all copies.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\" AND THE AUTHOR DISCLAIMS ALL WARRANTIES\nWITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF\nMERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR\nANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES\nWHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN\nACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR\nIN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.",
     "copyright": "Copyright (c) Isaac Z. Schlueter and Contributors"
   },
-  "lucide-react-native@0.469.0": {
+  "lucide-react-native@0.475.0": {
     "licenses": "ISC",
     "repository": "https://github.com/lucide-icons/lucide",
     "publisher": "Eric Fennis",
@@ -9659,7 +9646,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2017 React Native Community\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2017 React Native Community"
   },
-  "react-native-gesture-handler@2.20.2": {
+  "react-native-gesture-handler@2.24.0": {
     "licenses": "MIT",
     "repository": "https://github.com/software-mansion/react-native-gesture-handler",
     "publisher": "Krzysztof Magiera",
@@ -9744,7 +9731,7 @@
     "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2016 Software Mansion <swmansion.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2016 Software Mansion <swmansion.com>"
   },
-  "react-native-safe-area-context@4.12.0": {
+  "react-native-safe-area-context@5.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/th3rdwave/react-native-safe-area-context",
     "publisher": "Janic Duplessis",
@@ -9757,7 +9744,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2019 Th3rd Wave\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2019 Th3rd Wave"
   },
-  "react-native-screens@4.4.0": {
+  "react-native-screens@4.9.0": {
     "licenses": "MIT",
     "repository": "https://github.com/software-mansion/react-native-screens",
     "publisher": "Krzysztof Magiera",
@@ -10757,8 +10744,8 @@
     "errno": -2,
     "code": "ENOENT",
     "syscall": "open",
-    "path": "/Users/oisu/Workspace/paww/node_modules/strip-ansi-cjs",
-    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/strip-ansi-cjs/license",
+    "path": "/Users/oisu/Workspace/paww/node_modules/strip-ansi",
+    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/strip-ansi/license",
     "licenseText": "MIT License\n\nCopyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
     "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)"
   },
@@ -10891,7 +10878,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2023 Vercel, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2023 Vercel, Inc."
   },
-  "tailwind-merge@2.6.0": {
+  "tailwind-merge@3.0.2": {
     "licenses": "MIT",
     "repository": "https://github.com/dcastil/tailwind-merge",
     "publisher": "Dany Castillo",

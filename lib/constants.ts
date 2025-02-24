@@ -2,6 +2,11 @@ export const themeColors = {
   primary: "#FF7D52",
 };
 
+export const bundleIdentifier =
+  process.env.APP_VARIANT === "development"
+    ? "jp.oisu.paww.dev"
+    : "jp.oisu.paww";
+
 export const NAV_THEME = {
   light: {
     background: "hsl(0 0% 100%)", // background

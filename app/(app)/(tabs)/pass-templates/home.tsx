@@ -46,7 +46,10 @@ export default function Home() {
             <Text>あなたのお店情報を設定しましょう</Text>
           </View>
         </View>
-        <Button className="w-full" onPress={() => router.navigate("store")}>
+        <Button
+          className="w-full"
+          onPress={() => router.navigate("/store/store")}
+        >
           <Text>お店情報の設定に進む</Text>
         </Button>
       </View>
@@ -71,7 +74,7 @@ export default function Home() {
         </View>
         <Button
           className="w-full"
-          onPress={() => router.navigate("pass-templates/new-template")}
+          onPress={() => router.navigate("/pass-templates/new-pass-template")}
         >
           <Text>テンプレートの作成に進む</Text>
         </Button>
@@ -93,7 +96,7 @@ export default function Home() {
         }}
       />
       <View className="flex w-full p-6">
-        <Link href="pass-templates/new-template" asChild>
+        <Link href="/pass-templates/new-pass-template" asChild>
           <Button className="w-full">
             <Text>新しくテンプレートを作成</Text>
           </Button>

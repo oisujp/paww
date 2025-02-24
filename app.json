@@ -8,11 +8,6 @@
     "icon": "./assets/images/icon.png",
     "userInterfaceStyle": "automatic",
     "jsEngine": "hermes",
-    "splash": {
-      "image": "./assets/images/logo.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true,
@@ -63,6 +58,15 @@
             "./assets/images/logo.svg",
             "./assets/images/pass-template.svg"
           ]
+        }
+      ],
+      [
+        "expo-splash-screen",
+        {
+          "backgroundColor": "#fff",
+          "image": "./assets/images/logo.png",
+          "imageWidth": 167,
+          "resizeMode": "contain"
         }
       ]
     ],

@@ -1,16 +1,14 @@
 import { ConfigContext } from "expo/config";
+import { bundleIdentifier } from "~/lib/constants";
 
 const IS_DEV = process.env.APP_VARIANT === "development";
+const IS_PREVIEW = process.env.APP_VARIANT === "preview";
 
-const getUniqueIdentifier = () => {
-  if (IS_DEV) {
-    return "jp.oisu.paww.dev";
-  }
-  return "jp.oisu.paww";
-};
 const getAppName = () => {
   if (IS_DEV) {
     return "paww (Dev)";
+  } else if (IS_PREVIEW) {
+    return "paww (Preview)";
   }
   return "paww";
 };
@@ -19,14 +17,14 @@ export default ({ config }: ConfigContext) => {
   return {
     ...config,
     name: getAppName(),
-    scheme: getUniqueIdentifier(),
+    scheme: bundleIdentifier,
     ios: {
       ...config.ios,
-      bundleIdentifier: getUniqueIdentifier(),
+      bundleIdentifier,
     },
     android: {
       ...config.android,
-      package: getUniqueIdentifier(),
+      package: bundleIdentifier,
     },
   };
 };

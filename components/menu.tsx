@@ -24,7 +24,7 @@ export function Menu() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent insets={contentInsets} className="w-64 native:w-72">
-        <Link asChild href={{ pathname: "debug" }}>
+        <Link asChild href={{ pathname: "/debug" }}>
           <DropdownMenuItem>
             <Text>デバッグ</Text>
           </DropdownMenuItem>
@@ -40,17 +40,17 @@ export function Menu() {
             <Text>運営会社</Text>
           </DropdownMenuItem>
         </Link>
-        <Link asChild href={{ pathname: "license" }}>
+        <Link asChild href={{ pathname: "/license" }}>
           <DropdownMenuItem>
             <Text>ライセンス情報</Text>
           </DropdownMenuItem>
         </Link>
-        <Link asChild href={{ pathname: "license" }}>
+        <Link asChild href={{ pathname: "/license" }}>
           <DropdownMenuItem>
             <Text>プライバシーポリシー</Text>
           </DropdownMenuItem>
         </Link>
-        <Link asChild href={{ pathname: "license" }}>
+        <Link asChild href={{ pathname: "/license" }}>
           <DropdownMenuItem>
             <Text>利用規約</Text>
           </DropdownMenuItem>

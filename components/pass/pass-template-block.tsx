@@ -102,7 +102,7 @@ export function PassTemplateBlock({
 
         <Link
           href={{
-            pathname: "pass-templates/passes",
+            pathname: "/pass-templates/passes",
             params: { passTemplateId: passTemplate.id },
           }}
           asChild
