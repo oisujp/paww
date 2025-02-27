@@ -62,7 +62,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (session) {
-      router.replace("/(app)/(tabs)");
+      router.replace("/(app)/home/pass-templates");
     }
   }, [session, router]);
 
@@ -70,7 +70,7 @@ export default function SignIn() {
     <SafeAreaView className="flex flex-1 bg-background">
       <View className="top-[55px] flex items-center">
         <Image
-          source={require("../../assets/images/logo.svg")}
+          source={require("assets/images/logo.svg")}
           className="w-[167px] h-[44px]"
         />
       </View>

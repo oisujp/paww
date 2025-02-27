@@ -287,7 +287,7 @@ export default function NewPassTemplate() {
             size="sm"
             onPress={() => {
               router.push({
-                pathname: "/pass-templates/pick-color",
+                pathname: "/home/pick-color",
                 params: { key: "backgroundColor" },
               });
             }}
@@ -302,7 +302,7 @@ export default function NewPassTemplate() {
             size="sm"
             onPress={() => {
               router.push({
-                pathname: "/pass-templates/pick-color",
+                pathname: "/home/pick-color",
                 params: { key: "foregroundColor" },
               });
             }}
@@ -317,7 +317,7 @@ export default function NewPassTemplate() {
             size="sm"
             onPress={() => {
               router.push({
-                pathname: "/pass-templates/pick-color",
+                pathname: "/home/pick-color",
                 params: { key: "labelColor" },
               });
             }}

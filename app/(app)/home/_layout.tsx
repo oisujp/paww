@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import CameraButton from "~/components/camera-button";
 import { Menu } from "~/components/menu";
 import { passBase } from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
@@ -31,7 +32,7 @@ export default function PassTemplatesLayout() {
     <FormProvider {...form}>
       <Stack>
         <Stack.Screen
-          name="home"
+          name="pass-templates"
           options={{
             title: "テンプレート一覧",
             headerRight: () => {
@@ -71,6 +72,7 @@ export default function PassTemplatesLayout() {
           }}
         />
       </Stack>
+      <CameraButton />
     </FormProvider>
   );
 }

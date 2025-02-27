@@ -1,6 +1,6 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
 import { Image } from "expo-image";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useContext } from "react";
 import { FlatList, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
@@ -15,7 +15,11 @@ export default function Home() {
   const { session } = useContext(AuthContext);
   const userId = session?.user.id ?? "";
 
-  const { data: passTemplatesData, count } = useQuery(
+  const {
+    data: passTemplatesData,
+    count,
+    isLoading: isLoadingPassTemplates,
+  } = useQuery(
     supabase
       .from("passTemplates")
       .select(`*, passes( id, publishedAt )`, { count: "exact" })
@@ -23,20 +27,23 @@ export default function Home() {
       .eq("userId", userId)
       .is("deletedAt", null)
   );
-  const { data: userData } = useQuery(
+  const { data: userData, isLoading: isLoadingUser } = useQuery(
     supabase.from("users").select(`*`).eq("id", userId).single(),
-
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     }
   );
 
+  if (isLoadingPassTemplates || isLoadingUser) {
+    return <Text>loading...</Text>;
+  }
+
   if (!userData) {
     return (
       <View className="bg-background flex flex-1 justify-center items-center gap-8 p-6">
         <Image
-          source={require("../../../../assets/images/store.svg")}
+          source={require("assets/images/store.svg")}
           className="w-[129px] h-[90px]"
         />
         <View className="flex items-center gap-2">
@@ -60,7 +67,7 @@ export default function Home() {
     return (
       <View className="bg-background flex flex-1 justify-center items-center gap-8 p-6">
         <Image
-          source={require("../../../../assets/images/pass-template.svg")}
+          source={require("assets/images/pass-template.svg")}
           className="size-[90px]"
         />
         <View className="flex items-center gap-2">
@@ -74,7 +81,7 @@ export default function Home() {
         </View>
         <Button
           className="w-full"
-          onPress={() => router.navigate("/pass-templates/new-pass-template")}
+          onPress={() => router.navigate("/home/new-pass-template")}
         >
           <Text>テンプレートの作成に進む</Text>
         </Button>
@@ -95,13 +102,6 @@ export default function Home() {
           return <PassTemplateBlock key={uuidv4()} passTemplateId={item.id} />;
         }}
       />
-      <View className="flex w-full p-6">
-        <Link href="/pass-templates/new-pass-template" asChild>
-          <Button className="w-full">
-            <Text>新しくテンプレートを作成</Text>
-          </Button>
-        </Link>
-      </View>
     </View>
   );
 }

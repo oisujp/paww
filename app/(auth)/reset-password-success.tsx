@@ -10,7 +10,10 @@ export default function ResetPasswordSuccess() {
     <View className="flex flex-1 w-full">
       <Text>パスワードリセットのメールを送信しました。</Text>
       <View>
-        <Button onPress={() => router.replace("/")} className="flex w-full">
+        <Button
+          onPress={() => router.replace("/(app)/home/pass-templates")}
+          className="flex w-full"
+        >
           <Text>戻る</Text>
         </Button>
       </View>

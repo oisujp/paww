@@ -2,6 +2,7 @@ import { Session } from "@supabase/supabase-js";
 import { makeRedirectUri } from "expo-auth-session";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import Constants from "expo-constants";
+import { useRouter } from "expo-router";
 import {
   createContext,
   useEffect,
@@ -30,6 +31,7 @@ export const AuthContext = createContext<Props>({} as Props);
 export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null | undefined>();
   const [user, setUser] = useState<User | null>(null);
+  const router = useRouter();
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
@@ -39,9 +41,14 @@ export function AuthProvider({ children }: PropsWithChildren) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       setSession(newSession);
+      if (newSession) {
+        router.replace("/home/pass-templates");
+      } else {
+        router.replace("/sign-in");
+      }
     });
     return () => subscription.unsubscribe();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     void (async () => {

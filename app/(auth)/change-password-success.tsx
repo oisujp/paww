@@ -9,7 +9,7 @@ export default function ChangePasswordSuccess() {
   return (
     <View className="flex-1 justify-center items-center p-6 gap-6">
       <Text>パスワードを変更しました。</Text>
-      <Button onPress={() => router.replace("/")}>
+      <Button onPress={() => router.back()}>
         <Text>戻る</Text>
       </Button>
     </View>
