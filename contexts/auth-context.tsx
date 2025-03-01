@@ -10,7 +10,6 @@ import {
 } from "react";
 import { supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
-import { User } from "~/types/supabase";
 
 type Props = {
   signIn: (email: string, password: string) => Promise<void>;
@@ -38,7 +37,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       setSession(newSession);
 
       if (newSession) {
-        router.replace("/home/pass-templates");
+        router.replace("/(app)/(tabs)");
       } else {
         router.replace("/sign-in");
       }

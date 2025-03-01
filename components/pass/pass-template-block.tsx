@@ -5,7 +5,7 @@ import {
 import { Link } from "expo-router";
 import { useContext } from "react";
 import { Text } from "react-native";
-import DeliveryPass from "~/app/(app)/home/delivery-pass";
+import DeliveryPass from "~/app/(app)/(tabs)/home/delivery-pass";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import {
   AlertDialog,

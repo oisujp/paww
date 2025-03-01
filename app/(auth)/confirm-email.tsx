@@ -23,7 +23,7 @@ export default function ConfirmEmail() {
     (async () => {
       const userId = session.user.id;
       await supabase.from("users").insert({ id: userId });
-      return <Redirect href="/(app)/home/pass-templates" />;
+      return <Redirect href="/(app)/(tabs)" />;
     })();
   }
 

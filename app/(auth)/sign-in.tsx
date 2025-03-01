@@ -62,7 +62,7 @@ export default function SignIn() {
 
   useEffect(() => {
     if (session) {
-      router.replace("/(app)/home/pass-templates");
+      router.replace("/(app)/(tabs)");
     }
   }, [session, router]);
 
