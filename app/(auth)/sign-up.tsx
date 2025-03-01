@@ -1,6 +1,6 @@
 import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Image } from "expo-image";
+import Logo from "assets/images/logo.svg";
 import { useNavigation, useRouter } from "expo-router";
 import { useContext, useEffect } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -68,10 +68,7 @@ export default function SignUp() {
   return (
     <SafeAreaView className="flex flex-1 bg-background">
       <View className="top-[55px] flex items-center">
-        <Image
-          source={require("assets/images/logo.svg")}
-          className="w-[167px] h-[44px]"
-        />
+        <Logo className="w-[167px] h-[44px]" />
       </View>
 
       <View className="w-full flex flex-1 justify-center p-6">

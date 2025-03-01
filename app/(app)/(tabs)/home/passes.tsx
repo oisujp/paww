@@ -1,4 +1,5 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
+import PassesImage from "assets/images/passes.svg";
 import { useLocalSearchParams } from "expo-router";
 import React, { useContext } from "react";
 import { FlatList, View } from "react-native";
@@ -27,8 +28,9 @@ export default function Passes() {
 
   if (count === 0) {
     return (
-      <View className="flex-1 p-8 gap-4">
-        <Text>まだパスがありません</Text>
+      <View className="flex flex-1 p-8 gap-4 justify-center items-center">
+        <PassesImage className="size-[90px]" />
+        <Text>発行されたパスはありません</Text>
       </View>
     );
   }

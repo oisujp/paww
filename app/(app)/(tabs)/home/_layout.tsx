@@ -4,7 +4,6 @@ import { Stack } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import CameraButton from "~/components/camera-button";
 import { Menu } from "~/components/menu";
 import { passBase } from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
@@ -48,6 +47,12 @@ export default function PassTemplatesLayout() {
           }}
         />
         <Stack.Screen
+          name="preview-pass-template"
+          options={{
+            title: "テンプレートのプレビュー",
+          }}
+        />
+        <Stack.Screen
           name="passes"
           options={{
             title: "発行済みパス一覧",
@@ -73,7 +78,6 @@ export default function PassTemplatesLayout() {
           }}
         />
       </Stack>
-      <CameraButton />
     </FormProvider>
   );
 }

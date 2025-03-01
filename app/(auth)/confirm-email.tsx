@@ -1,4 +1,4 @@
-import { Image } from "expo-image";
+import Mail from "assets/images/mail.svg";
 import * as Linking from "expo-linking";
 import { Redirect, useRouter } from "expo-router";
 import { useContext } from "react";
@@ -29,10 +29,7 @@ export default function ConfirmEmail() {
 
   return (
     <View className="flex-1 justify-center items-center p-6 gap-4">
-      <Image
-        source={require("assets/images/mail.svg")}
-        className="w-[71px] h-[60px]"
-      />
+      <Mail className="w-[71px] h-[60px]" />
       <Text className="text-center text-xl font-bold">
         確認メールを送信しました
       </Text>

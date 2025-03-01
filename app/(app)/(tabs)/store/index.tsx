@@ -8,7 +8,12 @@ import { Image } from "expo-image";
 import { Share } from "lucide-react-native";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { SafeAreaView, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -30,7 +35,7 @@ const signUpSchema = z.object({
   logoUrl: z.string(),
 });
 
-export default function Store() {
+export default function StoreIndex() {
   const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const userId = session?.user.id ?? "";
@@ -54,12 +59,6 @@ export default function Store() {
       logoUrl: userData?.logoUrl ?? "",
     },
   });
-
-  // logger.info(error, userId);
-
-  // if (!userData) {
-  //   return null;
-  // }
 
   // iOS: logo.png 160x50
   // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
@@ -98,9 +97,9 @@ export default function Store() {
   };
 
   return (
-    <SafeAreaView className="flex-1">
-      <ScrollView contentContainerClassName="flex-1 items-center justify-between p-6 bg-background">
-        <View className="grid gap-6 w-full">
+    <SafeAreaView className="flex flex-1">
+      <ScrollView>
+        <View className="gap-6 w-full my-6 bg-background p-6 flex-1">
           <View className="grid gap-2">
             <Label>お店のロゴ</Label>
             <Image
@@ -139,13 +138,18 @@ export default function Store() {
             />
           </View>
         </View>
-
-        <View className="w-full gap-4">
-          <Button onPress={handleSubmit(onSubmit)} disabled={loading}>
-            <Text>保存</Text>
-          </Button>
-        </View>
       </ScrollView>
+      <View className="flex m-4">
+        <Button
+          onPress={handleSubmit(onSubmit)}
+          disabled={loading}
+          className="flex flex-row gap-2"
+        >
+          {loading && <ActivityIndicator className="text-white" />}
+
+          <Text>保存する</Text>
+        </Button>
+      </View>
     </SafeAreaView>
   );
 }

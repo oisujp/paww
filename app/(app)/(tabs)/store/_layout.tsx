@@ -4,7 +4,7 @@ export default function PassTemplatesLayout() {
   return (
     <Stack>
       <Stack.Screen
-        name="store"
+        name="index"
         options={{
           title: "お店情報",
         }}
