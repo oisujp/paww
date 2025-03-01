@@ -1,22 +1,30 @@
-import { useRouter } from "expo-router";
-import { View } from "react-native";
+import { useContext } from "react";
+import { SafeAreaView, View } from "react-native";
+import SuccessBlock from "~/components/success-block";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
+import { AuthContext } from "~/contexts/auth-context";
 
 export default function ResetPasswordSuccess() {
-  const router = useRouter();
+  const { signOut } = useContext(AuthContext);
 
   return (
-    <View className="flex flex-1 w-full">
-      <Text>パスワードリセットのメールを送信しました。</Text>
-      <View>
-        <Button
-          onPress={() => router.replace("/(app)/home/pass-templates")}
-          className="flex w-full"
-        >
-          <Text>戻る</Text>
-        </Button>
+    <SafeAreaView className="flex flex-1 bg-background">
+      <View className="flex flex-1 flex-col justify-center items-center p-6">
+        <SuccessBlock
+          caption="パスワードをリセットするためのメールを送信しました"
+          description="メールに記載されているリンクをクリックしてください。"
+        />
+        <View className="w-full">
+          <Button
+            onPress={() => {
+              signOut();
+            }}
+          >
+            <Text>ログイン画面に戻る</Text>
+          </Button>
+        </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 }

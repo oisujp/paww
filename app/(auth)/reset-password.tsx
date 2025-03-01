@@ -3,15 +3,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
-import { ActivityIndicator, Alert, View } from "react-native";
+import { ActivityIndicator, Alert, SafeAreaView, View } from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
-import { Card, CardContent, CardTitle } from "~/components/ui/card";
 import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { cn } from "~/lib/utils";
 
 type FormData = {
   email: string;
@@ -52,45 +51,45 @@ export default function ResetPassword() {
   };
 
   return (
-    <View className="flex-1 justify-center items-center gap-5 p-6 bg-secondary/30">
-      <Card className="w-full max-w-sm p-6 rounded-2xl">
-        <CardTitle className="pb-2 text-center">パスワードをリセット</CardTitle>
-        <CardContent>
-          <View className="flex gap-2 py-6">
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, onBlur, value } }) => (
-                <Input
-                  placeholder="メールアドレス"
-                  inputMode="email"
-                  autoCorrect={false}
-                  autoCapitalize="none"
-                  onBlur={onBlur}
-                  onChangeText={onChange}
-                  value={value}
-                />
-              )}
-              name="email"
-            />
-            <Text className="text-sm text-destructive">
-              <ErrorMessage errors={errors} name="email" />
-            </Text>
-          </View>
+    <SafeAreaView className="flex flex-1 bg-background">
+      <View className="w-full flex flex-1 justify-center p-6">
+        <Controller
+          control={control}
+          rules={{
+            required: true,
+          }}
+          render={({ field: { onChange, onBlur, value } }) => (
+            <View className="gap-2">
+              <Label nativeID="email">メールアドレス</Label>
+              <Input
+                placeholder="例: your.email@paww.jp"
+                inputMode="email"
+                autoCorrect={false}
+                autoCapitalize="none"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <Text className="text-sm">半角英数字6文字以上</Text>
+            </View>
+          )}
+          name="email"
+        />
+        <Text className="text-sm text-destructive">
+          <ErrorMessage errors={errors} name="email" />
+        </Text>
+
+        <View className="flex gap-2 my-4">
           <Button
             onPress={handleSubmit(onSubmit)}
             disabled={loading}
             className="flex flex-row gap-2"
           >
-            {loading && (
-              <ActivityIndicator className={cn(!loading && "hidden")} />
-            )}
-            <Text>リセットする</Text>
+            {loading && <ActivityIndicator className="text-white" />}
+            <Text>パスワードをリセットする</Text>
           </Button>
-        </CardContent>
-      </Card>
-    </View>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }

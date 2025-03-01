@@ -1,5 +1,4 @@
 import { Session } from "@supabase/supabase-js";
-import { makeRedirectUri } from "expo-auth-session";
 import * as QueryParams from "expo-auth-session/build/QueryParams";
 import Constants from "expo-constants";
 import { useRouter } from "expo-router";
@@ -9,7 +8,6 @@ import {
   useState,
   type PropsWithChildren,
 } from "react";
-import { Alert } from "react-native";
 import { supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { User } from "~/types/supabase";
@@ -22,15 +20,12 @@ type Props = {
   changePassword: (password: string) => Promise<void>;
   createSessionFromUrl: (url: string) => Promise<Session | null | undefined>;
   session?: Session | null;
-  user: User | null;
-  setUser: (user: User | null) => void;
 };
 
 export const AuthContext = createContext<Props>({} as Props);
 
 export function AuthProvider({ children }: PropsWithChildren) {
   const [session, setSession] = useState<Session | null | undefined>();
-  const [user, setUser] = useState<User | null>(null);
   const router = useRouter();
 
   useEffect(() => {
@@ -41,6 +36,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       setSession(newSession);
+
       if (newSession) {
         router.replace("/home/pass-templates");
       } else {
@@ -49,22 +45,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
     });
     return () => subscription.unsubscribe();
   }, [router]);
-
-  useEffect(() => {
-    void (async () => {
-      const user = session?.user;
-      if (user) {
-        const { data } = await supabase
-          .from("users")
-          .select()
-          .eq("id", user.id)
-          .single();
-        setUser(data);
-      } else {
-        setUser(null);
-      }
-    })();
-  }, [session]);
 
   const scheme = Constants.expoConfig?.scheme;
   if (typeof scheme !== "string") {
@@ -80,16 +60,12 @@ export function AuthProvider({ children }: PropsWithChildren) {
               email,
               password,
               options: {
-                emailRedirectTo: makeRedirectUri({
-                  scheme,
-                  path: "confirm-email",
-                }),
+                emailRedirectTo: `${scheme}://confirm-email`,
               },
             });
             const error = res.error;
             if (error) {
               logger.error(error);
-              Alert.alert("エラー", error.message);
               throw error;
             }
           } catch (error) {
@@ -103,7 +79,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
           });
           if (error) {
             logger.error(error);
-            Alert.alert("エラー", error.message);
             throw error;
           }
         },
@@ -122,10 +97,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
         resetPassword: async (email: string) => {
           try {
             await supabase.auth.resetPasswordForEmail(email, {
-              redirectTo: makeRedirectUri({
-                scheme,
-                path: "change-password",
-              }),
+              redirectTo: `${scheme}://change-password`,
             });
           } catch (error) {
             logger.error(error);
@@ -154,8 +126,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
           }
         },
         session,
-        user,
-        setUser,
       }}
     >
       {children}

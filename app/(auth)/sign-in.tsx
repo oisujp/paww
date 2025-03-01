@@ -8,10 +8,10 @@ import { ActivityIndicator, Alert, SafeAreaView, View } from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
+import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { cn } from "~/lib/utils";
 
 type FormData = {
   email: string;
@@ -82,15 +82,18 @@ export default function SignIn() {
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              placeholder="メールアドレス"
-              inputMode="email"
-              autoCorrect={false}
-              autoCapitalize="none"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+            <View className="gap-2">
+              <Label nativeID="email">メールアドレス</Label>
+              <Input
+                placeholder="メールアドレス"
+                inputMode="email"
+                autoCorrect={false}
+                autoCapitalize="none"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+            </View>
           )}
           name="email"
         />
@@ -108,15 +111,19 @@ export default function SignIn() {
             required: true,
           }}
           render={({ field: { onChange, onBlur, value } }) => (
-            <Input
-              placeholder="パスワード"
-              inputMode="text"
-              secureTextEntry
-              autoCapitalize="none"
-              onBlur={onBlur}
-              onChangeText={onChange}
-              value={value}
-            />
+            <View className="gap-2">
+              <Label nativeID="password">パスワード</Label>
+              <Input
+                placeholder="パスワード"
+                inputMode="text"
+                secureTextEntry
+                autoCapitalize="none"
+                onBlur={onBlur}
+                onChangeText={onChange}
+                value={value}
+              />
+              <Text className="text-sm">半角英数字6文字以上</Text>
+            </View>
           )}
           name="password"
         />
@@ -133,20 +140,19 @@ export default function SignIn() {
           disabled={loading}
           className="flex flex-row gap-2"
         >
-          {loading && (
-            <ActivityIndicator className={cn(!loading && "hidden")} />
-          )}
+          {loading && <ActivityIndicator className="text-white" />}
           <Text>ログイン</Text>
         </Button>
 
-        <View className="my-4">
+        <View className="flex flex-row justify-center my-4 items-center">
           <Button
             variant="ghost"
             size="sm"
             onPress={() => router.replace("/(auth)/sign-up")}
           >
-            <Text>新規登録はこちら</Text>
+            <Text>新規登録</Text>
           </Button>
+          <Text>/</Text>
           <Button
             variant="ghost"
             size="sm"

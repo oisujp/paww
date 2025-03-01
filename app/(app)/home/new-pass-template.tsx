@@ -2,7 +2,10 @@ import { ErrorMessage } from "@hookform/error-message";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
-import { useInsertMutation } from "@supabase-cache-helpers/postgrest-swr";
+import {
+  useInsertMutation,
+  useQuery,
+} from "@supabase-cache-helpers/postgrest-swr";
 import { format, getTime } from "date-fns";
 import { useNavigation, useRouter } from "expo-router";
 import { Share } from "lucide-react-native";
@@ -25,11 +28,16 @@ import { cn, logger, pickImage } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
 export default function NewPassTemplate() {
-  const { user, session } = useContext(AuthContext);
+  const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const router = useRouter();
   const navigation = useNavigation();
   const [platform, setPlatform] = useState<string>("apple");
+
+  const userId = session?.user.id ?? "";
+  const { data: userData } = useQuery(
+    supabase.from("users").select().eq("id", userId).single()
+  );
 
   function onPlatformChange(val: string | undefined) {
     if (val) {
@@ -54,12 +62,12 @@ export default function NewPassTemplate() {
   }, [reset, setValue]);
 
   useEffect(() => {
-    if (user?.name) {
-      setValue("logoText", user.name);
+    if (userData?.name) {
+      setValue("logoText", userData.name);
     }
-  }, [user, setValue]);
+  }, [userData, setValue]);
 
-  if (!user) {
+  if (!userData) {
     return null;
   }
 
@@ -123,7 +131,7 @@ export default function NewPassTemplate() {
           logoText,
           passTypeIdentifier,
           serialNumber: uuidv4(),
-          logoUrl: user.logoUrl,
+          logoUrl: userData.logoUrl,
           stripUrl,
           coupon: {
             primaryFields,
@@ -158,7 +166,7 @@ export default function NewPassTemplate() {
       const stripBase64 = await pickImage(undefined, 450);
 
       if (stripBase64) {
-        const path = `${user.id}/pass-templates/${watch("id")}/strip-${getTime(
+        const path = `${userId}/pass-templates/${watch("id")}/strip-${getTime(
           new Date()
         )}.png`;
         await uploadImage(stripBase64, path);
@@ -175,7 +183,7 @@ export default function NewPassTemplate() {
 
   const passTemplateProps = {
     name: watch("name"),
-    organizationName: user.name,
+    organizationName: userData.name,
     backgroundColor: watch("backgroundColor"),
     expirationDate:
       watch("expirationDate") && format(watch("expirationDate"), "yyyy/MM/dd"),
@@ -189,7 +197,7 @@ export default function NewPassTemplate() {
       auxiliaryFields: [],
       backFields: [],
     },
-    logoUrl: user.logoUrl,
+    logoUrl: userData.logoUrl,
     stripUrl: watch("stripUrl"),
   };
 

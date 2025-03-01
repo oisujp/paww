@@ -35,6 +35,7 @@ export default function PassTemplatesLayout() {
           name="pass-templates"
           options={{
             title: "テンプレート一覧",
+            headerStyle: {},
             headerRight: () => {
               return <Menu />;
             },

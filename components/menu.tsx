@@ -1,4 +1,4 @@
-import { Link, useRouter } from "expo-router";
+import { Link } from "expo-router";
 import { AlignJustify } from "lucide-react-native";
 import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,12 +15,11 @@ import { AuthContext } from "~/contexts/auth-context";
 export function Menu() {
   const contentInsets = useSafeAreaInsets();
   const { signOut } = useContext(AuthContext);
-  const router = useRouter();
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost">
+        <Button variant="ghost" className="px-0">
           <AlignJustify />
         </Button>
       </DropdownMenuTrigger>
@@ -59,7 +58,6 @@ export function Menu() {
         <DropdownMenuItem
           onPress={() => {
             try {
-              router.replace("/sign-in");
               signOut();
             } catch (error) {
               console.error(error);

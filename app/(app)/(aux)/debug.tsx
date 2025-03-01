@@ -5,7 +5,7 @@ import { Button } from "~/components/ui/button";
 import { AuthContext } from "~/contexts/auth-context";
 
 export default function Debug() {
-  const { session, user } = useContext(AuthContext);
+  const { session } = useContext(AuthContext);
 
   return (
     <ScrollView className="flex flex-1 p-6">
@@ -36,7 +36,7 @@ export default function Debug() {
       <Text style={{ marginTop: 10, fontWeight: "bold" }}>
         🔑 Supabase Auth
       </Text>
-      <Text>User: {JSON.stringify(user, null, 2)}</Text>
+      <Text>User: {JSON.stringify(session?.user, null, 2)}</Text>
       <Text>Session: {JSON.stringify(session, null, 2)}</Text>
     </ScrollView>
   );

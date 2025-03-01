@@ -1,5 +1,8 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useUpsertMutation } from "@supabase-cache-helpers/postgrest-swr";
+import {
+  useQuery,
+  useUpsertMutation,
+} from "@supabase-cache-helpers/postgrest-swr";
 import { getTime } from "date-fns";
 import { Image } from "expo-image";
 import { Share } from "lucide-react-native";
@@ -28,8 +31,9 @@ const signUpSchema = z.object({
 });
 
 export default function Store() {
-  const { setUser, user } = useContext(AuthContext);
+  const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
+  const userId = session?.user.id ?? "";
 
   const { trigger: upsert } = useUpsertMutation(
     supabase.from("users"),
@@ -37,26 +41,32 @@ export default function Store() {
     "*"
   );
 
+  const { data: userData } = useQuery(
+    supabase.from("users").select().eq("id", userId).single()
+  );
+
   const { control, handleSubmit, watch, setValue } = useForm<
     z.infer<typeof signUpSchema>
   >({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      organizationName: user?.name ?? "",
-      logoUrl: user?.logoUrl ?? "",
+      organizationName: userData?.name ?? "",
+      logoUrl: userData?.logoUrl ?? "",
     },
   });
 
-  if (!user) {
-    return null;
-  }
+  // logger.info(error, userId);
+
+  // if (!userData) {
+  //   return null;
+  // }
 
   // iOS: logo.png 160x50
   // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
   const pickLogo = async () => {
     const logoBase64 = await pickImage(undefined, 105);
     if (logoBase64) {
-      const path = `${user.id}/user/logo-${getTime(new Date())}.png`;
+      const path = `${userId}/user/logo-${getTime(new Date())}.png`;
       await uploadImage(logoBase64, path);
       const logoUrl = supabase.storage.from("images").getPublicUrl(path)
         .data.publicUrl;
@@ -69,19 +79,16 @@ export default function Store() {
 
     try {
       const { organizationName, logoUrl } = formData;
-
       // upsert user
       const res = await upsert([
         {
-          id: user.id,
+          id: userId,
           name: organizationName,
           logoUrl,
         },
       ]);
       if (res === null) {
         throw "";
-      } else if (res.length > 0) {
-        setUser(res[0]);
       }
     } catch (error) {
       logger.error(error);

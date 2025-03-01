@@ -2,7 +2,7 @@ import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
 import { Image } from "expo-image";
 import { useRouter } from "expo-router";
 import React, { useContext } from "react";
-import { FlatList, View } from "react-native";
+import { ActivityIndicator, FlatList, View } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { PassTemplateBlock } from "~/components/pass/pass-template-block";
 import { Button } from "~/components/ui/button";
@@ -36,7 +36,11 @@ export default function Home() {
   );
 
   if (isLoadingPassTemplates || isLoadingUser) {
-    return <Text>loading...</Text>;
+    return (
+      <View className="flex flex-1 items-center justify-center">
+        <ActivityIndicator size="large" />
+      </View>
+    );
   }
 
   if (!userData) {

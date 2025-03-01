@@ -5,6 +5,7 @@
     "dev": "APP_VARIANT=development npx expo start",
     "ios": "APP_VARIANT=development npx expo run:ios",
     "android": "APP_VARIANT=development npx expo run:android",
+    "ios:device": "APP_VARIANT=development eas build --platform ios --profile development",
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npm run generate:tailwind && npm run generate:license",
     "lint": "eslint . && tsc",
