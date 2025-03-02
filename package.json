@@ -5,7 +5,7 @@
     "dev": "npx expo start",
     "ios": "npx expo run:ios",
     "android": "npx expo run:android",
-    "build:test": "eas build --platform ios --profile test --local",
+    "build:test": "eas build --platform ios --profile test",
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npm run generate:tailwind && npm run generate:license",
     "lint": "eslint . && tsc",

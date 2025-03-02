@@ -31,6 +31,7 @@ export default function AuthLayout() {
         name="reset-password-success"
         options={{
           headerTitle: "パスワードのリセット",
+          headerLeft: () => <></>,
         }}
       />
       <Stack.Screen
