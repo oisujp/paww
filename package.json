@@ -5,7 +5,7 @@
     "dev": "npx expo start",
     "ios": "npx expo run:ios",
     "android": "npx expo run:android",
-    "build:test": "eas build --platform ios --profile test",
+    "build:test": "eas build --platform ios --profile development",
     "clean": "rm -rf .expo node_modules",
     "postinstall": "npm run generate:tailwind && npm run generate:license",
     "lint": "eslint . && tsc",
@@ -14,6 +14,7 @@
     "generate:types": "rm -f types/database.types.ts && supabase gen types typescript --linked > types/database.types.ts"
   },
   "dependencies": {
+    "@expo/react-native-action-sheet": "^4.1.1",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^4.1.1",
     "@premieroctet/react-native-wallet": "^1.0.1",
@@ -77,6 +78,7 @@
     "react-native-css-interop": "^0.1.22",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-get-random-values": "^1.11.0",
+    "react-native-linear-gradient": "^2.8.3",
     "react-native-logs": "^5.3.0",
     "react-native-qrcode-svg": "^6.3.15",
     "react-native-reanimated": "~3.16.7",

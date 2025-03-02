@@ -80,6 +80,7 @@ export function PassTemplateImage({
               source={{ uri: stripUrl }}
               style={{
                 minHeight: 60,
+                height: 200,
                 width: "100%",
               }}
               className="w-full"

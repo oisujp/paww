@@ -1,15 +1,15 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addMonths, startOfDay } from "date-fns";
-import { Stack } from "expo-router";
+import { Redirect, Stack } from "expo-router";
+import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import { AuthContext } from "~/contexts/auth-context";
 import { passBase } from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
 
-export default function PassTemplatesLayout() {
-  const sampleStripUrl =
-    "https://ndhmdespsfgginfazkds.supabase.co/storage/v1/object/public/images/1c60c02e-18e6-473e-9ef0-94d12ead2b56/user/logo-1740107365121.png";
+export default function AppLayout() {
   const form = useForm<z.infer<typeof passTemplateSchema>>({
     resolver: zodResolver(passTemplateSchema),
     defaultValues: {
@@ -22,9 +22,13 @@ export default function PassTemplatesLayout() {
       foregroundColor: passBase.foregroundColor,
       backgroundColor: passBase.backgroundColor,
       expirationDate: startOfDay(addMonths(new Date(), 1)),
-      stripUrl: sampleStripUrl,
     },
   });
+
+  const { session } = useContext(AuthContext);
+  if (!session) {
+    return <Redirect href="/sign-in" />;
+  }
 
   return (
     <FormProvider {...form}>

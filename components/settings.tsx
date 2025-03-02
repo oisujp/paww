@@ -1,4 +1,4 @@
-import { Link } from "expo-router";
+import { Link, useRouter } from "expo-router";
 import { SettingsIcon } from "lucide-react-native";
 import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -15,6 +15,7 @@ import { AuthContext } from "~/contexts/auth-context";
 export function Settings() {
   const contentInsets = useSafeAreaInsets();
   const { signOut } = useContext(AuthContext);
+  const router = useRouter();
 
   return (
     <DropdownMenu>
@@ -58,7 +59,8 @@ export function Settings() {
         <DropdownMenuItem
           onPress={() => {
             try {
-              signOut();
+              router.replace("/sign-in");
+              setTimeout(() => signOut(), 500);
             } catch (error) {
               console.error(error);
             }

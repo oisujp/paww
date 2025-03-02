@@ -17,20 +17,21 @@ export default function AuthLayout() {
       <Stack.Screen
         name="change-password"
         options={{
-          headerTitle: "パスワードを変更する",
+          headerTitle: "パスワードの再設定をする",
+          headerLeft: () => <></>,
         }}
       />
       <Stack.Screen
         name="change-password-success"
         options={{
-          headerTitle: "パスワードの変更完了",
+          headerTitle: "パスワードの再設定完了",
           headerLeft: () => <></>,
         }}
       />
       <Stack.Screen
         name="reset-password-success"
         options={{
-          headerTitle: "パスワードのリセット",
+          headerTitle: "パスワードのリセットが完了",
           headerLeft: () => <></>,
         }}
       />

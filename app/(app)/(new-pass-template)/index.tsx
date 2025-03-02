@@ -1,3 +1,4 @@
+import { useActionSheet } from "@expo/react-native-action-sheet";
 import { ErrorMessage } from "@hookform/error-message";
 import DateTimePicker, {
   DateTimePickerEvent,
@@ -30,25 +31,53 @@ export default function NewPassTemplateIndex() {
   const { control, watch, setValue, handleSubmit, formState } =
     useFormContext<z.infer<typeof passTemplateSchema>>();
 
-  const pickStrip = async () => {
+  const { showActionSheetWithOptions } = useActionSheet();
+
+  const onPressSelectImage = async () => {
     try {
       setLoading(true);
 
-      const stripBase64 = await pickImage(undefined, 450);
+      const options = ["サンプルから選ぶ", "カメラロールを開く", "キャンセル"];
+      const cancelButtonIndex = 2;
 
-      if (stripBase64) {
-        const path = `${userId}/pass-templates/${watch("id")}/strip-${getTime(
-          new Date()
-        )}.png`;
-        await uploadImage(stripBase64, path);
-        const stripUrl = supabase.storage.from("images").getPublicUrl(path)
-          .data.publicUrl;
-        setValue("stripUrl", stripUrl);
-      }
+      showActionSheetWithOptions(
+        {
+          options,
+          cancelButtonIndex,
+        },
+        async (selectedIndex?: number) => {
+          switch (selectedIndex) {
+            case 0:
+              router.push({
+                pathname: "/pick-sample-image",
+              });
+              break;
+            case 1:
+              await openCameraRoll();
+              break;
+            case cancelButtonIndex:
+            // Canceled
+          }
+        }
+      );
     } catch (error) {
       logger.error(error);
     } finally {
       setTimeout(() => setLoading(false), 500);
+    }
+  };
+
+  const openCameraRoll = async () => {
+    const stripBase64 = await pickImage(undefined, 450);
+
+    if (stripBase64) {
+      const path = `${userId}/pass-templates/${watch("id")}/strip-${getTime(
+        new Date()
+      )}.png`;
+      await uploadImage(stripBase64, path);
+      const stripUrl = supabase.storage.from("images").getPublicUrl(path)
+        .data.publicUrl;
+      setValue("stripUrl", stripUrl);
     }
   };
 
@@ -86,7 +115,7 @@ export default function NewPassTemplateIndex() {
 
           <Button
             variant="outline"
-            onPress={pickStrip}
+            onPress={onPressSelectImage}
             disabled={loading}
             className="rounded-lg flex flex-row text-primary gap-2"
           >
@@ -112,9 +141,11 @@ export default function NewPassTemplateIndex() {
             )}
             name="passContentValue"
           />
-          <Text className="text-sm text-destructive">
-            <ErrorMessage name="passContentValue" />
-          </Text>
+          {Object.keys(formState.errors).length > 0 && (
+            <Text className="text-sm text-destructive">
+              <ErrorMessage name="passContentValue" />
+            </Text>
+          )}
 
           <Label>有効期限</Label>
           <View

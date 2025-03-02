@@ -35,12 +35,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, newSession) => {
       setSession(newSession);
-
-      if (newSession) {
-        router.replace("/(app)/(tabs)");
-      } else {
-        router.replace("/sign-in");
-      }
     });
     return () => subscription.unsubscribe();
   }, [router]);
@@ -64,7 +58,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
             });
             const error = res.error;
             if (error) {
-              logger.error(error);
               throw error;
             }
           } catch (error) {
@@ -85,7 +78,6 @@ export function AuthProvider({ children }: PropsWithChildren) {
           try {
             const { error } = await supabase.auth.signOut();
             if (error) {
-              logger.error(error);
               throw error;
             }
             setSession(null);

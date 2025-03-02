@@ -1,8 +1,10 @@
 import "~/global.css";
 
+import { ActionSheetProvider } from "@expo/react-native-action-sheet";
 import { PortalHost } from "@rn-primitives/portal";
 import { Image } from "expo-image";
 import { Slot } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { cssInterop } from "nativewind";
 import React from "react";
 import { LogBox } from "react-native";
@@ -25,13 +27,24 @@ LogBox.ignoreLogs([
   "Sending `onAnimatedValueUpdate` with no listeners registered.",
 ]);
 
+// Keep the splash screen visible while we fetch resources
+SplashScreen.preventAutoHideAsync();
+
+// Set the animation options. This is optional.
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});
+
 export default function RootLayout() {
   return (
     <React.Fragment>
       <AuthProvider>
         <NavigationProvider>
           <GestureHandlerRootView>
-            <Slot />
+            <ActionSheetProvider>
+              <Slot />
+            </ActionSheetProvider>
           </GestureHandlerRootView>
         </NavigationProvider>
       </AuthProvider>
