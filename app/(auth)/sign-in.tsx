@@ -147,7 +147,7 @@ export default function SignIn() {
           <Button
             variant="ghost"
             size="sm"
-            onPress={() => router.replace("/(auth)/sign-up")}
+            onPress={() => router.navigate({ pathname: "/(auth)/sign-up" })}
           >
             <Text>新規登録</Text>
           </Button>

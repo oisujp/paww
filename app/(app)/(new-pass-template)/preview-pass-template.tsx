@@ -177,7 +177,7 @@ export default function NewPassTemplate() {
       </Menubar>
 
       <ScrollView contentContainerClassName="flex flex-1 p-6">
-        <PassTemplateImage passTemplateProps={passTemplateProps} />
+        <PassTemplateImage passTemplateProps={passTemplateProps} showBarcode />
       </ScrollView>
       <View className="flex p-4 bg-background">
         <Button

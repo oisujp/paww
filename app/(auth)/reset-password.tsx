@@ -42,7 +42,7 @@ export default function ResetPassword() {
     try {
       setLoading(true);
       await resetPassword(data.email);
-      router.navigate("/reset-password-success");
+      router.replace("/reset-password-success");
     } catch (error) {
       Alert.alert("error", String(error));
     } finally {

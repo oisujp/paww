@@ -1,17 +1,17 @@
-import "~/global.css";
-
 import { Stack } from "expo-router";
 import React from "react";
+import { BackButton } from "~/components/back-button";
 
 export default function AuthLayout() {
   return (
-    <Stack screenOptions={{ headerBackTitle: "戻る" }}>
+    <Stack>
       <Stack.Screen name="sign-in" />
       <Stack.Screen name="sign-up" />
       <Stack.Screen
         name="reset-password"
         options={{
           headerTitle: "パスワードをリセットする",
+          headerLeft: () => <BackButton />,
         }}
       />
       <Stack.Screen
@@ -24,6 +24,7 @@ export default function AuthLayout() {
         name="change-password-success"
         options={{
           headerTitle: "パスワードの変更完了",
+          headerLeft: () => <></>,
         }}
       />
       <Stack.Screen
@@ -36,6 +37,7 @@ export default function AuthLayout() {
         name="confirm-email"
         options={{
           headerTitle: "確認メールの送信完了",
+          headerLeft: () => <></>,
         }}
       />
     </Stack>
