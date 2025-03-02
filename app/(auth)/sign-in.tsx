@@ -12,6 +12,7 @@ import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
+import { logger } from "~/lib/utils";
 
 type FormData = {
   email: string;
@@ -54,7 +55,8 @@ export default function SignIn() {
       setLoading(true);
       await signIn(data.email, data.password);
     } catch (error) {
-      Alert.alert("error", String(error));
+      logger.error(error);
+      Alert.alert("エラー", "ログインに失敗しました");
     } finally {
       setLoading(false);
     }
@@ -156,6 +158,14 @@ export default function SignIn() {
             onPress={() => router.push("/(auth)/reset-password")}
           >
             <Text>ログインできないときはこちら</Text>
+          </Button>
+          <Text>/</Text>
+          <Button
+            variant="ghost"
+            size="sm"
+            onPress={() => router.push("/debug")}
+          >
+            <Text>デバッグ</Text>
           </Button>
         </View>
       </View>

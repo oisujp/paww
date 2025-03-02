@@ -8,7 +8,10 @@ export default function Debug() {
   const { session } = useContext(AuthContext);
 
   return (
-    <ScrollView className="flex flex-1 p-6">
+    <ScrollView
+      className="flex flex-1 p-6"
+      contentContainerClassName="bg-background"
+    >
       <Text style={{ fontSize: 20, fontWeight: "bold" }}>🛠 Debug Screen</Text>
 
       {/* 環境変数の表示 */}
@@ -17,7 +20,7 @@ export default function Debug() {
           🌍 process.env
         </Text>
 
-        <Text>{process.env.NODE_ENV}</Text>
+        <Text>NODE_ENV: {process.env.NODE_ENV}</Text>
         <Text>{process.env.EXPO_PUBLIC_SUPABASE_URL}</Text>
         <Text>{process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY}</Text>
         <Text>{process.env.EXPO_PUBLIC_PAWW_BASE_URL}</Text>

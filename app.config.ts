@@ -1,15 +1,17 @@
 import { ConfigContext } from "expo/config";
 
-const IS_DEV = process.env.APP_VARIANT === "development";
+const IS_LOCAL = process.env.APP_VARIANT === "local";
+const IS_TEST = process.env.APP_VARIANT === "test";
 const IS_PREVIEW = process.env.APP_VARIANT === "preview";
+
 const bundleIdentifier =
-  process.env.APP_VARIANT === "development"
-    ? "jp.oisu.paww.dev"
-    : "jp.oisu.paww";
+  IS_LOCAL || IS_TEST ? "jp.oisu.paww.dev" : "jp.oisu.paww";
 
 const getAppName = () => {
-  if (IS_DEV) {
-    return "paww (Dev)";
+  if (IS_LOCAL) {
+    return "paww (Local)";
+  } else if (IS_TEST) {
+    return "paww (Test)";
   } else if (IS_PREVIEW) {
     return "paww (Preview)";
   }

@@ -1,12 +1,14 @@
+import { ErrorMessage } from "@hookform/error-message";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   useQuery,
   useUpsertMutation,
 } from "@supabase-cache-helpers/postgrest-swr";
+import StorePlaceholder from "assets/images/store-placeholder.svg";
 import { getTime } from "date-fns";
 import { Image } from "expo-image";
 import { Share } from "lucide-react-native";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import {
   ActivityIndicator,
@@ -31,13 +33,16 @@ type FormData = {
 };
 
 const signUpSchema = z.object({
-  organizationName: z.string(),
+  organizationName: z
+    .string()
+    .min(1, { message: "お店の名前を入力してください。" }),
   logoUrl: z.string(),
 });
 
 export default function StoreIndex() {
   const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
+  const [uploading, setUploading] = useState(false);
   const userId = session?.user.id ?? "";
 
   const { trigger: upsert } = useUpsertMutation(
@@ -50,9 +55,13 @@ export default function StoreIndex() {
     supabase.from("users").select().eq("id", userId).single()
   );
 
-  const { control, handleSubmit, watch, setValue } = useForm<
-    z.infer<typeof signUpSchema>
-  >({
+  const {
+    control,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors },
+  } = useForm<z.infer<typeof signUpSchema>>({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       organizationName: userData?.name ?? "",
@@ -63,13 +72,22 @@ export default function StoreIndex() {
   // iOS: logo.png 160x50
   // https://developer.apple.com/library/archive/documentation/UserExperience/Conceptual/PassKit_PG/Creating.html
   const pickLogo = async () => {
-    const logoBase64 = await pickImage(undefined, 105);
-    if (logoBase64) {
-      const path = `${userId}/user/logo-${getTime(new Date())}.png`;
-      await uploadImage(logoBase64, path);
-      const logoUrl = supabase.storage.from("images").getPublicUrl(path)
-        .data.publicUrl;
-      setValue("logoUrl", logoUrl);
+    try {
+      const logoBase64 = await pickImage(undefined, 105);
+      if (logoBase64) {
+        setUploading(true);
+
+        const path = `${userId}/user/logo-${getTime(new Date())}.png`;
+        await uploadImage(logoBase64, path);
+
+        const logoUrl = supabase.storage.from("images").getPublicUrl(path)
+          .data.publicUrl;
+        setValue("logoUrl", logoUrl);
+      }
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setUploading(false);
     }
   };
 
@@ -102,11 +120,23 @@ export default function StoreIndex() {
         <View className="gap-6 w-full my-6 bg-background p-6 flex-1">
           <View className="grid gap-2">
             <Label>お店のロゴ</Label>
-            <Image
-              className="h-16 my-8"
-              contentFit="contain"
-              source={watch("logoUrl")}
-            />
+            <View className="flex my-8">
+              {uploading ? (
+                <View className="my-5">
+                  <ActivityIndicator />
+                </View>
+              ) : watch("logoUrl") ? (
+                <Image
+                  className="h-16"
+                  contentFit="contain"
+                  source={watch("logoUrl")}
+                />
+              ) : (
+                <View className="flex items-center">
+                  <StorePlaceholder className="size-[108px]" />
+                </View>
+              )}
+            </View>
             <Button
               variant="outline"
               onPress={pickLogo}
@@ -126,7 +156,7 @@ export default function StoreIndex() {
               }}
               render={({ field: { onChange, onBlur, value } }) => (
                 <Input
-                  placeholder="お店の名前"
+                  placeholder="お店の名前を入力してください"
                   autoCorrect={false}
                   autoCapitalize="none"
                   onBlur={onBlur}
@@ -136,6 +166,9 @@ export default function StoreIndex() {
               )}
               name="organizationName"
             />
+            <Text className="text-sm text-destructive">
+              <ErrorMessage errors={errors} name="organizationName" />
+            </Text>
           </View>
         </View>
       </ScrollView>
