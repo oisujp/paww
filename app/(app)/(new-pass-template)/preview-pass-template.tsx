@@ -6,7 +6,12 @@ import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { ActivityIndicator, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
@@ -124,7 +129,7 @@ export default function NewPassTemplate() {
 
       await fetchWithToken(url, { passTemplateId });
 
-      router.dismissAll();
+      router.replace("/(app)/(tabs)");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -140,7 +145,7 @@ export default function NewPassTemplate() {
       watch("expirationDate") && format(watch("expirationDate"), "yyyy/MM/dd"),
     foregroundColor: watch("foregroundColor"),
     labelColor: watch("labelColor"),
-    logoText: watch("logoText"),
+    logoText: userData.name,
     coupon: {
       headerFields: [],
       primaryFields,
@@ -153,7 +158,7 @@ export default function NewPassTemplate() {
   };
 
   return (
-    <React.Fragment>
+    <SafeAreaView className="flex flex-1">
       <Menubar
         value={platform}
         onValueChange={onPlatformChange}
@@ -184,6 +189,6 @@ export default function NewPassTemplate() {
           <Text>保存する</Text>
         </Button>
       </View>
-    </React.Fragment>
+    </SafeAreaView>
   );
 }

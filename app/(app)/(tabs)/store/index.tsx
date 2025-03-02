@@ -7,6 +7,7 @@ import {
 import StorePlaceholder from "assets/images/store-placeholder.svg";
 import { getTime } from "date-fns";
 import { Image } from "expo-image";
+import { router } from "expo-router";
 import { Share } from "lucide-react-native";
 import { useContext, useState } from "react";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
@@ -107,6 +108,7 @@ export default function StoreIndex() {
       if (res === null) {
         throw "";
       }
+      router.navigate("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {

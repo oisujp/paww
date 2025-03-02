@@ -1,7 +1,7 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
 import PassTemplateImage from "assets/images/pass-template.svg";
 import Store from "assets/images/store.svg";
-import { Link, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import React, { useContext } from "react";
 import { ActivityIndicator, FlatList, View } from "react-native";
 import { PassTemplateBlock } from "~/components/pass/pass-template-block";
@@ -76,7 +76,7 @@ export default function Home() {
         </View>
         <Button
           className="w-full"
-          onPress={() => router.navigate("/home/new-pass-template")}
+          onPress={() => router.navigate("/(app)/(new-pass-template)")}
         >
           <Text>テンプレートの作成に進む</Text>
         </Button>
@@ -104,11 +104,12 @@ export default function Home() {
           );
         }}
       />
-      <Link asChild href={{ pathname: "/home/new-pass-template" }}>
-        <Button className="m-4">
-          <Text className="text-white">新しくテンプレートを作成する</Text>
-        </Button>
-      </Link>
+      <Button
+        className="m-4"
+        onPress={() => router.push({ pathname: "/(app)/(new-pass-template)" })}
+      >
+        <Text className="text-white">新しくテンプレートを作成する</Text>
+      </Button>
     </View>
   );
 }

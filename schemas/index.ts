@@ -3,7 +3,6 @@ import { z } from "zod";
 export const passTemplateSchema = z.object({
   id: z.string(),
   name: z.string(),
-  logoText: z.string(),
   description: z.string(),
   passContentLabel: z.string(),
   passContentValue: z

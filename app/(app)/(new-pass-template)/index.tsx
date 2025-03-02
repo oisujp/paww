@@ -20,7 +20,7 @@ import { supabase, uploadImage } from "~/lib/supabase";
 import { cn, logger, pickImage } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
-export default function NewPassTemplate() {
+export default function NewPassTemplateIndex() {
   const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const router = useRouter();
@@ -60,7 +60,9 @@ export default function NewPassTemplate() {
 
   const onPressPreview = async () => {
     if (Object.keys(formState.errors).length === 0) {
-      router.navigate({ pathname: "/home/preview-pass-template" });
+      router.push({
+        pathname: "/(app)/(new-pass-template)/preview-pass-template",
+      });
     }
   };
 
@@ -137,7 +139,7 @@ export default function NewPassTemplate() {
             size="sm"
             onPress={() => {
               router.push({
-                pathname: "/home/pick-color",
+                pathname: "/pick-color",
                 params: { key: "backgroundColor" },
               });
             }}
@@ -152,7 +154,7 @@ export default function NewPassTemplate() {
             size="sm"
             onPress={() => {
               router.push({
-                pathname: "/home/pick-color",
+                pathname: "/pick-color",
                 params: { key: "foregroundColor" },
               });
             }}
@@ -167,7 +169,7 @@ export default function NewPassTemplate() {
             size="sm"
             onPress={() => {
               router.push({
-                pathname: "/home/pick-color",
+                pathname: "/pick-color",
                 params: { key: "labelColor" },
               });
             }}

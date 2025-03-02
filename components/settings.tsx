@@ -1,5 +1,5 @@
 import { Link } from "expo-router";
-import { AlignJustify } from "lucide-react-native";
+import { SettingsIcon } from "lucide-react-native";
 import React, { useContext } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Button } from "~/components/ui/button";
@@ -12,15 +12,15 @@ import {
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 
-export function Menu() {
+export function Settings() {
   const contentInsets = useSafeAreaInsets();
   const { signOut } = useContext(AuthContext);
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="px-0">
-          <AlignJustify />
+        <Button variant="ghost" className="-mr-4 px-0">
+          <SettingsIcon color={"#5F6368"} />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent insets={contentInsets} className="w-64 native:w-72">
