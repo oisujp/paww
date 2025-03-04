@@ -1,8 +1,8 @@
 import { ConfigContext } from "expo/config";
 
-const IS_LOCAL = process.env.APP_VARIANT === "local";
-const IS_DEV = process.env.APP_VARIANT === "development";
-const IS_PREVIEW = process.env.APP_VARIANT === "preview";
+const IS_LOCAL = process.env.EXPO_PUBLIC_APP_VARIANT === "local";
+const IS_DEV = process.env.EXPO_PUBLIC_APP_VARIANT === "development";
+const IS_PREVIEW = process.env.EXPO_PUBLIC_APP_VARIANT === "preview";
 
 const bundleIdentifier =
   IS_LOCAL || IS_DEV ? "jp.oisu.paww.dev" : "jp.oisu.paww";

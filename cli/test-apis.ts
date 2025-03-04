@@ -53,7 +53,9 @@ async function testPawwBackend() {
 // Run tests
 async function runTests() {
   console.log(
-    "\n🔍 Running API Connection Tests...\n" + "Env: " + process.env.APP_VARIANT
+    "\n🔍 Running API Connection Tests...\n" +
+      "Env: " +
+      process.env.EXPO_PUBLIC_APP_VARIANT
   );
   await testSupabaseFunction();
   await testSupabaseDatabase();

@@ -23,10 +23,11 @@ export default function Debug() {
         </Text>
 
         <Text>NODE_ENV: {process.env.NODE_ENV}</Text>
-        <Text>scheme: {scheme}</Text>
+        <Text>APP_VARIANT: {process.env.EXPO_PUBLIC_APP_VARIANT}</Text>
         <Text>{process.env.EXPO_PUBLIC_SUPABASE_URL}</Text>
         <Text>{process.env.EXPO_PUBLIC_SUPABASE_ANON_KEY}</Text>
         <Text>{process.env.EXPO_PUBLIC_PAWW_BASE_URL}</Text>
+        <Text>scheme: {scheme}</Text>
       </View>
 
       <Button
