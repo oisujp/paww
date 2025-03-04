@@ -9,7 +9,6 @@ import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { supabase } from "~/lib/supabase";
-import Constants from "expo-constants";
 
 export default function Home() {
   const router = useRouter();
