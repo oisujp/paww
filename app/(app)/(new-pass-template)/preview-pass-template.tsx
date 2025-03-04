@@ -20,7 +20,7 @@ import { Menubar, MenubarMenu, MenubarTrigger } from "~/components/ui/menubar";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { passBase } from "~/lib/constants";
+import { passBase, sampleIcons } from "~/lib/constants";
 import { fetchWithToken, supabase } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
@@ -52,23 +52,19 @@ export default function NewPassTemplate() {
   const { handleSubmit, watch, getValues } =
     useFormContext<z.infer<typeof passTemplateSchema>>();
 
-  if (!userData) {
+  if (!userData?.name) {
     return null;
   }
 
-  const primaryFields = [
-    {
-      key: "pass-content",
-      label: watch("passContentLabel"),
-      value: watch("passContentValue"),
-    },
-  ];
   const secondaryFields = [
     {
       key: "pass-content",
       label: watch("passContentLabel"),
       value: watch("passContentValue"),
     },
+  ];
+
+  const auxiliaryFields = [
     {
       key: "expiration-date",
       label: "有効期限",
@@ -79,6 +75,10 @@ export default function NewPassTemplate() {
   ];
 
   const onSubmit = async () => {
+    if (!userData.name) {
+      return;
+    }
+
     setLoading(true);
     const {
       name,
@@ -103,16 +103,18 @@ export default function NewPassTemplate() {
           foregroundColor,
           formatVersion: 1,
           labelColor,
-          organizationName: name ?? "",
+          organizationName: userData.name,
           teamIdentifier,
           logoText: userData.name,
           passTypeIdentifier,
           serialNumber: uuidv4(),
-          logoUrl: userData.logoUrl,
+          iconUrl: sampleIcons[0], // TODO
+          logoUrl: userData.logoUrl ?? "", // TODO
           stripUrl,
           coupon: {
-            primaryFields,
+            primaryFields: [],
             secondaryFields,
+            auxiliaryFields,
           },
         },
       ]);
@@ -129,7 +131,7 @@ export default function NewPassTemplate() {
 
       await fetchWithToken(url, { passTemplateId });
 
-      router.replace("/(app)/(tabs)");
+      router.navigate("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -148,9 +150,9 @@ export default function NewPassTemplate() {
     logoText: userData.name,
     coupon: {
       headerFields: [],
-      primaryFields,
+      primaryFields: [],
       secondaryFields,
-      auxiliaryFields: [],
+      auxiliaryFields,
       backFields: [],
     },
     logoUrl: userData.logoUrl,
@@ -158,7 +160,7 @@ export default function NewPassTemplate() {
   };
 
   return (
-    <SafeAreaView className="flex flex-1">
+    <SafeAreaView className="flex flex-1 bg-background">
       <Menubar
         value={platform}
         onValueChange={onPlatformChange}
@@ -179,7 +181,7 @@ export default function NewPassTemplate() {
       <ScrollView contentContainerClassName="flex flex-1 p-6">
         <PassTemplateImage passTemplateProps={passTemplateProps} showBarcode />
       </ScrollView>
-      <View className="flex p-4 bg-background">
+      <View className="flex p-4">
         <Button
           onPress={handleSubmit(onSubmit)}
           disabled={loading}

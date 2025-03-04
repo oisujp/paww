@@ -101,11 +101,11 @@ export type Database = {
           expirationDate: string | null
           foregroundColor: string
           formatVersion: number | null
-          iconUrl: string | null
+          iconUrl: string
           id: string
           labelColor: string
           logoText: string | null
-          logoUrl: string | null
+          logoUrl: string
           name: string
           organizationName: string
           passTypeIdentifier: string
@@ -124,11 +124,11 @@ export type Database = {
           expirationDate?: string | null
           foregroundColor: string
           formatVersion?: number | null
-          iconUrl?: string | null
+          iconUrl: string
           id?: string
           labelColor: string
           logoText?: string | null
-          logoUrl?: string | null
+          logoUrl: string
           name: string
           organizationName: string
           passTypeIdentifier: string
@@ -147,11 +147,11 @@ export type Database = {
           expirationDate?: string | null
           foregroundColor?: string
           formatVersion?: number | null
-          iconUrl?: string | null
+          iconUrl?: string
           id?: string
           labelColor?: string
           logoText?: string | null
-          logoUrl?: string | null
+          logoUrl?: string
           name?: string
           organizationName?: string
           passTypeIdentifier?: string

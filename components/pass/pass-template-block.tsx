@@ -122,7 +122,7 @@ export function PassTemplateBlock({
           </AlertDialog>
         </View>
 
-        <PassTemplateImage passTemplateId={passTemplate.id} />
+        <PassTemplateImage passTemplateId={passTemplate.id} halfSize />
 
         <DeliveryPass passTemplateId={passTemplate.id} />
       </>

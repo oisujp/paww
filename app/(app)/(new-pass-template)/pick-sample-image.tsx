@@ -3,17 +3,12 @@ import { useRouter } from "expo-router";
 import { useFormContext } from "react-hook-form";
 import { Pressable, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
+import { sampleStrips } from "~/lib/constants";
 
 export default function PickSampleImage() {
   const form = useFormContext();
   const router = useRouter();
-  const data = [
-    "http://127.0.0.1:54321/storage/v1/object/public/sample-images//sample-1.png",
-    "http://127.0.0.1:54321/storage/v1/object/public/sample-images//sample-1.png",
-    "http://127.0.0.1:54321/storage/v1/object/public/sample-images//sample-1.png",
-    "http://127.0.0.1:54321/storage/v1/object/public/sample-images//sample-1.png",
-    "http://127.0.0.1:54321/storage/v1/object/public/sample-images//sample-1.png",
-  ];
+  const data = sampleStrips;
 
   return (
     <View>

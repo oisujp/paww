@@ -1,7 +1,16 @@
 export const themeColors = {
   primary: "#FF7D52",
   secondary: "#ADB3BC",
+  background: "#FCFCFC",
 };
+
+export const sampleStrips = [
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-1.png",
+];
+export const sampleIcons = [
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/icon/sample-1.svg",
+];
+export const sampleLogos = [];
 
 export const NAV_THEME = {
   light: {
@@ -27,7 +36,7 @@ export const passBase: PassTemplateBase = {
   passTypeIdentifier: "pass.jp.oisu.luckycat",
   teamIdentifier: "B8KVAMPYW5",
   organizationName: "",
-  labelColor: "#b51a00",
-  foregroundColor: "#2c0977",
+  labelColor: "#000000",
+  foregroundColor: "#000000",
   backgroundColor: "#ffffff",
 };

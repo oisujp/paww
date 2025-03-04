@@ -3,6 +3,7 @@ import { Image } from "expo-image";
 import { Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import ZigZagView from "~/components/zig-zag-view";
+import { themeColors } from "~/lib/constants";
 import { supabase } from "~/lib/supabase";
 import { cn, parseCoupon } from "~/lib/utils";
 
@@ -11,11 +12,13 @@ export function PassTemplateImage({
   passTemplateProps,
   showBarcode,
   className,
+  halfSize,
 }: {
   passTemplateId?: string;
   passTemplateProps?: PassTemplateProps;
   showBarcode?: boolean;
   className?: string;
+  halfSize?: boolean;
 }) {
   const { data: passTemplateData } = useQuery(
     passTemplateId
@@ -51,18 +54,22 @@ export function PassTemplateImage({
 
   return (
     <View className={cn(className)}>
-      <ZigZagView backgroundColor={backgroundColor} position="bottom" />
+      <ZigZagView
+        backgroundColor={backgroundColor}
+        position="bottom"
+        color={themeColors.background}
+      />
 
       <View style={{ backgroundColor }}>
         <View
-          className={`pr-2 pt-0 flex flex-row gap-2 items-center justify-start`}
+          className={cn(`flex flex-row p-2 gap-2 items-center justify-start`)}
         >
           {logoUrl ? (
             <Image
               source={{ uri: logoUrl }}
               style={{
-                height: 60,
-                minWidth: 60,
+                height: halfSize ? 30 : 60,
+                minWidth: halfSize ? 30 : 60,
               }}
               contentFit="contain"
             />
@@ -79,8 +86,8 @@ export function PassTemplateImage({
             <Image
               source={{ uri: stripUrl }}
               style={{
-                minHeight: 60,
-                height: 200,
+                minHeight: halfSize ? 30 : 60,
+                height: halfSize ? 100 : 200,
                 width: "100%",
               }}
               className="w-full"
@@ -91,7 +98,11 @@ export function PassTemplateImage({
           )}
         </View>
 
-        <View className="py-1 px-3 grid gap-2">
+        <View
+          className={cn(
+            halfSize ? "p-2 flex-col gap-2" : "p-4 flex-row justify-between"
+          )}
+        >
           {secondaryFields?.map((p) => {
             return (
               <View key={p.key}>
@@ -100,7 +111,7 @@ export function PassTemplateImage({
                 </Text>
                 {p.value ? (
                   <Text
-                    className="text-base"
+                    className={cn(halfSize ? "text-sm" : "text-2xl")}
                     style={{ color: foregroundColor }}
                   >
                     {p.value}
@@ -119,7 +130,10 @@ export function PassTemplateImage({
           </View>
         )}
       </View>
-      <ZigZagView backgroundColor={backgroundColor} />
+      <ZigZagView
+        backgroundColor={backgroundColor}
+        color={themeColors.background}
+      />
     </View>
   );
 }

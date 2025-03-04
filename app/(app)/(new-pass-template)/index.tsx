@@ -164,50 +164,13 @@ export default function NewPassTemplateIndex() {
           </View>
 
           <Label>背景色</Label>
-
-          <Button
-            variant="outline"
-            size="sm"
-            onPress={() => {
-              router.push({
-                pathname: "/pick-color",
-                params: { key: "backgroundColor" },
-              });
-            }}
-            style={{ backgroundColor: watch("backgroundColor") }}
-          >
-            <Text>{watch("backgroundColor")}</Text>
-          </Button>
+          <ColorPickerButton keyName="backgroundColor" />
 
           <Label>メイン文字色</Label>
-          <Button
-            variant="outline"
-            size="sm"
-            onPress={() => {
-              router.push({
-                pathname: "/pick-color",
-                params: { key: "foregroundColor" },
-              });
-            }}
-            style={{ backgroundColor: watch("foregroundColor") }}
-          >
-            <Text>{watch("foregroundColor")}</Text>
-          </Button>
+          <ColorPickerButton keyName="foregroundColor" />
 
           <Label>サブ文字色</Label>
-          <Button
-            variant="outline"
-            size="sm"
-            onPress={() => {
-              router.push({
-                pathname: "/pick-color",
-                params: { key: "labelColor" },
-              });
-            }}
-            style={{ backgroundColor: watch("labelColor") }}
-          >
-            <Text>{watch("labelColor")}</Text>
-          </Button>
+          <ColorPickerButton keyName="labelColor" />
         </View>
       </ScrollView>
 
@@ -224,3 +187,30 @@ export default function NewPassTemplateIndex() {
     </SafeAreaView>
   );
 }
+
+const ColorPickerButton = ({ keyName }: { keyName: string }) => {
+  const router = useRouter();
+  const { watch } = useFormContext();
+
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      onPress={() => {
+        router.push({
+          pathname: "/pick-color",
+          params: { key: keyName },
+        });
+      }}
+      className="flex flex-row justify-start gap-2 h-[50px] border-border border"
+    >
+      <View
+        className="rounded-full size-[18px] border border-border"
+        style={{ backgroundColor: watch(keyName) }}
+      />
+      <Text className="text-left text-foreground native:font-normal">
+        {watch(keyName)?.toUpperCase()}
+      </Text>
+    </Button>
+  );
+};

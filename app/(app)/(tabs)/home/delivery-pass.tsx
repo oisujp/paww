@@ -1,9 +1,10 @@
 import PassDeliveryImage from "assets/images/pass-delivery.svg";
 import QRIcon from "assets/images/qr.svg";
+import * as Clipboard from "expo-clipboard";
 import * as WebBrowser from "expo-web-browser";
 import { Copy } from "lucide-react-native";
 import { useContext, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, Alert, Pressable, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import {
   AlertDialog,
@@ -82,9 +83,15 @@ export default function DeliveryPass({
               <Text className="text-blue-800" onPress={onPressOpenWeb}>
                 {shortenUrl}
               </Text>
-              <View className="rounded-full border border-border size-9 items-center justify-center">
+              <Pressable
+                className="rounded-full border border-border size-9 items-center justify-center"
+                onPress={async () => {
+                  await Clipboard.setStringAsync(shortenUrl);
+                  Alert.alert("URLをコピーしました");
+                }}
+              >
                 <Copy size={16} />
-              </View>
+              </Pressable>
             </View>
           </View>
         )}
