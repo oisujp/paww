@@ -8,7 +8,13 @@ import { useRouter } from "expo-router";
 import { ExternalLink, Share } from "lucide-react-native";
 import React, { useContext } from "react";
 import { Controller, useFormContext } from "react-hook-form";
-import { Image, SafeAreaView, ScrollView, View } from "react-native";
+import {
+  ActivityIndicator,
+  Image,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -68,16 +74,23 @@ export default function NewPassTemplateIndex() {
   };
 
   const openCameraRoll = async () => {
-    const stripBase64 = await pickImage(undefined, 450);
+    try {
+      setLoading(true);
+      const stripBase64 = await pickImage(1171, 450);
 
-    if (stripBase64) {
-      const path = `${userId}/pass-templates/${watch("id")}/strip-${getTime(
-        new Date()
-      )}.png`;
-      await uploadImage(stripBase64, path);
-      const stripUrl = supabase.storage.from("images").getPublicUrl(path)
-        .data.publicUrl;
-      setValue("stripUrl", stripUrl);
+      if (stripBase64) {
+        const path = `${userId}/pass-templates/${watch("id")}/strip-${getTime(
+          new Date()
+        )}.png`;
+        await uploadImage(stripBase64, path);
+        const stripUrl = supabase.storage.from("images").getPublicUrl(path)
+          .data.publicUrl;
+        setValue("stripUrl", stripUrl);
+      }
+    } catch (error) {
+      logger.error(error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -104,25 +117,30 @@ export default function NewPassTemplateIndex() {
           )}
         >
           <Label>カバー画像</Label>
-          {watch("stripUrl") && (
-            <Image
-              className="w-full h-32"
-              source={{
-                uri: watch("stripUrl"),
-              }}
-            />
+          {loading ? (
+            <ActivityIndicator className="h-32 w-full" />
+          ) : (
+            watch("stripUrl") && (
+              <Image
+                className="w-full h-32"
+                source={{
+                  uri: watch("stripUrl"),
+                }}
+              />
+            )
           )}
 
-          <Button
-            variant="outline"
-            onPress={onPressSelectImage}
-            disabled={loading}
-            className="rounded-lg flex flex-row text-primary gap-2"
-          >
-            <Share width={15} height={16} color={themeColors.primary} />
-            <Text>画像を選択する</Text>
-          </Button>
-
+          {loading || (
+            <Button
+              variant="outline"
+              onPress={onPressSelectImage}
+              disabled={loading}
+              className="rounded-lg flex flex-row text-primary gap-2"
+            >
+              <Share width={15} height={16} color={themeColors.primary} />
+              <Text>画像を選択する</Text>
+            </Button>
+          )}
           <Label>特典</Label>
           <Controller
             control={control}

@@ -76,7 +76,7 @@ export function PassTemplateImage({
           ) : (
             <View className="h-24 bg-gray-400" />
           )}
-          <Text style={{ color: foregroundColor }} className="font-bold">
+          <Text style={{ color: foregroundColor }} className="font-bold mr-8">
             {logoText}
           </Text>
         </View>
@@ -126,7 +126,9 @@ export function PassTemplateImage({
 
         {showBarcode && (
           <View className="my-8 items-center">
-            <QRCode value="http://awesome.link.qr" />
+            <View className="p-2 bg-white rounded-xl">
+              <QRCode value="これはプレビューです" />
+            </View>
           </View>
         )}
       </View>

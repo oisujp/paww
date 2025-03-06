@@ -33,7 +33,7 @@ export const NAV_THEME = {
 
 export const passBase: PassTemplateBase = {
   formatVersion: 1,
-  passTypeIdentifier: ["development", "test"].includes(
+  passTypeIdentifier: ["local", "development", "test"].includes(
     process.env.EXPO_PUBLIC_APP_VARIANT!
   )
     ? "pass.jp.oisu.luckycat"

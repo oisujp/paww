@@ -4,22 +4,11 @@ import {
 } from "@supabase-cache-helpers/postgrest-swr";
 import { format } from "date-fns";
 import { router } from "expo-router";
-import { Trash } from "lucide-react-native";
+import { Trash2 } from "lucide-react-native";
 import { useContext } from "react";
-import { Pressable, Text, View } from "react-native";
+import { Alert, Pressable, Text, View } from "react-native";
 import DeliveryPass from "~/app/(app)/(tabs)/home/delivery-pass";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "~/components/ui/alert-dialog";
 import { Button } from "~/components/ui/button";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { supabase } from "~/lib/supabase";
@@ -55,10 +44,26 @@ export function PassTemplateBlock({
   const onPressDelete = async () => {
     try {
       setLoading(true);
-      await doUpdate({
-        id: passTemplate.id,
-        deletedAt: new Date().toISOString(),
-      });
+      Alert.alert(
+        "テンプレートを削除しますか？",
+        "発行済みのパスには影響しません。",
+        [
+          {
+            text: "削除する",
+            onPress: async () => {
+              await doUpdate({
+                id: passTemplate.id,
+                deletedAt: new Date().toISOString(),
+              });
+            },
+            style: "destructive",
+          },
+          {
+            text: "キャンセル",
+            style: "cancel",
+          },
+        ]
+      );
     } catch (error) {
       logger.error(error);
     } finally {
@@ -85,41 +90,17 @@ export function PassTemplateBlock({
             </Text>
           </View>
 
-          <AlertDialog>
-            <AlertDialogTrigger asChild>
-              <Button variant="ghost" className="w-[30px]">
-                <View className="rounded-full size-[30px] border border-1 items-center justify-center border-border">
-                  <Trash width={11} height={11} />
-                </View>
-              </Button>
-            </AlertDialogTrigger>
-            <AlertDialogContent>
-              <AlertDialogHeader>
-                <AlertDialogTitle>テンプレートを削除しますか?</AlertDialogTitle>
-                <AlertDialogDescription>
-                  発行済みのパスには影響しません。
-                </AlertDialogDescription>
-              </AlertDialogHeader>
-              <AlertDialogFooter>
-                <AlertDialogCancel asChild>
-                  <Button
-                    variant="ghost"
-                    className="text-muted-foreground border-0"
-                  >
-                    <Text>キャンセル</Text>
-                  </Button>
-                </AlertDialogCancel>
-                <AlertDialogAction onPress={onPressDelete} asChild>
-                  <Button
-                    variant="destructive"
-                    className="bg-white border-destructive border"
-                  >
-                    <Text className="text-destructive">削除</Text>
-                  </Button>
-                </AlertDialogAction>
-              </AlertDialogFooter>
-            </AlertDialogContent>
-          </AlertDialog>
+          <Button
+            variant="ghost"
+            className="w-[30px]"
+            onPress={() => {
+              onPressDelete();
+            }}
+          >
+            <View className="rounded-full size-[30px] border border-1 items-center justify-center border-border">
+              <Trash2 width={11} height={11} />
+            </View>
+          </Button>
         </View>
 
         <PassTemplateImage passTemplateId={passTemplate.id} halfSize />
