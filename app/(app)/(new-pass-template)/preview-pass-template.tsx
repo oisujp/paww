@@ -2,7 +2,6 @@ import {
   useInsertMutation,
   useQuery,
 } from "@supabase-cache-helpers/postgrest-swr";
-import { format } from "date-fns";
 import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -22,7 +21,7 @@ import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { passBase, sampleIcons } from "~/lib/constants";
 import { fetchWithToken, supabase } from "~/lib/supabase";
-import { logger } from "~/lib/utils";
+import { formatDate, logger } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
 export default function NewPassTemplate() {
@@ -68,9 +67,7 @@ export default function NewPassTemplate() {
     {
       key: "expiration-date",
       label: "有効期限",
-      value:
-        watch("expirationDate") &&
-        format(watch("expirationDate"), "yyyy/MM/dd"),
+      value: watch("expirationDate") && formatDate(watch("expirationDate")),
     },
   ];
 
@@ -105,7 +102,7 @@ export default function NewPassTemplate() {
           labelColor,
           organizationName: userData.name,
           teamIdentifier,
-          logoText: userData.name,
+          logoText: userData.logoText,
           passTypeIdentifier,
           serialNumber: uuidv4(),
           iconUrl: sampleIcons[0], // TODO
@@ -144,10 +141,10 @@ export default function NewPassTemplate() {
     organizationName: userData.name,
     backgroundColor: watch("backgroundColor"),
     expirationDate:
-      watch("expirationDate") && format(watch("expirationDate"), "yyyy/MM/dd"),
+      watch("expirationDate") && formatDate(watch("expirationDate")),
     foregroundColor: watch("foregroundColor"),
     labelColor: watch("labelColor"),
-    logoText: userData.name,
+    logoText: userData.logoText,
     coupon: {
       headerFields: [],
       primaryFields: [],

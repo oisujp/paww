@@ -1,3 +1,4 @@
+import { useRouter } from "expo-router";
 import { useContext } from "react";
 import { SafeAreaView, View } from "react-native";
 import SuccessBlock from "~/components/success-block";
@@ -7,6 +8,7 @@ import { AuthContext } from "~/contexts/auth-context";
 
 export default function ResetPasswordSuccess() {
   const { signOut } = useContext(AuthContext);
+  const router = useRouter();
 
   return (
     <SafeAreaView className="flex flex-1 bg-background">
@@ -19,6 +21,7 @@ export default function ResetPasswordSuccess() {
           <Button
             onPress={() => {
               signOut();
+              router.replace("/sign-in");
             }}
           >
             <Text>ログイン画面に戻る</Text>

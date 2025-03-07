@@ -18,9 +18,11 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
+import { CaveatView } from "~/components/caveat-view";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
+import { Switch } from "~/components/ui/switch";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
@@ -31,13 +33,15 @@ import { logger, pickImage } from "~/lib/utils";
 type FormData = {
   organizationName: string;
   logoUrl: string;
+  noLogoText: boolean;
 };
 
-const signUpSchema = z.object({
+const storeSchema = z.object({
   organizationName: z
     .string()
     .min(1, { message: "お店の名前を入力してください。" }),
   logoUrl: z.string(),
+  noLogoText: z.boolean(),
 });
 
 export default function StoreIndex() {
@@ -62,11 +66,12 @@ export default function StoreIndex() {
     watch,
     setValue,
     formState: { errors },
-  } = useForm<z.infer<typeof signUpSchema>>({
-    resolver: zodResolver(signUpSchema),
+  } = useForm<z.infer<typeof storeSchema>>({
+    resolver: zodResolver(storeSchema),
     defaultValues: {
       organizationName: userData?.name ?? "",
       logoUrl: userData?.logoUrl ?? "",
+      noLogoText: !userData?.logoText,
     },
   });
 
@@ -96,13 +101,14 @@ export default function StoreIndex() {
     setLoading(true);
 
     try {
-      const { organizationName, logoUrl } = formData;
+      const { organizationName, logoUrl, noLogoText } = formData;
       // upsert user
       const res = await upsert([
         {
           id: userId,
           name: organizationName,
           logoUrl,
+          logoText: noLogoText ? undefined : organizationName,
         },
       ]);
       if (res === null) {
@@ -172,18 +178,42 @@ export default function StoreIndex() {
               <ErrorMessage errors={errors} name="organizationName" />
             </Text>
           </View>
+
+          <View className="grid gap-4">
+            <Label>パスの表示設定</Label>
+            <Controller
+              control={control}
+              rules={{
+                required: true,
+              }}
+              render={({ field: { onChange, value } }) => (
+                <View className="flex flex-row items-center w-full justify-between">
+                  <Text>ロゴのみ表示する</Text>
+                  <Switch
+                    checked={!!value}
+                    onCheckedChange={onChange}
+                    nativeID="airplane-mode"
+                  />
+                </View>
+              )}
+              name="noLogoText"
+            />
+          </View>
         </View>
       </ScrollView>
-      <View className="flex m-4">
-        <Button
-          onPress={handleSubmit(onSubmit)}
-          disabled={loading}
-          className="flex flex-row gap-2"
-        >
-          {loading && <ActivityIndicator className="text-white" />}
 
-          <Text>保存する</Text>
-        </Button>
+      <View>
+        <CaveatView text="登録した情報がデジタルパスに反映されます" />
+        <View className="flex p-4 bg-white">
+          <Button
+            onPress={handleSubmit(onSubmit)}
+            disabled={loading}
+            className="flex flex-row gap-2"
+          >
+            {loading && <ActivityIndicator className="text-white" />}
+            <Text>保存する</Text>
+          </Button>
+        </View>
       </View>
     </SafeAreaView>
   );

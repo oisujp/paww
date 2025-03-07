@@ -1,11 +1,16 @@
 export const themeColors = {
   primary: "#FF7D52",
   secondary: "#ADB3BC",
+  foreground: "#322B29",
   background: "#FCFCFC",
 };
 
 export const sampleStrips = [
   "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-1.png",
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-2.png",
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-3.png",
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-4.png",
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-5.png",
 ];
 export const sampleIcons = [
   "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/icon/sample-1.svg",

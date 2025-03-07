@@ -1,4 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
+import { format } from "date-fns";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { logger as RNLogger } from "react-native-logs";
@@ -65,4 +66,18 @@ export const pickImage = async (maxWidth?: number, maxHeight?: number) => {
 
 export const parseCoupon = (passTemplate: PassTemplate) => {
   return { ...passTemplate, coupon: passTemplate.coupon as PassTemplateFields };
+};
+
+export const formatDatetime = (datetime?: string | null) => {
+  if (!datetime) {
+    return "";
+  }
+  return format(datetime, "yyyy/MM/dd HH:mm:ss");
+};
+
+export const formatDate = (date?: Date | string | null) => {
+  if (!date) {
+    return "";
+  }
+  return format(date, "yyyy/MM/dd");
 };

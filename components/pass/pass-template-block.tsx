@@ -2,7 +2,6 @@ import {
   useQuery,
   useUpdateMutation,
 } from "@supabase-cache-helpers/postgrest-swr";
-import { format } from "date-fns";
 import { router } from "expo-router";
 import { Trash2 } from "lucide-react-native";
 import { useContext } from "react";
@@ -12,7 +11,7 @@ import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import { Button } from "~/components/ui/button";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { supabase } from "~/lib/supabase";
-import { logger } from "~/lib/utils";
+import { formatDate, logger } from "~/lib/utils";
 
 export function PassTemplateBlock({
   passTemplateId,
@@ -86,7 +85,7 @@ export function PassTemplateBlock({
           <View className="flex">
             <Text className="text-sm">作成日</Text>
             <Text className="text-sm">
-              {format(passTemplate.createdAt, "yyyy/MM/dd")}
+              {formatDate(passTemplate.createdAt)}
             </Text>
           </View>
 

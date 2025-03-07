@@ -5,6 +5,7 @@ import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import { BackButton } from "~/components/back-button";
 import { AuthContext } from "~/contexts/auth-context";
 import { passBase } from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
@@ -44,6 +45,27 @@ export default function AppLayout() {
           options={{
             title: "テンプレートを作成",
             headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="(aux)/settings"
+          options={{
+            title: "設定",
+            headerLeft: () => <BackButton />,
+          }}
+        />
+        <Stack.Screen
+          name="(aux)/debug"
+          options={{
+            title: "デバッグ",
+            headerLeft: () => <BackButton />,
+          }}
+        />
+        <Stack.Screen
+          name="(aux)/license"
+          options={{
+            title: "ライセンス情報",
+            headerLeft: () => <BackButton />,
           }}
         />
       </Stack>

@@ -37,12 +37,12 @@ export default function Passes() {
 
   return (
     <React.Fragment>
-      <View className="flex w-full items-end p-6">
+      <View className="flex w-full items-end py-3 px-6">
         <Text className="text-right">全{count}件</Text>
       </View>
       <FlatList
         data={passesData}
-        contentContainerClassName="gap-6 px-6"
+        contentContainerClassName="gap-4 px-6"
         className="w-full"
         renderItem={({ item }) => {
           return <PassBlock key={item.id} pass={item} />;

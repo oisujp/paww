@@ -37,10 +37,11 @@ export type Database = {
       passes: {
         Row: {
           addedAt: string | null
-          authenticationToken: string
+          authenticationToken: string | null
           createdAt: string
           id: string
           passTemplateId: string
+          platform: string
           publicUrl: string
           publishedAt: string | null
           serialNumber: string
@@ -50,23 +51,25 @@ export type Database = {
         }
         Insert: {
           addedAt?: string | null
-          authenticationToken?: string
+          authenticationToken?: string | null
           createdAt?: string
           id?: string
           passTemplateId: string
+          platform: string
           publicUrl: string
           publishedAt?: string | null
-          serialNumber?: string
+          serialNumber: string
           updatedAt?: string | null
           usedAt?: string | null
           userId?: string | null
         }
         Update: {
           addedAt?: string | null
-          authenticationToken?: string
+          authenticationToken?: string | null
           createdAt?: string
           id?: string
           passTemplateId?: string
+          platform?: string
           publicUrl?: string
           publishedAt?: string | null
           serialNumber?: string
@@ -176,6 +179,7 @@ export type Database = {
           createdAt: string
           iconUrl: string | null
           id: string
+          logoText: string | null
           logoUrl: string | null
           name: string | null
           updatedAt: string | null
@@ -184,6 +188,7 @@ export type Database = {
           createdAt?: string
           iconUrl?: string | null
           id?: string
+          logoText?: string | null
           logoUrl?: string | null
           name?: string | null
           updatedAt?: string | null
@@ -192,6 +197,7 @@ export type Database = {
           createdAt?: string
           iconUrl?: string | null
           id?: string
+          logoText?: string | null
           logoUrl?: string | null
           name?: string | null
           updatedAt?: string | null
