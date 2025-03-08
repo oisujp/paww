@@ -19,6 +19,7 @@
     "@hookform/resolvers": "^4.1.1",
     "@radix-ui/react-dialog": "^1.1.6",
     "@react-native-async-storage/async-storage": "1.23.1",
+    "@react-native-community/datetimepicker": "8.2.0",
     "@react-navigation/drawer": "^7.1.1",
     "@react-navigation/native": "^7.0.14",
     "@rn-primitives/alert-dialog": "^1.1.0",
@@ -116,6 +117,7 @@
   "expo": {
     "doctor": {
       "reactNativeDirectoryCheck": {
+        "listUnknownPackages": false,
         "exclude": [
           "lucide-react-native"
         ]

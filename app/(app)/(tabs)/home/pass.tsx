@@ -56,7 +56,7 @@ export default function Pass() {
 
   return (
     <SafeAreaView className="flex flex-1">
-      <ScrollView contentContainerClassName="flex flex-1 gap-4 p-6 my-6 bg-white">
+      <ScrollView contentContainerClassName="gap-4 p-6 my-6 bg-white">
         <View className="w-1/2 self-center flex gap-8">
           <PassTemplateImage passTemplateId={pass.passTemplateId} halfSize />
           <Button
