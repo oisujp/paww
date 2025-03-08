@@ -1,12 +1,18 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { ErrorMessage } from "@hookform/error-message";
-import DateTimePicker, {
-  DateTimePickerEvent,
-} from "@react-native-community/datetimepicker";
-import { getTime } from "date-fns";
+import {
+  getTime,
+  setDate,
+  setHours,
+  setMilliseconds,
+  setMinutes,
+  setMonth,
+  setSeconds,
+  setYear,
+} from "date-fns";
 import { useRouter } from "expo-router";
-import { ExternalLink, Share } from "lucide-react-native";
-import React, { useContext } from "react";
+import { Share } from "lucide-react-native";
+import React, { useContext, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
   ActivityIndicator,
@@ -15,6 +21,7 @@ import {
   ScrollView,
   View,
 } from "react-native";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { z } from "zod";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
@@ -24,13 +31,15 @@ import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { themeColors } from "~/lib/constants";
 import { supabase, uploadImage } from "~/lib/supabase";
-import { cn, logger, pickImage } from "~/lib/utils";
+import { cn, formatDate, formatTime, logger, pickImage } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
 export default function NewPassTemplateIndex() {
   const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const router = useRouter();
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
   const userId = session?.user.id ?? "";
 
@@ -94,10 +103,24 @@ export default function NewPassTemplateIndex() {
     }
   };
 
-  const onChangeExpirationDate = (_: DateTimePickerEvent, date?: Date) => {
-    if (date) {
-      setValue("expirationDate", date);
-    }
+  const onChangeDate = (date: Date) => {
+    const currentDate = watch("expirationDate");
+    const newDate = setDate(
+      setMonth(setYear(currentDate, date.getFullYear()), date.getMonth()),
+      date.getDate()
+    );
+    setValue("expirationDate", newDate);
+  };
+  const onChangeTime = (date: Date) => {
+    const currentDate = watch("expirationDate");
+    const newDate = setMilliseconds(
+      setSeconds(
+        setMinutes(setHours(currentDate, date.getHours()), date.getMinutes()),
+        date.getSeconds()
+      ),
+      date.getMilliseconds()
+    );
+    setValue("expirationDate", newDate);
   };
 
   const onPressPreview = async () => {
@@ -166,20 +189,46 @@ export default function NewPassTemplateIndex() {
           )}
 
           <Label>有効期限</Label>
-          <View
-            style={{
-              flex: 1,
-              alignItems: "flex-start",
-            }}
-            className="-ml-4"
-          >
-            <DateTimePicker
-              mode="datetime"
-              locale="ja"
-              onChange={onChangeExpirationDate}
-              value={watch("expirationDate") ?? new Date()}
-            />
+          <View className="flex flex-row gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              onPress={() => setDatePickerVisibility(true)}
+              className="flex flex-1 flex-row justify-start gap-2 h-[50px] border-border border"
+            >
+              <Text className="text-foreground native:font-normal">
+                {formatDate(watch("expirationDate"))}
+              </Text>
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onPress={() => setTimePickerVisibility(true)}
+              className="flex flex-1 flex-row justify-start gap-2 h-[50px] border-border border"
+            >
+              <Text className="text-foreground native:font-normal">
+                {formatTime(watch("expirationDate"))}
+              </Text>
+            </Button>
           </View>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            onConfirm={(date) => {
+              onChangeDate(date);
+              setDatePickerVisibility(false);
+            }}
+            onCancel={() => setDatePickerVisibility(false)}
+          />
+          <DateTimePickerModal
+            isVisible={isTimePickerVisible}
+            mode="time"
+            onConfirm={(date) => {
+              onChangeTime(date);
+              setTimePickerVisibility(false);
+            }}
+            onCancel={() => setTimePickerVisibility(false)}
+          />
 
           <Label>背景色</Label>
           <ColorPickerButton keyName="backgroundColor" />
@@ -193,13 +242,8 @@ export default function NewPassTemplateIndex() {
       </ScrollView>
 
       <View className="flex p-4 bg-background">
-        <Button
-          className="flex flex-row gap-2 border border-border"
-          variant="outline"
-          onPress={handleSubmit(onPressPreview)}
-        >
-          <ExternalLink size={16} />
-          <Text className="text-foreground">プレビュー</Text>
+        <Button onPress={handleSubmit(onPressPreview)}>
+          <Text>プレビューを確認する</Text>
         </Button>
       </View>
     </SafeAreaView>

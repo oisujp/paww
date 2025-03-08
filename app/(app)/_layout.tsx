@@ -5,9 +5,9 @@ import { useContext } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
-import { BackButton } from "~/components/back-button";
+import { HeaderBackButton } from "~/components/header-back-button";
 import { AuthContext } from "~/contexts/auth-context";
-import { passBase } from "~/lib/constants";
+import { passBase, themeColors } from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
 
 export default function AppLayout() {
@@ -33,7 +33,12 @@ export default function AppLayout() {
 
   return (
     <FormProvider {...form}>
-      <Stack>
+      <Stack
+        screenOptions={{
+          headerTintColor: themeColors.foreground,
+          headerBackButtonDisplayMode: "minimal",
+        }}
+      >
         <Stack.Screen
           name="(tabs)"
           options={{
@@ -51,21 +56,21 @@ export default function AppLayout() {
           name="(aux)/settings"
           options={{
             title: "設定",
-            headerLeft: () => <BackButton />,
+            headerLeft: HeaderBackButton,
           }}
         />
         <Stack.Screen
           name="(aux)/debug"
           options={{
             title: "デバッグ",
-            headerLeft: () => <BackButton />,
+            headerLeft: HeaderBackButton,
           }}
         />
         <Stack.Screen
           name="(aux)/license"
           options={{
             title: "ライセンス情報",
-            headerLeft: () => <BackButton />,
+            headerLeft: HeaderBackButton,
           }}
         />
       </Stack>

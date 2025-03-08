@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
 import React from "react";
-import { BackButton } from "~/components/back-button";
+import { HeaderBackButton } from "~/components/header-back-button";
 
 export default function AuthLayout() {
   return (
@@ -11,7 +11,7 @@ export default function AuthLayout() {
         name="reset-password"
         options={{
           headerTitle: "パスワードをリセットする",
-          headerLeft: () => <BackButton />,
+          headerLeft: HeaderBackButton,
         }}
       />
       <Stack.Screen

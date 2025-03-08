@@ -2,8 +2,8 @@ import {
   useQuery,
   useUpdateMutation,
 } from "@supabase-cache-helpers/postgrest-swr";
+import TrashIcon from "assets/images/trash.svg";
 import { router } from "expo-router";
-import { Trash2 } from "lucide-react-native";
 import { useContext } from "react";
 import { Alert, Pressable, Text, View } from "react-native";
 import DeliveryPass from "~/app/(app)/(tabs)/home/delivery-pass";
@@ -97,7 +97,7 @@ export function PassTemplateBlock({
             }}
           >
             <View className="rounded-full size-[30px] border border-1 items-center justify-center border-border">
-              <Trash2 width={11} height={11} />
+              <TrashIcon width={16} height={16} />
             </View>
           </Button>
         </View>

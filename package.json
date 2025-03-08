@@ -17,10 +17,8 @@
     "@expo/react-native-action-sheet": "^4.1.1",
     "@hookform/error-message": "^2.0.1",
     "@hookform/resolvers": "^4.1.1",
-    "@premieroctet/react-native-wallet": "^1.0.1",
     "@radix-ui/react-dialog": "^1.1.6",
-    "@react-native-async-storage/async-storage": "2.1.1",
-    "@react-native-community/datetimepicker": "8.3.0",
+    "@react-native-async-storage/async-storage": "1.23.1",
     "@react-navigation/drawer": "^7.1.1",
     "@react-navigation/native": "^7.0.14",
     "@rn-primitives/alert-dialog": "^1.1.0",
@@ -69,7 +67,7 @@
     "expo-splash-screen": "~0.29.22",
     "expo-status-bar": "~2.0.1",
     "expo-system-ui": "~4.0.8",
-    "expo-updates": "~0.26.19",
+    "expo-updates": "~0.27.1",
     "expo-web-browser": "~14.0.2",
     "firebase": "^11.3.1",
     "lucide-react-native": "^0.475.0",
@@ -77,16 +75,17 @@
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "react-hook-form": "^7.54.2",
-    "react-native": "0.76.5",
+    "react-native": "0.76.7",
     "react-native-css-interop": "^0.1.22",
-    "react-native-gesture-handler": "~2.24.0",
+    "react-native-gesture-handler": "~2.20.2",
     "react-native-get-random-values": "^1.11.0",
     "react-native-logs": "^5.3.0",
+    "react-native-modal-datetime-picker": "^18.0.0",
     "react-native-qrcode-svg": "^6.3.15",
     "react-native-reanimated": "~3.16.7",
-    "react-native-safe-area-context": "5.2.0",
-    "react-native-screens": "~4.9.0",
-    "react-native-svg": "15.11.1",
+    "react-native-safe-area-context": "4.12.0",
+    "react-native-screens": "~4.4.0",
+    "react-native-svg": "15.8.0",
     "react-native-url-polyfill": "^2.0.0",
     "react-native-web": "~0.19.13",
     "reanimated-color-picker": "^3.0.6",
@@ -113,6 +112,15 @@
     "license-checker": "^25.0.1",
     "react-native-svg-transformer": "^1.5.0",
     "typescript": "^5.7.3"
+  },
+  "expo": {
+    "doctor": {
+      "reactNativeDirectoryCheck": {
+        "exclude": [
+          "lucide-react-native"
+        ]
+      }
+    }
   },
   "private": true
 }

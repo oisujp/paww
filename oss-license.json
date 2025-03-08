@@ -1697,7 +1697,7 @@
     "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2020-present 650 Industries, Inc. (aka Expo)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2020-present 650 Industries, Inc. (aka Expo)"
   },
-  "@expo/config-plugins@9.0.15": {
+  "@expo/config-plugins@9.0.16": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "errno": -2,
@@ -1708,7 +1708,7 @@
     "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2015-present 650 Industries, Inc. (aka Expo)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2015-present 650 Industries, Inc. (aka Expo)"
   },
-  "@expo/config-types@52.0.4": {
+  "@expo/config-types@52.0.5": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "errno": -2,
@@ -3040,11 +3040,11 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@radix-ui/react-use-layout-effect/README.md",
     "licenseText": "# `react-use-layout-effect`\n\n## Installation\n\n```sh\n$ yarn add @radix-ui/react-use-layout-effect\n# or\n$ npm install @radix-ui/react-use-layout-effect\n```\n\n## Usage\n\nThis is an internal utility, not intended for public usage."
   },
-  "@react-native-async-storage/async-storage@2.1.1": {
+  "@react-native-async-storage/async-storage@1.23.1": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-async-storage/async-storage",
     "publisher": "Krzysztof Borowy",
-    "email": "contact@kborowy.com",
+    "email": "hello@krizzu.dev",
     "errno": -2,
     "code": "ENOENT",
     "syscall": "open",
@@ -3053,7 +3053,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2015-present, Facebook, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2015-present, Facebook, Inc."
   },
-  "@react-native-community/datetimepicker@8.3.0": {
+  "@react-native-community/datetimepicker@8.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-community/datetimepicker",
     "publisher": "Martijn Swaagman",
@@ -3067,7 +3067,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2019 React Native Community\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2019 React Native Community"
   },
-  "@react-native/assets-registry@0.76.5": {
+  "@react-native/assets-registry@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -3107,7 +3107,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@react-native/codegen/README.md",
     "licenseText": "# @react-native/codegen\n\n[![Version][version-badge]][package]\n\n## Installation\n\n```\nyarn add --dev @react-native/codegen\n```\n\n*Note: We're using `yarn` to install deps. Feel free to change commands to use `npm` 3+ and `npx` if you like*\n\n[version-badge]: https://img.shields.io/npm/v/@react-native/codegen?style=flat-square\n[package]: https://www.npmjs.com/package/@react-native/codegen\n\n## Testing\n\nTo run the tests in this package, run the following commands from the React Native root folder:\n\n1. `yarn` to install the dependencies. You just need to run this once\n2. `yarn jest packages/react-native-codegen`."
   },
-  "@react-native/community-cli-plugin@0.76.5": {
+  "@react-native/community-cli-plugin@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -3137,7 +3137,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@react-native/dev-middleware/README.md",
     "licenseText": "# @react-native/dev-middleware\n\n![npm package](https://img.shields.io/npm/v/@react-native/dev-middleware?color=brightgreen&label=npm%20package)\n\nDev server middleware supporting core React Native development features. This package is preconfigured in all React Native projects.\n\n## Usage\n\nMiddleware can be attached to a dev server (e.g. [Metro](https://facebook.github.io/metro/docs/getting-started)) using the `createDevMiddleware` API.\n\n```js\nimport { createDevMiddleware } from '@react-native/dev-middleware';\n\nfunction myDevServerImpl(args) {\n  ...\n\n  const {middleware, websocketEndpoints} = createDevMiddleware({\n    projectRoot: metroConfig.projectRoot,\n    serverBaseUrl: `http://${args.host}:${args.port}`,\n    logger,\n  });\n\n  await Metro.runServer(metroConfig, {\n    host: args.host,\n    ...,\n    unstable_extraMiddleware: [\n      middleware,\n      // Optionally extend with additional HTTP middleware\n    ],\n    websocketEndpoints: {\n      ...websocketEndpoints,\n      // Optionally extend with additional WebSocket endpoints\n    },\n  });\n}\n```\n\n## Included middleware\n\n`@react-native/dev-middleware` is designed for integrators such as [`@expo/dev-server`](https://www.npmjs.com/package/@expo/dev-server) and [`@react-native/community-cli-plugin`](https://github.com/facebook/react-native/tree/main/packages/community-cli-plugin). It provides a common default implementation for core React Native dev server responsibilities.\n\nWe intend to keep this to a narrow set of functionality, based around:\n\n- **Debugging** — The [Chrome DevTools protocol (CDP)](https://chromedevtools.github.io/devtools-protocol/) endpoints supported by React Native, including the Inspector Proxy, which facilitates connections with multiple devices.\n- **Dev actions** — Endpoints implementing core [Dev Menu](https://reactnative.dev/docs/debugging#accessing-the-dev-menu) actions, e.g. reloading the app, opening the debugger frontend.\n\n### HTTP endpoints\n\n<small>`DevMiddlewareAPI.middleware`</small>\n\nThese are exposed as a [`connect`](https://www.npmjs.com/package/connect) middleware handler, assignable to `Metro.runServer` or other compatible HTTP servers.\n\n#### GET `/json/list`, `/json` ([CDP](https://chromedevtools.github.io/devtools-protocol/#endpoints))\n\nReturns the list of available WebSocket targets for all connected React Native app sessions.\n\n#### GET `/json/version` ([CDP](https://chromedevtools.github.io/devtools-protocol/#endpoints))\n\nReturns version metadata used by Chrome DevTools.\n\n#### GET `/debugger-frontend`\n\nSubpaths of this endpoint are reserved to serve the JavaScript debugger frontend.\n\n#### POST `/open-debugger`\n\nOpen the JavaScript debugger for a given CDP target (direct Hermes debugging).\n\n<details>\n<summary>Example</summary>\n\n    curl -X POST 'http://localhost:8081/open-debugger?appId=com.meta.RNTester'\n</details>\n\n### WebSocket endpoints\n\n<small>`DevMiddlewareAPI.websocketEndpoints`</small>\n\n#### `/inspector/device`\n\nWebSocket handler for registering device connections.\n\n#### `/inspector/debug`\n\nWebSocket handler that proxies CDP messages to/from the corresponding device.\n\n## Contributing\n\nChanges to this package can be made locally and tested against the `rn-tester` app, per the [Contributing guide](https://reactnative.dev/contributing/overview#contributing-code). During development, this package is automatically run from source with no build step."
   },
-  "@react-native/gradle-plugin@0.76.5": {
+  "@react-native/gradle-plugin@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -3147,7 +3147,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@react-native/gradle-plugin/README.md",
     "licenseText": "# @react-native/gradle-plugin\n\n[![Version][version-badge]][package]\n\nA Gradle Plugin used to support development of React Native applications for Android.\n\n## Installation\n\n```\nyarn add @react-native/gradle-plugin\n```\n\n*Note: We're using `yarn` to install deps. Feel free to change commands to use `npm` 3+ and `npx` if you like*\n\n[version-badge]: https://img.shields.io/npm/v/@react-native/gradle-plugin?style=flat-square\n[package]: https://www.npmjs.com/package/@react-native/gradle-plugin\n\n## Testing\n\nTo run the tests in this package, run the following commands from the React Native root folder:\n\n1. `yarn` to install the dependencies. You just need to run this once\n2. `./gradlew -p packages/gradle-plugin test`."
   },
-  "@react-native/js-polyfills@0.76.5": {
+  "@react-native/js-polyfills@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -3157,7 +3157,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@react-native/js-polyfills/README.md",
     "licenseText": "# @react-native/js-polyfills\n\n[![Version][version-badge]][package]\n\n## Installation\n\n```\nyarn add @react-native/js-polyfills\n```\n\n*Note: We're using `yarn` to install deps. Feel free to change commands to use `npm` 3+ and `npx` if you like*\n\n[version-badge]: https://img.shields.io/npm/v/@react-native/js-polyfills?style=flat-square\n[package]: https://www.npmjs.com/package/@react-native/js-polyfills\n\n## Testing\n\nTo run the tests in this package, run the following commands from the React Native root folder:\n\n1. `yarn` to install the dependencies. You just need to run this once\n2. `yarn jest packages/polyfills`."
   },
-  "@react-native/metro-babel-transformer@0.76.5": {
+  "@react-native/metro-babel-transformer@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -3175,7 +3175,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@react-native/normalize-colors/README.md",
     "licenseText": "# @react-native/normalize-colors\n\n[![Version][version-badge]][package]\n\n## Installation\n\n```\nyarn add --dev @react-native/normalize-colors\n```\n\n*Note: We're using `yarn` to install deps. Feel free to change commands to use `npm` 3+ and `npx` if you like*\n\n[version-badge]: https://img.shields.io/npm/v/@react-native/normalize-colors?style=flat-square\n[package]: https://www.npmjs.com/package/@react-native/normalize-colors\n\n## Testing\n\nTo run the tests in this package, run the following commands from the React Native root folder:\n\n1. `yarn` to install the dependencies. You just need to run this once\n2. `yarn jest packages/normalize-color`."
   },
-  "@react-native/virtualized-lists@0.76.5": {
+  "@react-native/virtualized-lists@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -3521,6 +3521,16 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/@rn-primitives/slot",
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@rn-primitives/slot/LICENSE",
+    "licenseText": "MIT License\n\nCopyright (c) 2024 roninoss\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
+    "copyright": "Copyright (c) 2024 roninoss"
+  },
+  "@rn-primitives/switch@1.1.0": {
+    "licenses": "MIT",
+    "errno": -2,
+    "code": "ENOENT",
+    "syscall": "open",
+    "path": "/Users/oisu/Workspace/paww/node_modules/@rn-primitives/switch",
+    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/@rn-primitives/switch/LICENSE",
     "licenseText": "MIT License\n\nCopyright (c) 2024 roninoss\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2024 roninoss"
   },
@@ -6124,7 +6134,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/expo-dev-menu/README.md",
     "licenseText": "# 📦 expo-dev-menu\n\nExpo/React Native module to add developer menu to Debug builds of your application. This package is intended to be included in your project through [`expo-dev-client`](https://docs.expo.dev/develop/development-builds/introduction/#what-is-an-expo-dev-client).\n\n## Documentation\n\nYou can find more information in the [Expo documentation](https://docs.expo.dev/develop/development-builds/introduction).\n\n## Contributing\n\nThe `expo-dev-menu` repository consists of two different parts, the exported package, which includes the native functions, located in the `android`, `ios` and `src` folders and the Dev Menu interface, located under the `app` folder.\n\nLocal development is usually done through [`bare-expo`](/apps/bare-expo).\n\nFirst, make sure to `yarn` and `yarn start` in `expo-dev-menu` which will add the port for the dev menu packager to [`dev-menu-packager-host`](./assets/dev-menu-packager-host`). This is bundled into the native code in `bare-expo` so need to be done first. When done with local development, you need to reset the contents of `dev-menu-packager-host`!\n\n### Making JavaScript changes inside the `app` folder\n\nTo update the JavaScript code inside the `app` folder, you need to run the `dev-menu` bundler locally.\n\n1. Navigate to the `dev-menu` package: `cd packages/expo-dev-menu`\n2. Start the Metro bundler: `yarn start`\n3. To use your local bundler on Android, open [DevMenuManager.kt](/packages/expo-dev-menu/android/src/debug/java/expo/modules/devmenu/DevMenuManager.kt) and set `useDeveloperSupport` to `true`.\n\n```diff\n- val useDeveloperSupport = false\n+ val useDeveloperSupport = true\n```\n\n4. Play with your changes on a simulator or device through `bare-expo`\n5. Once you've made all the necessary changes run `yarn bundle:prod:ios && yarn bundle:prod:android` to update the embedded bundle"
   },
-  "expo-eas-client@0.13.2": {
+  "expo-eas-client@0.13.3": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -6234,7 +6244,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/expo-linking/README.md",
     "licenseText": "# expo-linking\n\nCreate and open deep links universally.\n\n# API documentation\n\n- [Documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/linking/)\n- [Documentation for the main branch](https://docs.expo.dev/versions/unversioned/sdk/linking/)\n\n# Installation in managed Expo projects\n\nFor [managed](https://docs.expo.dev/archive/managed-vs-bare/) Expo projects, please follow the installation instructions in the [API documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/linking/). If you follow the link and there is no documentation available then this library is not yet usable within managed projects &mdash; it is likely to be included in an upcoming Expo SDK release.\n\n# Installation in bare React Native projects\n\nFor bare React Native projects, you must ensure that you have [installed and configured the `expo` package](https://docs.expo.dev/bare/installing-expo-modules/) before continuing.\n\n### Add the package to your npm dependencies\n\n```\nnpx expo install expo-linking\n```\n\n# Contributing\n\nContributions are very welcome! Please refer to guidelines described in the [contributing guide](https://github.com/expo/expo#contributing)."
   },
-  "expo-manifests@0.15.6": {
+  "expo-manifests@0.15.7": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -6355,7 +6365,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/expo-updates-interface/README.md",
     "licenseText": "# expo-updates-interface\n\nNative interface for modules that optionally depend on expo-updates, e.g. expo-dev-launcher.\n\n## API documentation\n\n## Installation in managed Expo projects\n\n## Installation in bare React Native projects\n\n## Contributing\n\nContributions are very welcome! Please refer to guidelines described in the [contributing guide](https://github.com/expo/expo#contributing)."
   },
-  "expo-updates@0.26.19": {
+  "expo-updates@0.27.2": {
     "licenses": "MIT",
     "repository": "https://github.com/expo/expo",
     "publisher": "650 Industries, Inc.",
@@ -8309,7 +8319,7 @@
     "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2014-2020 Teambition\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2014-2020 Teambition"
   },
-  "metro-babel-transformer@0.81.1": {
+  "metro-babel-transformer@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8317,7 +8327,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-babel-transformer"
   },
-  "metro-cache-key@0.81.1": {
+  "metro-cache-key@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8325,7 +8335,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-cache-key"
   },
-  "metro-cache@0.81.1": {
+  "metro-cache@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8333,7 +8343,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-cache"
   },
-  "metro-config@0.81.1": {
+  "metro-config@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8343,7 +8353,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/metro-config/README.md",
     "licenseText": "# Metro Config\n\n🚇 Config resolver and transformer for [Metro](https://metrobundler.dev/)."
   },
-  "metro-core@0.81.1": {
+  "metro-core@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8353,7 +8363,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/metro-core/README.md",
     "licenseText": "# Metro\n\n🚇 This package contains core files for [Metro](https://metrobundler.dev/).\n\n(TODO)"
   },
-  "metro-file-map@0.81.1": {
+  "metro-file-map@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8363,7 +8373,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/metro-file-map/README.md",
     "licenseText": "# \\[Experimental\\] Metro File Map\n\n🚇 File system crawling, watching and mapping for [Metro](https://metrobundler.dev/).\n\nOriginally a fork of [`jest-haste-map`](https://github.com/facebook/jest/tree/main/packages/jest-haste-map).\n\nThis entire package should be considered \"experimental\" for the time being -\nthe API is considered internal and changes will not be semver-breaking.\n\nIf you need to rely on `metro-file-map` APIs directly please\n[raise an issue](https://github.com/facebook/metro/issues/new) to discuss your\nuse case."
   },
-  "metro-minify-terser@0.81.1": {
+  "metro-minify-terser@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8371,7 +8381,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-minify-terser"
   },
-  "metro-resolver@0.81.1": {
+  "metro-resolver@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8381,7 +8391,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/metro-resolver/README.md",
     "licenseText": "# metro-resolver\n\n🚇 [Metro](https://metrobundler.dev/) resolution logic"
   },
-  "metro-runtime@0.81.1": {
+  "metro-runtime@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8389,7 +8399,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-runtime"
   },
-  "metro-source-map@0.81.1": {
+  "metro-source-map@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8399,7 +8409,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/metro-source-map/README.md",
     "licenseText": "# Metro\n\n🚇 The source map generator for [Metro](https://metrobundler.dev/).\n\n(TODO)"
   },
-  "metro-symbolicate@0.81.1": {
+  "metro-symbolicate@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8407,7 +8417,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-symbolicate"
   },
-  "metro-transform-plugins@0.81.1": {
+  "metro-transform-plugins@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8415,7 +8425,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-transform-plugins"
   },
-  "metro-transform-worker@0.81.1": {
+  "metro-transform-worker@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8423,7 +8433,7 @@
     "syscall": "open",
     "path": "/Users/oisu/Workspace/paww/node_modules/metro-transform-worker"
   },
-  "metro@0.81.1": {
+  "metro@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -8834,7 +8844,7 @@
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/nullthrows/LICENSE",
     "licenseText": "The MIT License (MIT)\nCopyright (c) 2016 Andres Suarez\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE."
   },
-  "ob1@0.81.1": {
+  "ob1@0.81.3": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/metro",
     "errno": -2,
@@ -9679,7 +9689,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2017 React Native Community\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2017 React Native Community"
   },
-  "react-native-gesture-handler@2.24.0": {
+  "react-native-gesture-handler@2.20.2": {
     "licenses": "MIT",
     "repository": "https://github.com/software-mansion/react-native-gesture-handler",
     "publisher": "Krzysztof Magiera",
@@ -9764,7 +9774,7 @@
     "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2016 Software Mansion <swmansion.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2016 Software Mansion <swmansion.com>"
   },
-  "react-native-safe-area-context@5.2.0": {
+  "react-native-safe-area-context@4.12.0": {
     "licenses": "MIT",
     "repository": "https://github.com/th3rdwave/react-native-safe-area-context",
     "publisher": "Janic Duplessis",
@@ -9777,7 +9787,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2019 Th3rd Wave\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2019 Th3rd Wave"
   },
-  "react-native-screens@4.9.0": {
+  "react-native-screens@4.4.0": {
     "licenses": "MIT",
     "repository": "https://github.com/software-mansion/react-native-screens",
     "publisher": "Krzysztof Magiera",
@@ -9790,7 +9800,7 @@
     "licenseText": "The MIT License (MIT)\n\nCopyright (c) 2018 Software Mansion <swmansion.com>\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2018 Software Mansion <swmansion.com>"
   },
-  "react-native-svg@15.11.1": {
+  "react-native-svg@15.8.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-community/react-native-svg",
     "errno": -2,
@@ -9826,7 +9836,7 @@
     "licenseText": "MIT License\n\nCopyright (c) Nicolas Gallagher.\nCopyright (c) Meta Platforms, Inc. and affiliates.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) Nicolas Gallagher.. Copyright (c) Meta Platforms, Inc. and affiliates."
   },
-  "react-native@0.76.5": {
+  "react-native@0.76.7": {
     "licenses": "MIT",
     "repository": "https://github.com/facebook/react-native",
     "errno": -2,
@@ -10777,8 +10787,8 @@
     "errno": -2,
     "code": "ENOENT",
     "syscall": "open",
-    "path": "/Users/oisu/Workspace/paww/node_modules/strip-ansi",
-    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/strip-ansi/license",
+    "path": "/Users/oisu/Workspace/paww/node_modules/strip-ansi-cjs",
+    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/strip-ansi-cjs/license",
     "licenseText": "MIT License\n\nCopyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)\n\nPermission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \"Software\"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.",
     "copyright": "Copyright (c) Sindre Sorhus <sindresorhus@gmail.com> (sindresorhus.com)"
   },

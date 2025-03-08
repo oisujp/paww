@@ -81,3 +81,10 @@ export const formatDate = (date?: Date | string | null) => {
   }
   return format(date, "yyyy/MM/dd");
 };
+
+export const formatTime = (date?: Date | string | null) => {
+  if (!date) {
+    return "";
+  }
+  return format(date, "HH:mm");
+};

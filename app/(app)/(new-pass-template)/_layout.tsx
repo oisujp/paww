@@ -1,47 +1,59 @@
 import { Stack } from "expo-router";
-import { BackButton } from "~/components/back-button";
+import { Platform } from "react-native";
+import { HeaderBackButton } from "~/components/header-back-button";
+import { themeColors } from "~/lib/constants";
 
 export default function Layout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerTintColor: themeColors.foreground,
+        headerBackButtonDisplayMode: "minimal",
+      }}
+    >
       <Stack.Screen
         name="index"
         options={{
           title: "テンプレートを作成",
-          headerLeft: () => <BackButton />,
+          headerLeft: HeaderBackButton,
         }}
       />
       <Stack.Screen
         name="preview-pass-template"
         options={{
           title: "テンプレートのプレビュー",
-          headerLeft: () => <BackButton />,
+          headerLeft: HeaderBackButton,
         }}
       />
       <Stack.Screen
         name="pick-color"
         options={{
+          title: "色を選択",
           presentation: "formSheet",
           gestureDirection: "vertical",
           animation: "slide_from_bottom",
           sheetGrabberVisible: true,
           sheetInitialDetentIndex: 0,
           sheetAllowedDetents: [0.5],
-          headerTitle: "色を選択",
           gestureEnabled: true,
         }}
       />
       <Stack.Screen
         name="pick-sample-image"
         options={{
-          presentation: "formSheet",
-          gestureDirection: "vertical",
-          animation: "slide_from_bottom",
-          sheetGrabberVisible: true,
-          sheetInitialDetentIndex: 0,
-          sheetAllowedDetents: [0.8],
-          headerTitle: "サンプル画像を選択",
-          gestureEnabled: true,
+          title: "サンプル画像を選択",
+          ...Platform.select({
+            ios: {
+              presentation: "formSheet",
+              gestureDirection: "vertical",
+              animation: "slide_from_bottom",
+              sheetGrabberVisible: true,
+              sheetInitialDetentIndex: 0,
+              sheetAllowedDetents: [0.8],
+              gestureEnabled: true,
+            },
+            android: {},
+          }),
         }}
       />
     </Stack>
