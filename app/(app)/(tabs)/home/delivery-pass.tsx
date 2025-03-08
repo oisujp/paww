@@ -1,8 +1,8 @@
+import CopyIcon from "assets/images/copy.svg";
 import PassDeliveryImage from "assets/images/pass-delivery.svg";
 import QRIcon from "assets/images/qr.svg";
 import * as Clipboard from "expo-clipboard";
 import * as WebBrowser from "expo-web-browser";
-import { Copy } from "lucide-react-native";
 import { useContext, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
@@ -90,7 +90,7 @@ export default function DeliveryPass({
                   Alert.alert("URLをコピーしました");
                 }}
               >
-                <Copy size={16} />
+                <CopyIcon width={16} height={16} />
               </Pressable>
             </View>
           </View>

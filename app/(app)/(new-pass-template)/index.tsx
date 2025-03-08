@@ -126,7 +126,7 @@ export default function NewPassTemplateIndex() {
   const onPressPreview = async () => {
     if (Object.keys(formState.errors).length === 0) {
       router.push({
-        pathname: "/(app)/(new-pass-template)/preview-pass-template",
+        pathname: "/preview-pass-template",
       });
     }
   };

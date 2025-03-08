@@ -125,7 +125,6 @@ export default function NewPassTemplate() {
       const url =
         process.env.EXPO_PUBLIC_PAWW_BASE_URL +
         "/api/google/create-coupon-template";
-
       await fetchWithToken(url, { passTemplateId });
 
       router.navigate("/home/pass-templates");
