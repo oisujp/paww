@@ -3067,7 +3067,7 @@
     "licenseText": "MIT License\n\nCopyright (c) 2015-present, Facebook, Inc.\n\nPermission is hereby granted, free of charge, to any person obtaining a copy\nof this software and associated documentation files (the \"Software\"), to deal\nin the Software without restriction, including without limitation the rights\nto use, copy, modify, merge, publish, distribute, sublicense, and/or sell\ncopies of the Software, and to permit persons to whom the Software is\nfurnished to do so, subject to the following conditions:\n\nThe above copyright notice and this permission notice shall be included in all\ncopies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED \"AS IS\", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR\nIMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,\nFITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE\nAUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER\nLIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,\nOUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE\nSOFTWARE.",
     "copyright": "Copyright (c) 2015-present, Facebook, Inc."
   },
-  "@react-native-community/datetimepicker@8.3.0": {
+  "@react-native-community/datetimepicker@8.2.0": {
     "licenses": "MIT",
     "repository": "https://github.com/react-native-community/datetimepicker",
     "publisher": "Martijn Swaagman",
@@ -6217,6 +6217,17 @@
     "path": "/Users/oisu/Workspace/paww/node_modules/expo-font",
     "licenseFile": "/Users/oisu/Workspace/paww/node_modules/expo-font/README.md",
     "licenseText": "<p>\n  <a href=\"https://docs.expo.dev/versions/latest/sdk/font/\">\n    <img\n      src=\"../../.github/resources/expo-font.svg\"\n      alt=\"expo-font\"\n      height=\"64\" />\n  </a>\n</p>\n\nLoad fonts at runtime and use them in React Native components.\n\n# API documentation\n\n- [Documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/font/)\n- [Documentation for the main branch](https://docs.expo.dev/versions/unversioned/sdk/font/)\n\n# Installation in managed Expo projects\n\nFor [managed](https://docs.expo.dev/archive/managed-vs-bare/) Expo projects, please follow the installation instructions in the [API documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/font/).\n\n# Installation in bare React Native projects\n\nFor bare React Native projects, you must ensure that you have [installed and configured the `expo` package](https://docs.expo.dev/bare/installing-expo-modules/) before continuing.\n\n### Add the package to your npm dependencies\n\n```\nnpx expo install expo-font\n```\n\n### Configure for Android\n\nNo additional set up necessary.\n\n### Configure for iOS\n\nRun `npx pod-install` after installing the npm package.\n\n# Contributing\n\nContributions are very welcome! Please refer to guidelines described in the [contributing guide](https://github.com/expo/expo#contributing)."
+  },
+  "expo-haptics@14.0.1": {
+    "licenses": "MIT",
+    "repository": "https://github.com/expo/expo",
+    "publisher": "650 Industries, Inc.",
+    "errno": -2,
+    "code": "ENOENT",
+    "syscall": "open",
+    "path": "/Users/oisu/Workspace/paww/node_modules/expo-haptics",
+    "licenseFile": "/Users/oisu/Workspace/paww/node_modules/expo-haptics/README.md",
+    "licenseText": "<p>\n  <a href=\"https://docs.expo.dev/versions/latest/sdk/haptics/\">\n    <img\n      src=\"../../.github/resources/expo-haptics.svg\"\n      alt=\"expo-haptics\"\n      height=\"64\" />\n  </a>\n</p>\n\nProvides access to the system's haptics engine on iOS and vibration effects on Android.\n\n# API documentation\n\n- [Documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/haptics/)\n- [Documentation for the main branch](https://docs.expo.dev/versions/unversioned/sdk/haptics/)\n\n# Installation in managed Expo projects\n\nFor [managed](https://docs.expo.dev/archive/managed-vs-bare/) Expo projects, please follow the installation instructions in the [API documentation for the latest stable release](https://docs.expo.dev/versions/latest/sdk/haptics/).\n\n# Installation in bare React Native projects\n\nFor bare React Native projects, you must ensure that you have [installed and configured the `expo` package](https://docs.expo.dev/bare/installing-expo-modules/) before continuing.\n\n### Add the package to your npm dependencies\n\n```\nnpx expo install expo-haptics\n```\n\n### Configure for Android\n\nNo additional set up necessary.\n\n### Configure for iOS\n\nRun `npx pod-install` after installing the npm package.\n\nThis module requires permission to control vibration on the device, it's added automatically.\n\n```xml\n<!-- Added permissions -->\n<uses-permission android:name=\"android.permission.VIBRATE\" />\n```\n\n# Contributing\n\nContributions are very welcome! Please refer to guidelines described in the [contributing guide](https://github.com/expo/expo#contributing)."
   },
   "expo-image-loader@5.0.0": {
     "licenses": "MIT",

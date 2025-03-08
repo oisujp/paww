@@ -1,8 +1,14 @@
 import { Stack } from "expo-router";
+import { contentStyle, headerStyle } from "~/lib/constants";
 
 export default function PassTemplatesLayout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerStyle,
+        contentStyle,
+      }}
+    >
       <Stack.Screen
         name="index"
         options={{

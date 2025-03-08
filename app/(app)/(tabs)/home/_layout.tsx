@@ -1,10 +1,16 @@
 import { Stack } from "expo-router";
 import { HeaderBackButton } from "~/components/header-back-button";
 import { Settings } from "~/components/settings";
+import { contentStyle, headerStyle } from "~/lib/constants";
 
 export default function PassTemplatesLayout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerStyle,
+        contentStyle,
+      }}
+    >
       <Stack.Screen
         name="pass-templates"
         options={{

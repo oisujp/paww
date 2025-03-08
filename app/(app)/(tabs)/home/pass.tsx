@@ -6,7 +6,7 @@ import * as Clipboard from "expo-clipboard";
 import { useLocalSearchParams } from "expo-router";
 import { CopyIcon } from "lucide-react-native";
 import React, { useContext } from "react";
-import { Alert, SafeAreaView, ScrollView, View } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import { Button } from "~/components/ui/button";
 import { Separator } from "~/components/ui/separator";
@@ -55,9 +55,12 @@ export default function Pass() {
   };
 
   return (
-    <SafeAreaView className="flex flex-1">
-      <ScrollView contentContainerClassName="gap-4 p-6 my-6 bg-white">
-        <View className="w-1/2 self-center flex gap-8">
+    <View className="flex flex-1 border-t border-border">
+      <ScrollView
+        contentContainerClassName="gap-4 p-6 my-6 bg-white border-y border-border"
+        className="bg-background"
+      >
+        <View className="w-1/2 self-center flex gap-8 bg-white">
           <PassTemplateImage passTemplateId={pass.passTemplateId} halfSize />
           <Button
             size="sm"
@@ -109,7 +112,7 @@ export default function Pass() {
           </Button>
         )}
       </View>
-    </SafeAreaView>
+    </View>
   );
 }
 

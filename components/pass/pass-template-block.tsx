@@ -78,7 +78,7 @@ export function PassTemplateBlock({
           params: { passTemplateId: passTemplate.id },
         });
       }}
-      className="border border-border rounded-xl p-3 flex gap-3"
+      className="border border-border rounded-xl p-3 flex gap-3 bg-white"
     >
       <>
         <View className="flex flex-row justify-between items-center">

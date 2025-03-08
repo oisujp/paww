@@ -28,7 +28,7 @@ export default function Passes() {
 
   if (count === 0) {
     return (
-      <View className="flex flex-1 p-8 gap-4 justify-center items-center">
+      <View className="flex flex-1 p-8 gap-4 justify-center items-center bg-background border-t border-border">
         <PassesImage className="size-[90px]" />
         <Text>発行されたパスはありません</Text>
       </View>
@@ -36,9 +36,9 @@ export default function Passes() {
   }
 
   return (
-    <React.Fragment>
+    <View className="bg-background border-t border-border">
       <View className="flex w-full items-end py-3 px-6">
-        <Text className="text-right">全{count}件</Text>
+        <Text className="text-right text-sm">全{count}件</Text>
       </View>
       <FlatList
         data={passesData}
@@ -48,6 +48,6 @@ export default function Passes() {
           return <PassBlock key={item.id} pass={item} />;
         }}
       />
-    </React.Fragment>
+    </View>
   );
 }

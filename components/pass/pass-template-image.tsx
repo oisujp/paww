@@ -76,7 +76,10 @@ export function PassTemplateImage({
           ) : (
             <View className="h-24 bg-gray-400" />
           )}
-          <Text style={{ color: foregroundColor }} className="font-bold mr-8">
+          <Text
+            style={{ color: foregroundColor }}
+            className={cn(halfSize && "text-sm", "font-bold mr-8")}
+          >
             {logoText}
           </Text>
         </View>

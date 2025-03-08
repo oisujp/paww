@@ -1,14 +1,14 @@
 import { Stack } from "expo-router";
 import { Platform } from "react-native";
 import { HeaderBackButton } from "~/components/header-back-button";
-import { themeColors } from "~/lib/constants";
+import { contentStyle, headerStyle } from "~/lib/constants";
 
 export default function Layout() {
   return (
     <Stack
       screenOptions={{
-        headerTintColor: themeColors.foreground,
-        headerBackButtonDisplayMode: "minimal",
+        headerStyle,
+        contentStyle,
       }}
     >
       <Stack.Screen

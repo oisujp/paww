@@ -87,9 +87,7 @@ export default function Home() {
   return (
     <View className="bg-background flex flex-1">
       <View className="flex w-full items-end my-3 px-6">
-        <Text className="text-right text-sm text-muted-foreground">
-          全{count}件
-        </Text>
+        <Text className="text-right text-sm">全{count}件</Text>
       </View>
       <FlatList
         data={passTemplatesData}

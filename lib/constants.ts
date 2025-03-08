@@ -1,8 +1,11 @@
+import { Platform } from "react-native";
+
 export const themeColors = {
   primary: "#FF7D52",
   secondary: "#ADB3BC",
   foreground: "#322B29",
   background: "#FCFCFC",
+  borderDark: "#B2B2B2",
 };
 
 export const sampleStrips = [
@@ -49,3 +52,18 @@ export const passBase: PassTemplateBase = {
   foregroundColor: "#000000",
   backgroundColor: "#ffffff",
 };
+
+export const headerStyle = Platform.select({
+  ios: {
+    backgroundColor: themeColors.background,
+  },
+  android: {},
+});
+
+export const contentStyle = Platform.select({
+  ios: {
+    borderTopWidth: 0.5,
+    borderTopColor: themeColors.borderDark,
+  },
+  android: {},
+});

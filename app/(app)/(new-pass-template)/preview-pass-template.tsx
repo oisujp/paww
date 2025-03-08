@@ -2,6 +2,7 @@ import {
   useInsertMutation,
   useQuery,
 } from "@supabase-cache-helpers/postgrest-swr";
+import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
@@ -128,6 +129,7 @@ export default function NewPassTemplate() {
       await fetchWithToken(url, { passTemplateId });
 
       router.navigate("/home/pass-templates");
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     } catch (error) {
       logger.error(error);
     } finally {

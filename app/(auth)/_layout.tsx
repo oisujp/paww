@@ -1,10 +1,16 @@
 import { Stack } from "expo-router";
 import React from "react";
 import { HeaderBackButton } from "~/components/header-back-button";
+import { contentStyle, headerStyle } from "~/lib/constants";
 
 export default function AuthLayout() {
   return (
-    <Stack>
+    <Stack
+      screenOptions={{
+        headerStyle,
+        contentStyle,
+      }}
+    >
       <Stack.Screen name="sign-in" />
       <Stack.Screen name="sign-up" />
       <Stack.Screen
