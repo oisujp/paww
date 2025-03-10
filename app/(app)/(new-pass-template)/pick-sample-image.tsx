@@ -11,15 +11,16 @@ export default function PickSampleImage() {
   const data = sampleStrips;
 
   return (
-    <View>
+    <View className="bg-white px-3">
       <FlatList
         data={data}
         columnWrapperClassName="gap-3"
         numColumns={2}
+        contentContainerClassName="gap-3 w-full"
         renderItem={({ item }) => {
           return (
             <Pressable
-              className="flex w-1/2 border border-border"
+              className="flex flex-1"
               onPress={() => {
                 form.setValue("stripUrl", item);
                 router.back();
@@ -27,7 +28,7 @@ export default function PickSampleImage() {
             >
               <Image
                 source={{ uri: item }}
-                className="h-32"
+                className="h-32 border border-border rounded-xl"
                 contentFit="contain"
               />
             </Pressable>

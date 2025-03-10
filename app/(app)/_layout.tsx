@@ -7,7 +7,13 @@ import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { HeaderBackButton } from "~/components/header-back-button";
 import { AuthContext } from "~/contexts/auth-context";
-import { passBase, themeColors } from "~/lib/constants";
+import {
+  contentStyle,
+  headerStyle,
+  passBase,
+  sampleStrips,
+  themeColors,
+} from "~/lib/constants";
 import { passTemplateSchema } from "~/schemas";
 
 export default function AppLayout() {
@@ -22,6 +28,7 @@ export default function AppLayout() {
       labelColor: passBase.labelColor,
       foregroundColor: passBase.foregroundColor,
       backgroundColor: passBase.backgroundColor,
+      stripUrl: sampleStrips[0],
       expirationDate: startOfDay(addMonths(new Date(), 1)),
     },
   });
@@ -37,6 +44,8 @@ export default function AppLayout() {
         screenOptions={{
           headerTintColor: themeColors.foreground,
           headerBackButtonDisplayMode: "minimal",
+          headerStyle,
+          contentStyle,
         }}
       >
         <Stack.Screen

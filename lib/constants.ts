@@ -5,6 +5,7 @@ export const themeColors = {
   secondary: "#ADB3BC",
   foreground: "#322B29",
   background: "#FCFCFC",
+  border: "#E7E7E7",
   borderDark: "#B2B2B2",
 };
 
@@ -14,6 +15,7 @@ export const sampleStrips = [
   "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-3.png",
   "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-4.png",
   "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-5.png",
+  "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/strip/sample-6.png",
 ];
 export const sampleIcons = [
   "https://qsinzsuopxjjetahfmyj.supabase.co/storage/v1/object/public/sample-images/icon/sample-1.svg",
@@ -63,7 +65,7 @@ export const headerStyle = Platform.select({
 export const contentStyle = Platform.select({
   ios: {
     borderTopWidth: 0.5,
-    borderTopColor: themeColors.borderDark,
+    borderTopColor: themeColors.border,
   },
   android: {},
 });

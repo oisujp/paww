@@ -82,6 +82,7 @@ export default function NewPassTemplate() {
       name,
       backgroundColor,
       description,
+      caveats,
       expirationDate,
       foregroundColor,
       labelColor,
@@ -97,6 +98,7 @@ export default function NewPassTemplate() {
           userId,
           backgroundColor,
           description,
+          caveats,
           expirationDate: expirationDate.toDateString(),
           foregroundColor,
           formatVersion: 1,
@@ -146,6 +148,7 @@ export default function NewPassTemplate() {
     foregroundColor: watch("foregroundColor"),
     labelColor: watch("labelColor"),
     logoText: userData.logoText,
+    caveats: watch("caveats"),
     coupon: {
       headerFields: [],
       primaryFields: [],

@@ -2,6 +2,7 @@ import CopyIcon from "assets/images/copy.svg";
 import PassDeliveryImage from "assets/images/pass-delivery.svg";
 import QRIcon from "assets/images/qr.svg";
 import * as Clipboard from "expo-clipboard";
+import * as Haptics from "expo-haptics";
 import * as WebBrowser from "expo-web-browser";
 import { useContext, useState } from "react";
 import { ActivityIndicator, Alert, Pressable, View } from "react-native";
@@ -43,6 +44,7 @@ export default function DeliveryPass({
         .shortenUrl;
       if (newShortenUrl) {
         setShortenUrl(newShortenUrl);
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       }
     } catch (error) {
       logger.error(error);

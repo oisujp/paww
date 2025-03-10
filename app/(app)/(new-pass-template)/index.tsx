@@ -10,13 +10,16 @@ import {
   setSeconds,
   setYear,
 } from "date-fns";
+import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import { Share } from "lucide-react-native";
 import React, { useContext, useState } from "react";
 import { Controller, useFormContext } from "react-hook-form";
 import {
   ActivityIndicator,
+  Alert,
   Image,
+  Linking,
   SafeAreaView,
   ScrollView,
   View,
@@ -27,6 +30,7 @@ import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
 import { Text } from "~/components/ui/text";
+import { Textarea } from "~/components/ui/textarea";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { themeColors } from "~/lib/constants";
@@ -50,8 +54,6 @@ export default function NewPassTemplateIndex() {
 
   const onPressSelectImage = async () => {
     try {
-      setLoading(true);
-
       const options = ["サンプルから選ぶ", "カメラロールを開く", "キャンセル"];
       const cancelButtonIndex = 2;
 
@@ -84,8 +86,26 @@ export default function NewPassTemplateIndex() {
 
   const openCameraRoll = async () => {
     try {
-      setLoading(true);
+      const permission =
+        await ImagePicker.requestMediaLibraryPermissionsAsync();
+      if (permission.granted === false) {
+        Alert.alert(
+          "カメラロールへのアクセス許可が必要です。",
+          "設定アプリからアクセスを許可してください。",
+          [
+            {
+              text: "設定アプリを開く",
+              onPress: () => Linking.openSettings(),
+              style: "default",
+            },
+            { text: "キャンセル", style: "cancel" },
+          ]
+        );
+        throw new Error("Permission to access camera roll is required!");
+      }
       const stripBase64 = await pickImage(1171, 450);
+
+      setLoading(true);
 
       if (stripBase64) {
         const path = `${userId}/pass-templates/${watch("id")}/strip-${getTime(
@@ -136,7 +156,7 @@ export default function NewPassTemplateIndex() {
       <ScrollView>
         <View
           className={cn(
-            "my-6 flex-1 gap-5 p-6 bg-background border border-border"
+            "my-6 flex-1 gap-4 p-6 bg-background border border-border"
           )}
         >
           <Label>カバー画像</Label>
@@ -219,6 +239,10 @@ export default function NewPassTemplateIndex() {
               setDatePickerVisibility(false);
             }}
             onCancel={() => setDatePickerVisibility(false)}
+            pickerContainerStyleIOS={{
+              display: "flex",
+              alignItems: "center",
+            }}
           />
           <DateTimePickerModal
             isVisible={isTimePickerVisible}
@@ -228,6 +252,24 @@ export default function NewPassTemplateIndex() {
               setTimePickerVisibility(false);
             }}
             onCancel={() => setTimePickerVisibility(false)}
+            pickerContainerStyleIOS={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          />
+
+          <Label>注意事項</Label>
+          <Controller
+            control={control}
+            render={({ field: { onChange, value } }) => (
+              <Textarea
+                placeholder="他のクーポン・割引券との併用はできません。"
+                value={value}
+                onChangeText={onChange}
+                aria-labelledby="textareaLabel"
+              />
+            )}
+            name="caveats"
           />
 
           <Label>背景色</Label>

@@ -4,6 +4,7 @@ export const passTemplateSchema = z.object({
   id: z.string(),
   name: z.string(),
   description: z.string(),
+  caveats: z.string(),
   passContentLabel: z.string(),
   passContentValue: z
     .string()

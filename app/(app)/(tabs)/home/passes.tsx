@@ -36,13 +36,13 @@ export default function Passes() {
   }
 
   return (
-    <View className="bg-background border-t border-border">
-      <View className="flex w-full items-end py-3 px-6">
+    <View className="flex flex-1 bg-background border-t border-border p-6 gap-3">
+      <View className="flex w-full items-end">
         <Text className="text-right text-sm">全{count}件</Text>
       </View>
       <FlatList
         data={passesData}
-        contentContainerClassName="gap-4 px-6"
+        contentContainerClassName="gap-4"
         className="w-full"
         renderItem={({ item }) => {
           return <PassBlock key={item.id} pass={item} />;

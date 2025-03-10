@@ -29,19 +29,30 @@ export default function Layout() {
         name="pick-color"
         options={{
           title: "色を選択",
-          presentation: "formSheet",
-          gestureDirection: "vertical",
-          animation: "slide_from_bottom",
-          sheetGrabberVisible: true,
-          sheetInitialDetentIndex: 0,
-          sheetAllowedDetents: [0.5],
-          gestureEnabled: true,
+          contentStyle: {
+            backgroundColor: "white",
+          },
+          ...Platform.select({
+            ios: {
+              presentation: "formSheet",
+              gestureDirection: "vertical",
+              animation: "slide_from_bottom",
+              sheetGrabberVisible: true,
+              sheetInitialDetentIndex: 0,
+              sheetAllowedDetents: [0.5],
+              gestureEnabled: true,
+            },
+            android: {},
+          }),
         }}
       />
       <Stack.Screen
         name="pick-sample-image"
         options={{
           title: "サンプル画像を選択",
+          contentStyle: {
+            backgroundColor: "white",
+          },
           ...Platform.select({
             ios: {
               presentation: "formSheet",

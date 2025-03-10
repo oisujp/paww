@@ -97,6 +97,7 @@ export type Database = {
       passTemplates: {
         Row: {
           backgroundColor: string
+          caveats: string | null
           coupon: Json
           createdAt: string
           deletedAt: string | null
@@ -120,6 +121,7 @@ export type Database = {
         }
         Insert: {
           backgroundColor: string
+          caveats?: string | null
           coupon: Json
           createdAt?: string
           deletedAt?: string | null
@@ -143,6 +145,7 @@ export type Database = {
         }
         Update: {
           backgroundColor?: string
+          caveats?: string | null
           coupon?: Json
           createdAt?: string
           deletedAt?: string | null
@@ -201,6 +204,30 @@ export type Database = {
           logoUrl?: string | null
           name?: string | null
           updatedAt?: string | null
+        }
+        Relationships: []
+      }
+      waitlist: {
+        Row: {
+          comment: string | null
+          createdAt: string
+          email: string
+          id: string
+          passType: string | null
+        }
+        Insert: {
+          comment?: string | null
+          createdAt?: string
+          email: string
+          id?: string
+          passType?: string | null
+        }
+        Update: {
+          comment?: string | null
+          createdAt?: string
+          email?: string
+          id?: string
+          passType?: string | null
         }
         Relationships: []
       }

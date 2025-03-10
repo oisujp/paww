@@ -6,6 +6,7 @@ import {
 } from "@supabase-cache-helpers/postgrest-swr";
 import StorePlaceholder from "assets/images/store-placeholder.svg";
 import { getTime } from "date-fns";
+import * as Haptics from "expo-haptics";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Share } from "lucide-react-native";
@@ -114,6 +115,8 @@ export default function StoreIndex() {
       if (res === null) {
         throw "";
       }
+
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       router.navigate("/home/pass-templates");
     } catch (error) {
       logger.error(error);
