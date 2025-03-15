@@ -71,7 +71,7 @@ export default function DeliveryPass({
           <AlertDialogTitle className="text-primary text-center">
             パスの配布方法
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-center">
+          <AlertDialogDescription className="text-center text-foreground">
             QRコードやURLを印刷物・ポスター・店内POP・Eメールなどで配布します
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -97,14 +97,16 @@ export default function DeliveryPass({
             </View>
           </View>
         )}
-        <Button
-          onPress={onPressShortenUrl}
-          disabled={!!shortenUrl || loading}
-          className="flex flex-row gap-2 w-full"
-        >
-          {loading && <ActivityIndicator className="text-white" />}
-          <Text>QRコードとURLを作成する</Text>
-        </Button>
+        {!!shortenUrl || (
+          <Button
+            onPress={onPressShortenUrl}
+            disabled={loading}
+            className="flex flex-row gap-2 w-full"
+          >
+            {loading && <ActivityIndicator className="text-white" />}
+            <Text>QRコードとURLを作成する</Text>
+          </Button>
+        )}
         <AlertDialogCancel className="border-0">
           <Text className="text-muted-foreground">閉じる</Text>
         </AlertDialogCancel>

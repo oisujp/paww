@@ -40,7 +40,8 @@ type FormData = {
 const storeSchema = z.object({
   organizationName: z
     .string()
-    .min(1, { message: "お店の名前を入力してください。" }),
+    .min(1, { message: "お店の名前を入力してください。" })
+    .max(20, { message: "20文字以内で入力してください" }),
   logoUrl: z.string(),
   noLogoText: z.boolean(),
 });

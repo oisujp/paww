@@ -41,7 +41,7 @@ export const NAV_THEME = {
   },
 };
 
-export const passBase: PassTemplateBase = {
+export const passBase = {
   formatVersion: 1,
   passTypeIdentifier: ["local", "development", "test"].includes(
     process.env.EXPO_PUBLIC_APP_VARIANT!
@@ -50,7 +50,6 @@ export const passBase: PassTemplateBase = {
     : "pass.jp.oisu.paww",
   teamIdentifier: "B8KVAMPYW5",
   organizationName: "",
-  labelColor: "#000000",
   foregroundColor: "#000000",
   backgroundColor: "#ffffff",
 };

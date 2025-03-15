@@ -49,7 +49,7 @@ export default function NewPassTemplate() {
     "id"
   );
 
-  const { handleSubmit, watch, getValues } =
+  const { handleSubmit, watch, getValues, reset } =
     useFormContext<z.infer<typeof passTemplateSchema>>();
 
   if (!userData?.name) {
@@ -64,30 +64,40 @@ export default function NewPassTemplate() {
     },
   ];
 
-  const auxiliaryFields = [
-    {
+  const auxiliaryFields: Field[] = [];
+
+  if (watch("expirationDate")) {
+    auxiliaryFields.push({
       key: "expiration-date",
       label: "有効期限",
-      value: watch("expirationDate") && formatDate(watch("expirationDate")),
-    },
-  ];
+      value: formatDate(watch("expirationDate")),
+    });
+  }
+
+  const backFields: Field[] = [];
+  if (watch("caveats")) {
+    backFields.push({
+      key: "caveats",
+      label: "注意事項",
+      value: watch("caveats") ?? "",
+    });
+  }
 
   const onSubmit = async () => {
     if (!userData.name) {
       return;
     }
-
     setLoading(true);
     const {
       name,
       backgroundColor,
-      description,
+      passContentValue,
       caveats,
       expirationDate,
       foregroundColor,
-      labelColor,
       stripUrl,
     } = getValues();
+
     const { teamIdentifier, passTypeIdentifier } = passBase;
 
     try {
@@ -97,12 +107,12 @@ export default function NewPassTemplate() {
           name,
           userId,
           backgroundColor,
-          description,
+          description: passContentValue,
           caveats,
-          expirationDate: expirationDate.toDateString(),
+          expirationDate: expirationDate?.toDateString() ?? null,
           foregroundColor,
           formatVersion: 1,
-          labelColor,
+          labelColor: foregroundColor, // 現状はforegroundColorと同じにする
           organizationName: userData.name,
           teamIdentifier,
           logoText: userData.logoText,
@@ -115,6 +125,7 @@ export default function NewPassTemplate() {
             primaryFields: [],
             secondaryFields,
             auxiliaryFields,
+            backFields,
           },
         },
       ]);
@@ -129,6 +140,8 @@ export default function NewPassTemplate() {
         process.env.EXPO_PUBLIC_PAWW_BASE_URL +
         "/api/google/create-coupon-template";
       await fetchWithToken(url, { passTemplateId });
+
+      reset();
 
       router.navigate("/home/pass-templates");
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
@@ -146,7 +159,7 @@ export default function NewPassTemplate() {
     expirationDate:
       watch("expirationDate") && formatDate(watch("expirationDate")),
     foregroundColor: watch("foregroundColor"),
-    labelColor: watch("labelColor"),
+    labelColor: watch("foregroundColor"), // 現状はforegroundColorと同じにする
     logoText: userData.logoText,
     caveats: watch("caveats"),
     coupon: {
@@ -187,6 +200,7 @@ export default function NewPassTemplate() {
           />
         </View>
       </ScrollView>
+
       <View className="flex p-4">
         <Button
           onPress={handleSubmit(onSubmit)}

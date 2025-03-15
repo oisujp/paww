@@ -1,18 +1,3 @@
-type PassData = {
-  fields: PassTemplateFields;
-  images: {
-    icon: string;
-    logo?: string;
-    strip?: string;
-    background?: string;
-  };
-  colors: {
-    labelColor: string;
-    foregroundColor: string;
-    backgroundColor: string;
-  };
-};
-
 type PassTemplateProps = {
   name: string;
   labelColor: string;
@@ -22,19 +7,10 @@ type PassTemplateProps = {
   backgroundColor: string;
   expirationDate: string | null;
   coupon: PassTemplateFields;
+  caveats?: string | null;
   logoUrl: string | null;
   stripUrl: string | null;
   createdAt?: string;
-};
-
-type PassTemplateBase = {
-  formatVersion: number;
-  passTypeIdentifier: string;
-  teamIdentifier: string;
-  organizationName: string;
-  labelColor: string;
-  foregroundColor: string;
-  backgroundColor: string;
 };
 
 type PassTemplateFields = {

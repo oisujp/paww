@@ -1,6 +1,6 @@
 import { Stack } from "expo-router";
-import { Platform } from "react-native";
 import { HeaderBackButton } from "~/components/header-back-button";
+import { HeaderCloseButton } from "~/components/header-close-button";
 import { contentStyle, headerStyle } from "~/lib/constants";
 
 export default function Layout() {
@@ -28,43 +28,21 @@ export default function Layout() {
       <Stack.Screen
         name="pick-color"
         options={{
+          presentation: "modal",
           title: "色を選択",
-          contentStyle: {
-            backgroundColor: "white",
-          },
-          ...Platform.select({
-            ios: {
-              presentation: "formSheet",
-              gestureDirection: "vertical",
-              animation: "slide_from_bottom",
-              sheetGrabberVisible: true,
-              sheetInitialDetentIndex: 0,
-              sheetAllowedDetents: [0.5],
-              gestureEnabled: true,
-            },
-            android: {},
-          }),
+          headerStyle: { backgroundColor: "white" },
+          headerRight: HeaderCloseButton,
+          contentStyle: { backgroundColor: "white" },
         }}
       />
       <Stack.Screen
         name="pick-sample-image"
         options={{
+          presentation: "modal",
           title: "サンプル画像を選択",
-          contentStyle: {
-            backgroundColor: "white",
-          },
-          ...Platform.select({
-            ios: {
-              presentation: "formSheet",
-              gestureDirection: "vertical",
-              animation: "slide_from_bottom",
-              sheetGrabberVisible: true,
-              sheetInitialDetentIndex: 0,
-              sheetAllowedDetents: [0.8],
-              gestureEnabled: true,
-            },
-            android: {},
-          }),
+          headerStyle: { backgroundColor: "white" },
+          headerRight: HeaderCloseButton,
+          contentStyle: { backgroundColor: "white" },
         }}
       />
     </Stack>

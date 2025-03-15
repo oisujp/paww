@@ -21,15 +21,15 @@ export default function AppLayout() {
     resolver: zodResolver(passTemplateSchema),
     defaultValues: {
       id: uuidv4(),
-      name: "", // always empty for now
-      description: "created by paww", // fixed for now
+      name: "coupon", // placeholder
+      description: "coupon", // placeholder
       passContentLabel: "特典", // fixed for now
       passContentValue: "",
-      labelColor: passBase.labelColor,
       foregroundColor: passBase.foregroundColor,
       backgroundColor: passBase.backgroundColor,
       stripUrl: sampleStrips[0],
       expirationDate: startOfDay(addMonths(new Date(), 1)),
+      noExpirationDate: false,
     },
   });
 
