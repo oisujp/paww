@@ -178,12 +178,14 @@ export default function StoreIndex() {
               )}
               name="organizationName"
             />
-            <Text className="text-sm text-destructive">
-              <ErrorMessage errors={errors} name="organizationName" />
-            </Text>
+            {Object.keys(errors).length > 0 && (
+              <Text className="text-sm text-destructive">
+                <ErrorMessage errors={errors} name="organizationName" />
+              </Text>
+            )}
           </View>
 
-          <View className="grid gap-4">
+          <View className="grid gap-2">
             <Label>パスの表示設定</Label>
             <Controller
               control={control}

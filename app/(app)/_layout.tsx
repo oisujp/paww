@@ -21,10 +21,7 @@ export default function AppLayout() {
     resolver: zodResolver(passTemplateSchema),
     defaultValues: {
       id: uuidv4(),
-      name: "coupon", // placeholder
-      description: "coupon", // placeholder
-      passContentLabel: "特典", // fixed for now
-      passContentValue: "",
+      description: "",
       foregroundColor: passBase.foregroundColor,
       backgroundColor: passBase.backgroundColor,
       stripUrl: sampleStrips[0],

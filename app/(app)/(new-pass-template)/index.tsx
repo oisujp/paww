@@ -1,15 +1,6 @@
 import { useActionSheet } from "@expo/react-native-action-sheet";
 import { ErrorMessage } from "@hookform/error-message";
-import {
-  getTime,
-  setDate,
-  setHours,
-  setMilliseconds,
-  setMinutes,
-  setMonth,
-  setSeconds,
-  setYear,
-} from "date-fns";
+import { getTime, setDate, setMonth, setYear } from "date-fns";
 import * as ImagePicker from "expo-image-picker";
 import { useRouter } from "expo-router";
 import { Share } from "lucide-react-native";
@@ -36,7 +27,7 @@ import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { themeColors } from "~/lib/constants";
 import { supabase, uploadImage } from "~/lib/supabase";
-import { cn, formatDate, formatTime, logger, pickImage } from "~/lib/utils";
+import { cn, formatDate, logger, pickImage } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
 export default function NewPassTemplateIndex() {
@@ -44,7 +35,6 @@ export default function NewPassTemplateIndex() {
   const { loading, setLoading } = useContext(NavigationContext);
   const router = useRouter();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [isTimePickerVisible, setTimePickerVisibility] = useState(false);
 
   const userId = session?.user.id ?? "";
 
@@ -135,29 +125,14 @@ export default function NewPassTemplateIndex() {
     );
     setValue("expirationDate", newDate);
   };
-  const onChangeTime = (date: Date) => {
-    const currentDate = watch("expirationDate");
-    if (!currentDate) {
-      return;
-    }
-    const newDate = setMilliseconds(
-      setSeconds(
-        setMinutes(setHours(currentDate, date.getHours()), date.getMinutes()),
-        date.getSeconds()
-      ),
-      date.getMilliseconds()
-    );
-    setValue("expirationDate", newDate);
-  };
 
   const onPressPreview = async () => {
     if (Object.keys(formState.errors).length === 0) {
-      if (watch("noExpirationDate")) {
-        setValue("expirationDate", null);
-      }
       router.push({
         pathname: "/preview-pass-template",
       });
+    } else {
+      logger.error(formState.errors);
     }
   };
 
@@ -212,94 +187,65 @@ export default function NewPassTemplateIndex() {
                   value={value}
                 />
               )}
-              name="passContentValue"
+              name="description"
             />
             {Object.keys(formState.errors).length > 0 && (
               <Text className="text-sm text-destructive">
-                <ErrorMessage name="passContentValue" />
+                <ErrorMessage name="description" />
               </Text>
             )}
           </View>
 
           <View className="gap-2">
             <Label>有効期限</Label>
-            <View className="flex flex-row gap-2">
+            <View className="flex flex-row gap-4 justify-between">
               <Button
                 variant="outline"
                 size="sm"
                 disabled={watch("noExpirationDate")}
                 onPress={() => setDatePickerVisibility(true)}
-                className="flex w-2/3 flex-row justify-start gap-2 h-[50px] border-border border"
+                className="flex flex-row flex-grow justify-start gap-2 h-[50px] border-border border"
               >
                 <Text className="text-foreground native:font-normal">
                   {formatDate(watch("expirationDate"))}
                 </Text>
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                disabled={watch("noExpirationDate")}
-                onPress={() => setTimePickerVisibility(true)}
-                className="flex flex-1 flex-row justify-start gap-2 h-[50px] border-border border"
-              >
-                <Text className="text-foreground native:font-normal">
-                  {formatTime(watch("expirationDate"))}
-                </Text>
-              </Button>
+              <Controller
+                control={control}
+                rules={{
+                  required: true,
+                }}
+                render={({ field: { onChange, value } }) => (
+                  <View className="flex flex-row items-center justify-end gap-2">
+                    <Text>有効期限なし</Text>
+                    <Switch
+                      checked={!!value}
+                      onCheckedChange={onChange}
+                      nativeID="airplane-mode"
+                    />
+                  </View>
+                )}
+                name="noExpirationDate"
+              />
             </View>
-            <Controller
-              control={control}
-              rules={{
-                required: true,
-              }}
-              render={({ field: { onChange, value } }) => (
-                <View className="flex flex-row items-center w-full justify-end gap-2 mt-2">
-                  <Text>有効期限なし</Text>
-                  <Switch
-                    checked={!!value}
-                    onCheckedChange={onChange}
-                    nativeID="airplane-mode"
-                  />
-                </View>
-              )}
-              name="noExpirationDate"
-            />
           </View>
 
-          <View className="gap-2">
-            <DateTimePickerModal
-              isVisible={isDatePickerVisible}
-              mode="date"
-              locale="ja"
-              confirmTextIOS="選択する"
-              cancelTextIOS="キャンセル"
-              onConfirm={(date) => {
-                onChangeDate(date);
-                setDatePickerVisibility(false);
-              }}
-              onCancel={() => setDatePickerVisibility(false)}
-              pickerContainerStyleIOS={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            />
-            <DateTimePickerModal
-              isVisible={isTimePickerVisible}
-              mode="time"
-              locale="ja"
-              confirmTextIOS="選択する"
-              cancelTextIOS="キャンセル"
-              onConfirm={(date) => {
-                onChangeTime(date);
-                setTimePickerVisibility(false);
-              }}
-              onCancel={() => setTimePickerVisibility(false)}
-              pickerContainerStyleIOS={{
-                display: "flex",
-                alignItems: "center",
-              }}
-            />
-          </View>
+          <DateTimePickerModal
+            isVisible={isDatePickerVisible}
+            mode="date"
+            locale="ja"
+            confirmTextIOS="選択する"
+            cancelTextIOS="キャンセル"
+            onConfirm={(date) => {
+              onChangeDate(date);
+              setDatePickerVisibility(false);
+            }}
+            onCancel={() => setDatePickerVisibility(false)}
+            pickerContainerStyleIOS={{
+              display: "flex",
+              alignItems: "center",
+            }}
+          />
 
           <View className="gap-2">
             <Label>注意事項</Label>

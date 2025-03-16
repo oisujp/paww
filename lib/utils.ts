@@ -4,7 +4,6 @@ import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { logger as RNLogger } from "react-native-logs";
 import { twMerge } from "tailwind-merge";
-import { PassTemplate } from "~/types/supabase";
 
 export const logger = RNLogger.createLogger();
 
@@ -62,10 +61,6 @@ export const pickImage = async (maxWidth?: number, maxHeight?: number) => {
     format: SaveFormat.PNG,
   });
   return ref.base64;
-};
-
-export const parseCoupon = (passTemplate: PassTemplate) => {
-  return { ...passTemplate, coupon: passTemplate.coupon as PassTemplateFields };
 };
 
 export const formatDatetime = (datetime?: string | null) => {

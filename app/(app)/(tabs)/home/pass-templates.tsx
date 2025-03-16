@@ -23,7 +23,7 @@ export default function Home() {
     supabase
       .from("passTemplates")
       .select(`*, passes( id, publishedAt )`, { count: "exact" })
-      .order("updatedAt", { ascending: false })
+      .order("createdAt", { ascending: false })
       .eq("userId", userId)
       .is("deletedAt", null)
   );

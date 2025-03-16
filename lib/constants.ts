@@ -51,7 +51,17 @@ export const passBase = {
   teamIdentifier: "B8KVAMPYW5",
   organizationName: "",
   foregroundColor: "#000000",
-  backgroundColor: "#ffffff",
+  backgroundColor: "#FEF1D5",
+};
+
+export const defaultLabel = {
+  coupon: {
+    description: "特典",
+    expirationDate: "有効期限",
+    caveats: "注意事項",
+    organizationName: "発行元",
+    redeemLink: "クーポンを使う 👉",
+  },
 };
 
 export const headerStyle = Platform.select({

@@ -22,7 +22,7 @@ import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { passBase, sampleIcons } from "~/lib/constants";
 import { fetchWithToken, supabase } from "~/lib/supabase";
-import { formatDate, logger } from "~/lib/utils";
+import { logger } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
 export default function NewPassTemplate() {
@@ -56,46 +56,19 @@ export default function NewPassTemplate() {
     return null;
   }
 
-  const secondaryFields = [
-    {
-      key: "pass-content",
-      label: watch("passContentLabel"),
-      value: watch("passContentValue"),
-    },
-  ];
-
-  const auxiliaryFields: Field[] = [];
-
-  if (watch("expirationDate")) {
-    auxiliaryFields.push({
-      key: "expiration-date",
-      label: "有効期限",
-      value: formatDate(watch("expirationDate")),
-    });
-  }
-
-  const backFields: Field[] = [];
-  if (watch("caveats")) {
-    backFields.push({
-      key: "caveats",
-      label: "注意事項",
-      value: watch("caveats") ?? "",
-    });
-  }
-
   const onSubmit = async () => {
     if (!userData.name) {
       return;
     }
     setLoading(true);
     const {
-      name,
       backgroundColor,
-      passContentValue,
+      description,
       caveats,
       expirationDate,
       foregroundColor,
       stripUrl,
+      noExpirationDate,
     } = getValues();
 
     const { teamIdentifier, passTypeIdentifier } = passBase;
@@ -104,15 +77,16 @@ export default function NewPassTemplate() {
       // insert passTemplate
       const res = await insert([
         {
-          name,
           userId,
           backgroundColor,
-          description: passContentValue,
+          description,
           caveats,
-          expirationDate: expirationDate?.toDateString() ?? null,
+          expirationDate:
+            !noExpirationDate && expirationDate
+              ? expirationDate.toDateString()
+              : null,
           foregroundColor,
           formatVersion: 1,
-          labelColor: foregroundColor, // 現状はforegroundColorと同じにする
           organizationName: userData.name,
           teamIdentifier,
           logoText: userData.logoText,
@@ -121,12 +95,6 @@ export default function NewPassTemplate() {
           iconUrl: sampleIcons[0], // TODO
           logoUrl: userData.logoUrl ?? "", // TODO
           stripUrl,
-          coupon: {
-            primaryFields: [],
-            secondaryFields,
-            auxiliaryFields,
-            backFields,
-          },
         },
       ]);
 
@@ -141,10 +109,9 @@ export default function NewPassTemplate() {
         "/api/google/create-coupon-template";
       await fetchWithToken(url, { passTemplateId });
 
-      reset();
-
-      router.navigate("/home/pass-templates");
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+      reset();
+      router.navigate("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -153,24 +120,15 @@ export default function NewPassTemplate() {
   };
 
   const passTemplateProps = {
-    name: watch("name"),
     organizationName: userData.name,
     backgroundColor: watch("backgroundColor"),
-    expirationDate:
-      watch("expirationDate") && formatDate(watch("expirationDate")),
+    expirationDate: watch("expirationDate"),
     foregroundColor: watch("foregroundColor"),
-    labelColor: watch("foregroundColor"), // 現状はforegroundColorと同じにする
     logoText: userData.logoText,
     caveats: watch("caveats"),
-    coupon: {
-      headerFields: [],
-      primaryFields: [],
-      secondaryFields,
-      auxiliaryFields,
-      backFields: [],
-    },
     logoUrl: userData.logoUrl,
     stripUrl: watch("stripUrl"),
+    description: watch("description"),
   };
 
   return (
