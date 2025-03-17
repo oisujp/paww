@@ -131,24 +131,24 @@ export default function NewPassTemplate() {
 
   return (
     <SafeAreaView className="flex flex-1 bg-background">
-      <Menubar
-        value={platform}
-        onValueChange={onPlatformChange}
-        className="flex items-center justify-center"
-      >
-        <MenubarMenu value="apple">
-          <MenubarTrigger>
-            <Text>Apple</Text>
-          </MenubarTrigger>
-        </MenubarMenu>
-        <MenubarMenu value="google">
-          <MenubarTrigger>
-            <Text>Google</Text>
-          </MenubarTrigger>
-        </MenubarMenu>
-      </Menubar>
-
       <ScrollView>
+        <Menubar
+          value={platform}
+          onValueChange={onPlatformChange}
+          className="flex items-center justify-center"
+        >
+          <MenubarMenu value="apple">
+            <MenubarTrigger>
+              <Text>Apple</Text>
+            </MenubarTrigger>
+          </MenubarMenu>
+          <MenubarMenu value="google">
+            <MenubarTrigger>
+              <Text>Google</Text>
+            </MenubarTrigger>
+          </MenubarMenu>
+        </Menubar>
+
         <View className="p-6">
           <PassTemplateImage
             passTemplateProps={passTemplateProps}

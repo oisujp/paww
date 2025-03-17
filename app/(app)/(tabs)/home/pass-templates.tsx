@@ -93,12 +93,14 @@ export default function Home() {
         contentContainerClassName="gap-3"
         columnWrapperClassName="gap-3 px-6"
         numColumns={2}
-        renderItem={({ item }) => {
+        renderItem={({ item, index }) => {
           return (
             <View
               className={cn(
-                passTemplatesData.length === 1 && "w-1/2",
-                passTemplatesData.length > 1 && "flex flex-1"
+                passTemplatesData.length - 1 === index &&
+                  passTemplatesData.length % 2 === 1
+                  ? "w-1/2"
+                  : "flex flex-1"
               )}
             >
               <PassTemplateBlock passTemplateId={item.id} />
