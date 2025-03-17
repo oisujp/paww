@@ -51,7 +51,7 @@ export default function SignUp() {
     try {
       setLoading(true);
       await signUp(data.email, data.password);
-      router.navigate({ pathname: "/(auth)/confirm-email" });
+      router.push({ pathname: "/(auth)/confirm-email" });
     } catch (error) {
       Alert.alert("error", String(error));
     } finally {

@@ -6,7 +6,7 @@ import { FlatList, View } from "react-native";
 import { PassBlock } from "~/components/pass/pass-block";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
-import { supabase } from "~/lib/supabase";
+import { passesQuery } from "~/lib/supabase";
 
 export default function Passes() {
   const { session } = useContext(AuthContext);
@@ -18,12 +18,7 @@ export default function Passes() {
   }
 
   const { data: passesData, count } = useQuery(
-    supabase
-      .from("passes")
-      .select(`*, passTemplates( id )`, { count: "exact" })
-      .order("publishedAt", { ascending: false })
-      .eq("userId", userId)
-      .eq("passTemplateId", passTemplateId)
+    passesQuery(userId, passTemplateId)
   );
 
   if (count === 0) {

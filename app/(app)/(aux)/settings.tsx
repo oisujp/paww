@@ -57,7 +57,7 @@ export default function SettingsScreen() {
             return (
               <Pressable
                 onPress={() => {
-                  router.navigate({ pathname: pathname as any });
+                  router.push({ pathname: pathname as any });
                 }}
               >
                 <TableRow title={title} />
@@ -98,7 +98,7 @@ export default function SettingsScreen() {
       <View>
         <Pressable
           onPress={() => {
-            router.replace("/sign-in");
+            router.dismissTo("/sign-in");
             setTimeout(() => signOut(), 500);
           }}
         >

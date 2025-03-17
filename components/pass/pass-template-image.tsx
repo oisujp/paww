@@ -1,10 +1,12 @@
 import { useQuery } from "@supabase-cache-helpers/postgrest-swr";
 import { Image } from "expo-image";
+import { useContext } from "react";
 import { Text, View } from "react-native";
 import QRCode from "react-native-qrcode-svg";
 import ZigZagView from "~/components/zig-zag-view";
+import { AuthContext } from "~/contexts/auth-context";
 import { defaultLabel, themeColors } from "~/lib/constants";
-import { supabase } from "~/lib/supabase";
+import { passTemplatesQuery } from "~/lib/supabase";
 import { cn, formatDate } from "~/lib/utils";
 
 export function PassTemplateImage({
@@ -20,20 +22,17 @@ export function PassTemplateImage({
   className?: string;
   halfSize?: boolean;
 }) {
-  const { data: passTemplateData } = useQuery(
-    passTemplateId
-      ? supabase
-          .from("passTemplates")
-          .select(`*`)
-          .eq("id", passTemplateId)
-          .is("deletedAt", null)
-          .single()
-      : null,
+  const { session } = useContext(AuthContext);
+  const userId = session?.user.id ?? "";
+
+  const { data: passTemplates } = useQuery(
+    passTemplateId ? passTemplatesQuery(userId) : null,
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
     }
   );
+  const passTemplateData = passTemplates?.find((p) => p.id === passTemplateId);
   const passTemplate = passTemplateData ?? passTemplateProps;
 
   if (!passTemplate) {

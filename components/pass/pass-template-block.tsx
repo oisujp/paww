@@ -9,8 +9,9 @@ import { Alert, Pressable, Text, View } from "react-native";
 import DeliveryPass from "~/app/(app)/(tabs)/home/delivery-pass";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import { Button } from "~/components/ui/button";
+import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
-import { supabase } from "~/lib/supabase";
+import { passTemplatesQuery, supabase } from "~/lib/supabase";
 import { formatDate, logger } from "~/lib/utils";
 
 export function PassTemplateBlock({
@@ -19,18 +20,14 @@ export function PassTemplateBlock({
   passTemplateId: string;
 }) {
   const { setLoading } = useContext(NavigationContext);
-  const { data: passTemplate } = useQuery(
-    supabase
-      .from("passTemplates")
-      .select(`*`)
-      .eq("id", passTemplateId)
-      .is("deletedAt", null)
-      .single(),
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-    }
-  );
+  const { session } = useContext(AuthContext);
+  const userId = session?.user.id ?? "";
+
+  const { data: passTemplates } = useQuery(passTemplatesQuery(userId), {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+  });
+  const passTemplate = passTemplates?.find((p) => p.id === passTemplateId);
 
   const { trigger: doUpdate } = useUpdateMutation(
     supabase.from("passTemplates"),
@@ -73,7 +70,7 @@ export function PassTemplateBlock({
   return (
     <Pressable
       onPress={() => {
-        router.navigate({
+        router.push({
           pathname: "/home/passes",
           params: { passTemplateId: passTemplate.id },
         });

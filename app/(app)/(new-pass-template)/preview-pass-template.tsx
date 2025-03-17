@@ -21,7 +21,7 @@ import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { passBase, sampleIcons } from "~/lib/constants";
-import { fetchWithToken, supabase } from "~/lib/supabase";
+import { fetchWithToken, supabase, userQuery } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
@@ -33,9 +33,7 @@ export default function NewPassTemplate() {
   const [platform, setPlatform] = useState<string>("apple");
 
   const userId = session?.user.id ?? "";
-  const { data: userData } = useQuery(
-    supabase.from("users").select().eq("id", userId).single()
-  );
+  const { data: userData } = useQuery(userQuery(userId));
 
   function onPlatformChange(val: string | undefined) {
     if (val) {
@@ -111,7 +109,7 @@ export default function NewPassTemplate() {
 
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       reset();
-      router.navigate("/home/pass-templates");
+      router.dismissTo("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {

@@ -147,7 +147,7 @@ export default function SignIn() {
           <Button
             variant="ghost"
             size="sm"
-            onPress={() => router.navigate({ pathname: "/(auth)/sign-up" })}
+            onPress={() => router.push({ pathname: "/(auth)/sign-up" })}
           >
             <Text>新規登録</Text>
           </Button>

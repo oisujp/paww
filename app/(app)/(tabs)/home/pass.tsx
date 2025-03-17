@@ -13,7 +13,7 @@ import { Separator } from "~/components/ui/separator";
 import { Text } from "~/components/ui/text";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { themeColors } from "~/lib/constants";
-import { supabase } from "~/lib/supabase";
+import { passQuery, supabase } from "~/lib/supabase";
 import { formatDatetime, logger } from "~/lib/utils";
 
 export default function Pass() {
@@ -24,13 +24,7 @@ export default function Pass() {
     throw new Error("passId is required");
   }
 
-  const { data: pass } = useQuery(
-    supabase
-      .from("passes")
-      .select(`*, passTemplates( id )`)
-      .eq("id", passId)
-      .single()
-  );
+  const { data: pass } = useQuery(passQuery(passId));
 
   const { trigger: doUpdate } = useUpdateMutation(supabase.from("passes"), [
     "id",

@@ -54,3 +54,28 @@ export async function fetchWithToken(url: string, params: object) {
   });
   return await response.json();
 }
+
+export const passTemplatesQuery = (userId: string) =>
+  supabase
+    .from("passTemplates")
+    .select(`*, passes( id, publishedAt )`, { count: "exact" })
+    .order("createdAt", { ascending: false })
+    .eq("userId", userId);
+
+export const userQuery = (userId: string) =>
+  supabase.from("users").select(`*`).eq("id", userId).single();
+
+export const passQuery = (passId: string) =>
+  supabase
+    .from("passes")
+    .select(`*, passTemplates( id )`)
+    .eq("id", passId)
+    .single();
+
+export const passesQuery = (userId: string, passTemplateId: string) =>
+  supabase
+    .from("passes")
+    .select(`*, passTemplates( id )`, { count: "exact" })
+    .order("publishedAt", { ascending: false })
+    .eq("userId", userId)
+    .eq("passTemplateId", passTemplateId);

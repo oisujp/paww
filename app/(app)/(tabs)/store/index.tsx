@@ -28,7 +28,7 @@ import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { NavigationContext } from "~/contexts/navigation-context";
 import { themeColors } from "~/lib/constants";
-import { supabase, uploadImage } from "~/lib/supabase";
+import { supabase, uploadImage, userQuery } from "~/lib/supabase";
 import { logger, pickImage } from "~/lib/utils";
 
 type FormData = {
@@ -58,9 +58,7 @@ export default function StoreIndex() {
     "*"
   );
 
-  const { data: userData } = useQuery(
-    supabase.from("users").select().eq("id", userId).single()
-  );
+  const { data: userData } = useQuery(userQuery(userId));
 
   const {
     control,
@@ -118,7 +116,7 @@ export default function StoreIndex() {
       }
 
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
-      router.navigate("/home/pass-templates");
+      router.push("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {

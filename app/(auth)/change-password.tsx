@@ -39,7 +39,7 @@ export default function ChangePassword() {
     try {
       setLoading(true);
       await changePassword(data.password);
-      router.navigate("/change-password-success");
+      router.push("/change-password-success");
     } catch (error) {
       Alert.alert("error", String(error));
     } finally {

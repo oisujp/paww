@@ -17,7 +17,14 @@ export function NavigationProvider({ children }: PropsWithChildren) {
         setLoading,
       }}
     >
-      {children}
+      <NavigationContainer>{children}</NavigationContainer>
     </NavigationContext.Provider>
   );
+}
+
+function NavigationContainer({ children }: PropsWithChildren) {
+  // For debug:
+  // const state = useRootNavigationState();
+  // logger.debug(state);
+  return children;
 }

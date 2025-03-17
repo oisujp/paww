@@ -8,7 +8,7 @@ import { PassTemplateBlock } from "~/components/pass/pass-template-block";
 import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
-import { supabase } from "~/lib/supabase";
+import { passTemplatesQuery, userQuery } from "~/lib/supabase";
 
 export default function Home() {
   const router = useRouter();
@@ -19,16 +19,10 @@ export default function Home() {
     data: passTemplatesData,
     count,
     isLoading: isLoadingPassTemplates,
-  } = useQuery(
-    supabase
-      .from("passTemplates")
-      .select(`*, passes( id, publishedAt )`, { count: "exact" })
-      .order("createdAt", { ascending: false })
-      .eq("userId", userId)
-      .is("deletedAt", null)
-  );
+  } = useQuery(passTemplatesQuery(userId));
+
   const { data: userData, isLoading: isLoadingUser } = useQuery(
-    supabase.from("users").select(`*`).eq("id", userId).single(),
+    userQuery(userId),
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
@@ -54,7 +48,7 @@ export default function Home() {
             <Text>あなたのお店情報を設定しましょう</Text>
           </View>
         </View>
-        <Button className="w-full" onPress={() => router.navigate("/store")}>
+        <Button className="w-full" onPress={() => router.push("/store")}>
           <Text>お店情報の設定に進む</Text>
         </Button>
       </View>
@@ -76,7 +70,7 @@ export default function Home() {
         </View>
         <Button
           className="w-full"
-          onPress={() => router.navigate("/(app)/(new-pass-template)")}
+          onPress={() => router.push("/(app)/(new-pass-template)")}
         >
           <Text>テンプレートの作成に進む</Text>
         </Button>
@@ -96,7 +90,7 @@ export default function Home() {
         numColumns={2}
         renderItem={({ item }) => {
           return (
-            <View className="flex w-1/2">
+            <View className="flex flex-1">
               <PassTemplateBlock passTemplateId={item.id} />
             </View>
           );
