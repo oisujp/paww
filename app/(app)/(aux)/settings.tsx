@@ -98,8 +98,8 @@ export default function SettingsScreen() {
       <View>
         <Pressable
           onPress={() => {
+            signOut();
             router.dismissTo("/sign-in");
-            setTimeout(() => signOut(), 500);
           }}
         >
           <TableRow title="ログアウト" destructive />

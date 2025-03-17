@@ -11,7 +11,7 @@ export default function CameraButton() {
   const { bottom } = useSafeAreaInsets();
   const buttonSize = 60;
   return (
-    <Link asChild href={{ pathname: "/(app)/(new-pass-template)" }}>
+    <Link asChild href={{ pathname: "/home/new-pass-template" }}>
       <Button
         className={cn(
           "fixed z-20 rounded-full bg-white text-primary border-primary border-2",

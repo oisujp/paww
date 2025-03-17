@@ -9,6 +9,7 @@ import { Button } from "~/components/ui/button";
 import { Text } from "~/components/ui/text";
 import { AuthContext } from "~/contexts/auth-context";
 import { passTemplatesQuery, userQuery } from "~/lib/supabase";
+import { cn } from "~/lib/utils";
 
 export default function Home() {
   const router = useRouter();
@@ -70,12 +71,16 @@ export default function Home() {
         </View>
         <Button
           className="w-full"
-          onPress={() => router.push("/(app)/(new-pass-template)")}
+          onPress={() => router.push("/home/new-pass-template")}
         >
           <Text>テンプレートの作成に進む</Text>
         </Button>
       </View>
     );
+  }
+
+  if (!passTemplatesData) {
+    return null;
   }
 
   return (
@@ -90,7 +95,12 @@ export default function Home() {
         numColumns={2}
         renderItem={({ item }) => {
           return (
-            <View className="flex flex-1">
+            <View
+              className={cn(
+                passTemplatesData.length === 1 && "w-1/2",
+                passTemplatesData.length > 1 && "flex flex-1"
+              )}
+            >
               <PassTemplateBlock passTemplateId={item.id} />
             </View>
           );
@@ -98,7 +108,7 @@ export default function Home() {
       />
       <Button
         className="m-4"
-        onPress={() => router.push({ pathname: "/(app)/(new-pass-template)" })}
+        onPress={() => router.push({ pathname: "/home/new-pass-template" })}
       >
         <Text className="text-white">新しくテンプレートを作成する</Text>
       </Button>

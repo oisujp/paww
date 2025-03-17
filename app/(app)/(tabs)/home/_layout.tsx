@@ -19,6 +19,13 @@ export default function PassTemplatesLayout() {
         }}
       />
       <Stack.Screen
+        name="new-pass-template"
+        options={{
+          title: "テンプレートを作成",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="pass"
         options={{
           title: "発行済みパス詳細",
