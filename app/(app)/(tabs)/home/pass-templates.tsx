@@ -71,7 +71,7 @@ export default function Home() {
         </View>
         <Button
           className="w-full"
-          onPress={() => router.push("/home/new-pass-template")}
+          onPress={() => router.push("/new-pass-template")}
         >
           <Text>テンプレートの作成に進む</Text>
         </Button>
@@ -110,7 +110,7 @@ export default function Home() {
       />
       <Button
         className="m-4"
-        onPress={() => router.push({ pathname: "/home/new-pass-template" })}
+        onPress={() => router.push({ pathname: "/new-pass-template" })}
       >
         <Text className="text-white">新しくテンプレートを作成する</Text>
       </Button>

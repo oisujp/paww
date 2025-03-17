@@ -57,7 +57,7 @@ export default function NewPassTemplateIndex() {
           switch (selectedIndex) {
             case 0:
               router.push({
-                pathname: "/home/new-pass-template/pick-sample-image",
+                pathname: "/new-pass-template/pick-sample-image",
               });
               break;
             case 1:
@@ -129,7 +129,7 @@ export default function NewPassTemplateIndex() {
   const onPressPreview = async () => {
     if (Object.keys(formState.errors).length === 0) {
       router.push({
-        pathname: "/home/new-pass-template/preview-pass-template",
+        pathname: "/new-pass-template/preview-pass-template",
       });
     } else {
       logger.error(formState.errors);
@@ -293,7 +293,7 @@ const ColorPickerButton = ({ keyName }: { keyName: string }) => {
       size="sm"
       onPress={() => {
         router.push({
-          pathname: "/home/new-pass-template/pick-color",
+          pathname: "/new-pass-template/pick-color",
           params: { key: keyName },
         });
       }}

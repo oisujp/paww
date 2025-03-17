@@ -6,12 +6,8 @@ import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import {
-  ActivityIndicator,
-  SafeAreaView,
-  ScrollView,
-  View,
-} from "react-native";
+import { ActivityIndicator, SafeAreaView, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
@@ -99,7 +95,6 @@ export default function NewPassTemplate() {
       if (!res || res.length === 0) {
         throw "insert passTemplate error";
       }
-
       // insert google offer class
       const passTemplateId = res[0].id;
       const url =
@@ -109,6 +104,7 @@ export default function NewPassTemplate() {
 
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       reset();
+
       router.dismissTo("/home/pass-templates");
     } catch (error) {
       logger.error(error);
@@ -132,28 +128,30 @@ export default function NewPassTemplate() {
   return (
     <SafeAreaView className="flex flex-1 bg-background">
       <ScrollView>
-        <Menubar
-          value={platform}
-          onValueChange={onPlatformChange}
-          className="flex items-center justify-center"
-        >
-          <MenubarMenu value="apple">
-            <MenubarTrigger>
-              <Text>Apple</Text>
-            </MenubarTrigger>
-          </MenubarMenu>
-          <MenubarMenu value="google">
-            <MenubarTrigger>
-              <Text>Google</Text>
-            </MenubarTrigger>
-          </MenubarMenu>
-        </Menubar>
+        <View className="flex-1">
+          <Menubar
+            value={platform}
+            onValueChange={onPlatformChange}
+            className="flex items-center justify-center"
+          >
+            <MenubarMenu value="apple">
+              <MenubarTrigger>
+                <Text>Apple</Text>
+              </MenubarTrigger>
+            </MenubarMenu>
+            <MenubarMenu value="google">
+              <MenubarTrigger>
+                <Text>Google</Text>
+              </MenubarTrigger>
+            </MenubarMenu>
+          </Menubar>
 
-        <View className="p-6">
-          <PassTemplateImage
-            passTemplateProps={passTemplateProps}
-            showBarcode
-          />
+          <View className="p-6">
+            <PassTemplateImage
+              passTemplateProps={passTemplateProps}
+              showBarcode
+            />
+          </View>
         </View>
       </ScrollView>
 

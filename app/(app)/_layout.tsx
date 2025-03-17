@@ -26,6 +26,13 @@ export default function AppLayout() {
         }}
       />
       <Stack.Screen
+        name="new-pass-template"
+        options={{
+          title: "テンプレートを作成",
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
         name="(aux)/settings"
         options={{
           title: "設定",
