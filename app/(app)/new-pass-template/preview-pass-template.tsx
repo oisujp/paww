@@ -6,8 +6,12 @@ import * as Haptics from "expo-haptics";
 import { useRouter } from "expo-router";
 import React, { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
-import { ActivityIndicator, SafeAreaView, View } from "react-native";
-import { ScrollView } from "react-native-gesture-handler";
+import {
+  ActivityIndicator,
+  SafeAreaView,
+  ScrollView,
+  View,
+} from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
@@ -96,8 +100,6 @@ export default function PreviewPassTemplate() {
         throw "insert passTemplate error";
       }
 
-      router.dismissTo("/home/pass-templates");
-
       // insert google offer class
       const passTemplateId = res[0].id;
       const url =
@@ -106,7 +108,10 @@ export default function PreviewPassTemplate() {
       await fetchWithToken(url, { passTemplateId });
 
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
       reset();
+
+      router.dismissTo("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -117,7 +122,7 @@ export default function PreviewPassTemplate() {
   const passTemplateProps = {
     organizationName: userData.name,
     backgroundColor: watch("backgroundColor"),
-    expirationDate: watch("expirationDate"),
+    expirationDate: watch("expirationDate")?.toISOString() ?? null,
     foregroundColor: watch("foregroundColor"),
     logoText: userData.logoText,
     caveats: watch("caveats"),

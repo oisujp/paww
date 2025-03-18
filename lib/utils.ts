@@ -1,5 +1,5 @@
 import { type ClassValue, clsx } from "clsx";
-import { format } from "date-fns";
+import { format, parseISO } from "date-fns";
 import { ImageManipulator, SaveFormat } from "expo-image-manipulator";
 import * as ImagePicker from "expo-image-picker";
 import { logger as RNLogger } from "react-native-logs";
@@ -67,6 +67,10 @@ export const formatDatetime = (datetime?: string | null) => {
   if (!datetime) {
     return "";
   }
+  if (typeof datetime === "string") {
+    const parsedDate = parseISO(datetime);
+    return format(parsedDate, "yyyy/MM/dd HH:mm:ss");
+  }
   return format(datetime, "yyyy/MM/dd HH:mm:ss");
 };
 
@@ -74,12 +78,9 @@ export const formatDate = (date?: Date | string | null) => {
   if (!date) {
     return "";
   }
-  return format(date, "yyyy/MM/dd");
-};
-
-export const formatTime = (date?: Date | string | null) => {
-  if (!date) {
-    return "";
+  if (typeof date === "string") {
+    const parsedDate = parseISO(date);
+    return format(parsedDate, "yyyy/MM/dd");
   }
-  return format(date, "HH:mm");
+  return format(date, "yyyy/MM/dd");
 };

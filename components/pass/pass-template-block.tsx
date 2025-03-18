@@ -99,7 +99,7 @@ export function PassTemplateBlock({
           </Button>
         </View>
 
-        <PassTemplateImage passTemplateId={passTemplate.id} halfSize />
+        <PassTemplateImage passTemplateProps={passTemplate} halfSize />
 
         <DeliveryPass passTemplateId={passTemplate.id} />
       </>
