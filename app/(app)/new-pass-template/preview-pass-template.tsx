@@ -21,7 +21,7 @@ import { fetchWithToken, supabase, userQuery } from "~/lib/supabase";
 import { logger } from "~/lib/utils";
 import { passTemplateSchema } from "~/schemas";
 
-export default function NewPassTemplate() {
+export default function PreviewPassTemplate() {
   const { session } = useContext(AuthContext);
   const { loading, setLoading } = useContext(NavigationContext);
   const router = useRouter();
@@ -95,6 +95,9 @@ export default function NewPassTemplate() {
       if (!res || res.length === 0) {
         throw "insert passTemplate error";
       }
+
+      router.dismissTo("/home/pass-templates");
+
       // insert google offer class
       const passTemplateId = res[0].id;
       const url =
@@ -104,8 +107,6 @@ export default function NewPassTemplate() {
 
       Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
       reset();
-
-      router.dismissTo("/home/pass-templates");
     } catch (error) {
       logger.error(error);
     } finally {
@@ -127,35 +128,32 @@ export default function NewPassTemplate() {
 
   return (
     <SafeAreaView className="flex flex-1 bg-background">
-      <ScrollView>
-        <View className="flex-1">
-          <Menubar
-            value={platform}
-            onValueChange={onPlatformChange}
-            className="flex items-center justify-center"
-          >
-            <MenubarMenu value="apple">
-              <MenubarTrigger>
-                <Text>Apple</Text>
-              </MenubarTrigger>
-            </MenubarMenu>
-            <MenubarMenu value="google">
-              <MenubarTrigger>
-                <Text>Google</Text>
-              </MenubarTrigger>
-            </MenubarMenu>
-          </Menubar>
+      <ScrollView className="flex flex-1">
+        <Menubar
+          value={platform}
+          onValueChange={onPlatformChange}
+          className="flex items-center justify-center"
+        >
+          <MenubarMenu value="apple">
+            <MenubarTrigger>
+              <Text>Apple</Text>
+            </MenubarTrigger>
+          </MenubarMenu>
+          <MenubarMenu value="google">
+            <MenubarTrigger>
+              <Text>Google</Text>
+            </MenubarTrigger>
+          </MenubarMenu>
+        </Menubar>
 
-          <View className="p-6">
-            <PassTemplateImage
-              passTemplateProps={passTemplateProps}
-              showBarcode
-            />
-          </View>
+        <View className="p-6">
+          <PassTemplateImage
+            passTemplateProps={passTemplateProps}
+            showBarcode
+          />
         </View>
       </ScrollView>
-
-      <View className="flex p-4">
+      <View className="p-4">
         <Button
           onPress={handleSubmit(onSubmit)}
           disabled={loading}
