@@ -8,12 +8,14 @@ import React, { useContext, useState } from "react";
 import { useFormContext } from "react-hook-form";
 import {
   ActivityIndicator,
+  Platform,
   SafeAreaView,
   ScrollView,
   View,
 } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
+import { HeaderBackButton } from "~/components/header-back-button";
 import { PassTemplateImage } from "~/components/pass/pass-template-image";
 import { Button } from "~/components/ui/button";
 import { Menubar, MenubarMenu, MenubarTrigger } from "~/components/ui/menubar";
@@ -133,11 +135,22 @@ export default function PreviewPassTemplate() {
 
   return (
     <SafeAreaView className="flex flex-1 bg-background">
+      {/* https://github.com/software-mansion/react-native-screens/issues/2590 */}
+      {Platform.OS === "ios" && (
+        <View className="flex flex-row h-[40px] items-center px-4">
+          <View className="absolute left-4">
+            <HeaderBackButton />
+          </View>
+          <View className="flex flex-1 items-center">
+            <Text className="font-bold text-xl">テンプレートのプレビュー</Text>
+          </View>
+        </View>
+      )}
       <ScrollView className="flex flex-1">
         <Menubar
           value={platform}
           onValueChange={onPlatformChange}
-          className="flex items-center justify-center"
+          className="flex items-center justify-center rounded-none"
         >
           <MenubarMenu value="apple">
             <MenubarTrigger>

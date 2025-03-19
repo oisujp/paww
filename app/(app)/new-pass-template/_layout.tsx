@@ -2,6 +2,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { addMonths, startOfDay } from "date-fns";
 import { Stack } from "expo-router";
 import { FormProvider, useForm } from "react-hook-form";
+import { Platform } from "react-native";
 import { v4 as uuidv4 } from "uuid";
 import { z } from "zod";
 import { HeaderBackButton } from "~/components/header-back-button";
@@ -45,6 +46,8 @@ export default function Layout() {
         <Stack.Screen
           name="preview-pass-template"
           options={{
+            // https://github.com/software-mansion/react-native-screens/issues/2590
+            headerShown: Platform.OS === "ios" ? false : true,
             title: "テンプレートのプレビュー",
             headerLeft: HeaderBackButton,
           }}
