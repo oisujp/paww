@@ -59,7 +59,7 @@ export const defaultLabel = {
     description: "特典",
     expirationDate: "有効期限",
     caveats: "注意事項",
-    organizationName: "発行元",
+    organizationName: "配布元",
     redeemLink: "クーポンを使う 👉",
   },
 };

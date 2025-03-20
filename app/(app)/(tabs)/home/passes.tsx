@@ -25,7 +25,7 @@ export default function Passes() {
     return (
       <View className="flex flex-1 p-8 gap-4 justify-center items-center bg-background border-t border-border">
         <PassesImage className="size-[90px]" />
-        <Text>発行されたパスはありません</Text>
+        <Text>配布されたパスはありません</Text>
       </View>
     );
   }

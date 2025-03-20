@@ -34,6 +34,27 @@ export type Database = {
   };
   public: {
     Tables: {
+      customers: {
+        Row: {
+          createdAt: string;
+          email: string | null;
+          id: string;
+          updatedAt: string | null;
+        };
+        Insert: {
+          createdAt?: string;
+          email?: string | null;
+          id?: string;
+          updatedAt?: string | null;
+        };
+        Update: {
+          createdAt?: string;
+          email?: string | null;
+          id?: string;
+          updatedAt?: string | null;
+        };
+        Relationships: [];
+      };
       devices: {
         Row: {
           createdAt: string;
@@ -60,7 +81,6 @@ export type Database = {
       };
       passes: {
         Row: {
-          addedAt: string | null;
           authenticationToken: string;
           createdAt: string;
           id: string;
@@ -68,14 +88,12 @@ export type Database = {
           passTypeIdentifier: string | null;
           platform: string;
           publicUrl: string;
-          publishedAt: string | null;
+          redeemedAt: string | null;
           serialNumber: string;
           updatedAt: string | null;
-          usedAt: string | null;
           userId: string | null;
         };
         Insert: {
-          addedAt?: string | null;
           authenticationToken: string;
           createdAt?: string;
           id?: string;
@@ -83,14 +101,12 @@ export type Database = {
           passTypeIdentifier?: string | null;
           platform: string;
           publicUrl: string;
-          publishedAt?: string | null;
+          redeemedAt?: string | null;
           serialNumber: string;
           updatedAt?: string | null;
-          usedAt?: string | null;
           userId?: string | null;
         };
         Update: {
-          addedAt?: string | null;
           authenticationToken?: string;
           createdAt?: string;
           id?: string;
@@ -98,10 +114,9 @@ export type Database = {
           passTypeIdentifier?: string | null;
           platform?: string;
           publicUrl?: string;
-          publishedAt?: string | null;
+          redeemedAt?: string | null;
           serialNumber?: string;
           updatedAt?: string | null;
-          usedAt?: string | null;
           userId?: string | null;
         };
         Relationships: [
@@ -114,6 +129,55 @@ export type Database = {
           },
           {
             foreignKeyName: "passes_userId_fkey";
+            columns: ["userId"];
+            isOneToOne: false;
+            referencedRelation: "users";
+            referencedColumns: ["id"];
+          }
+        ];
+      };
+      passHistory: {
+        Row: {
+          actionType: string | null;
+          createdAt: string;
+          customerId: string | null;
+          id: string;
+          passId: string;
+          userId: string;
+        };
+        Insert: {
+          actionType?: string | null;
+          createdAt?: string;
+          customerId?: string | null;
+          id?: string;
+          passId?: string;
+          userId: string;
+        };
+        Update: {
+          actionType?: string | null;
+          createdAt?: string;
+          customerId?: string | null;
+          id?: string;
+          passId?: string;
+          userId?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: "passHistory_customerId_fkey";
+            columns: ["customerId"];
+            isOneToOne: false;
+            referencedRelation: "customers";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "passHistory_passId_fkey";
+            columns: ["passId"];
+            isOneToOne: false;
+            referencedRelation: "passes";
+            referencedColumns: ["id"];
+          },
+          {
+            foreignKeyName: "passHistory_userId_fkey";
             columns: ["userId"];
             isOneToOne: false;
             referencedRelation: "users";

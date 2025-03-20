@@ -19,7 +19,7 @@ import {
   View,
 } from "react-native";
 import { z } from "zod";
-import { CaveatView } from "~/components/caveat-view";
+import { InformationView } from "~/components/information-view";
 import { Button } from "~/components/ui/button";
 import { Input } from "~/components/ui/input";
 import { Label } from "~/components/ui/label";
@@ -207,7 +207,7 @@ export default function StoreIndex() {
       </ScrollView>
 
       <View>
-        <CaveatView text="登録した情報がデジタルパスに反映されます" />
+        <InformationView text="登録した情報がデジタルパスに反映されます" />
         <View className="flex p-4 bg-white">
           <Button
             onPress={handleSubmit(onSubmit)}

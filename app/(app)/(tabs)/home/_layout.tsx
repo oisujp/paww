@@ -21,20 +21,20 @@ export default function PassTemplatesLayout() {
       <Stack.Screen
         name="pass"
         options={{
-          title: "発行済みパス詳細",
+          title: "配布済みパス詳細",
           headerLeft: HeaderBackButton,
         }}
       />
       <Stack.Screen
         name="delivery-pass"
         options={{
-          title: "パスの発行",
+          title: "パスの配布",
         }}
       />
       <Stack.Screen
         name="passes"
         options={{
-          title: "発行済みパス一覧",
+          title: "配布済みパス一覧",
           headerLeft: HeaderBackButton,
         }}
       />

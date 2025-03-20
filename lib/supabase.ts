@@ -58,7 +58,7 @@ export async function fetchWithToken(url: string, params: object) {
 export const passTemplatesQuery = (userId: string) =>
   supabase
     .from("passTemplates")
-    .select(`*, passes( id, publishedAt )`, { count: "exact" })
+    .select(`*, passes( id, createdAt )`, { count: "exact" })
     .order("createdAt", { ascending: false })
     .eq("userId", userId);
 
@@ -68,7 +68,9 @@ export const userQuery = (userId: string) =>
 export const passQuery = (passId: string) =>
   supabase
     .from("passes")
-    .select(`*, passTemplates( id )`)
+    .select(
+      `*, passTemplates( id ), passHistory( id, createdAt, actionType, userId )`
+    )
     .eq("id", passId)
     .single();
 
@@ -76,6 +78,6 @@ export const passesQuery = (userId: string, passTemplateId: string) =>
   supabase
     .from("passes")
     .select(`*, passTemplates( id )`, { count: "exact" })
-    .order("publishedAt", { ascending: false })
+    .order("createdAt", { ascending: false })
     .eq("userId", userId)
     .eq("passTemplateId", passTemplateId);

@@ -58,6 +58,7 @@
     "expo-clipboard": "~7.0.1",
     "expo-constants": "~17.0.7",
     "expo-dev-client": "~5.0.12",
+    "expo-haptics": "~14.0.1",
     "expo-image": "~2.0.6",
     "expo-image-manipulator": "~13.0.6",
     "expo-image-picker": "~16.0.6",
@@ -77,6 +78,7 @@
     "react-dom": "18.3.1",
     "react-hook-form": "^7.54.2",
     "react-native": "0.76.7",
+    "react-native-boring-avatars": "github:baryon/react-native-boring-avatars",
     "react-native-css-interop": "^0.1.22",
     "react-native-gesture-handler": "~2.20.2",
     "react-native-get-random-values": "^1.11.0",
@@ -98,8 +100,7 @@
     "uuid": "^11.1.0",
     "vaul": "^1.1.2",
     "zod": "^3.24.2",
-    "zustand": "^4.4.7",
-    "expo-haptics": "~14.0.1"
+    "zustand": "^4.4.7"
   },
   "devDependencies": {
     "@babel/core": "^7.26.9",

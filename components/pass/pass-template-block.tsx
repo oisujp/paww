@@ -42,7 +42,7 @@ export function PassTemplateBlock({
       setLoading(true);
       Alert.alert(
         "テンプレートを削除しますか？",
-        "発行済みのパスには影響しません。",
+        "配布済みのパスには影響しません。",
         [
           {
             text: "削除する",
